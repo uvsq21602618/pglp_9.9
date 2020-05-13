@@ -1,6 +1,7 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Super classe pour les formes dessinables.
@@ -11,15 +12,15 @@ public abstract class Forme {
     /**
      * Liste des noms deja existants.
      */
-    public static ArrayList<String> listeNoms = new ArrayList<String>();
+    protected static ArrayList<String> listeNoms = new ArrayList<String>();
     /**
      * Le nom de la forme dessinée.
      */
-    public String nom;
+    protected String nom;
     /**
      * La forme dessinée.
      */
-    public String nomForme;
+    protected String nomForme;
     /**
      * Méthode pour deplacer une forme.
      * @param valx valeur a ajoute a x

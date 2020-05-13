@@ -33,7 +33,6 @@ public class CarreDAO extends DAO<Carre>{
      */
     public CarreDAO() throws SQLException, IOException {
         super();
-        carreJDBC = new DAOFactory().getCarreDAO();
     }
     /**
      * Méthode de création.
@@ -51,8 +50,8 @@ public class CarreDAO extends DAO<Carre>{
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 creation.executeUpdate("Create table carres"
-                        + " (nom String primary key, hg_x int(5),"
-                        + " hg_y int(5), longueur int(5)");
+                        + " (nom varchar(30) primary key, hg_x int not null,"
+                        + " hg_y int not null, longueur int not null)");
             }
             /*try {*/
                 String updateString = ("insert into carres values ("
@@ -79,16 +78,60 @@ public class CarreDAO extends DAO<Carre>{
                 + " a bien été enregistré!\n");
                 rs.close();
                 creation.close();
-            }/*  catch (org.apache.derby.shared.common.error
+            } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja était utilisé pour"
                         + " la table carres!\n");
             }
-            creation.close();*/
-            return obj;
+        return obj;
         }
-
+    /**
+     * Methode pour afficher le contenu de la table carres.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    public void affichageTableNumero() throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (Statement exist = getConnect().createStatement()) {
+            ResultSet rsEx = dbmd.getTables(null, null,
+                    "carres".toUpperCase(),
+                    null);
+            if (rsEx.next()) {
+                try (Statement stmt = getConnect().createStatement()) {
+                    try (ResultSet rs = stmt.executeQuery("SELECT *"
+                            + " FROM carres")) {
+                        System.out.println("---Table carres:---\n");
+                        System.out.println("nom\t hg_x\t hg_y\t longueur");
+                        while (rs.next()) {
+                            System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
+                                    rs.getInt("hg_x"), rs.getInt("hg_y"),
+                                    rs.getInt("longueur"));
+                        }
+                        System.out.println("------------------------------------\n");
+                        rs.close();
+                    }
+                }
+            } else {
+                System.out.println("Il n'y a pas encore de carres"
+                        + " dans la base de données!\n");
+            }
+        }
     }
+    @Override
+    public void delete(Carre obj) throws SQLException {
+        // TODO Auto-generated method stub
+        
+    }
+    @Override
+    public Carre update(Carre obj) throws IOException, SQLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public Carre find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+}
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
@@ -428,41 +471,6 @@ public class CarreDAO extends DAO<Carre>{
             } else {
                 System.out.println("Il n'y a pas encore de groupes ayant"
                         + " des personnels!\n");
-            }
-        }
-    }
-
-    /**
-     * Methode pour afficher le contenu de la table appartenance_sous_groupe.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
-    public void affichageTableAppartenanceGroupe() throws SQLException {
-        DatabaseMetaData dbmd = getConnect().getMetaData();
-        try (Statement exist = getConnect().createStatement()) {
-            ResultSet rsEx = dbmd.getTables(null, null,
-                    "appartenance_sous_groupe".toUpperCase(),
-                    null);
-            if (rsEx.next()) {
-                try (Statement stmt = getConnect().createStatement()) {
-                    try (ResultSet rs = stmt.executeQuery("SELECT *"
-                            + " FROM appartenance_sous_groupe")) {
-                        System.out.println("---Table appartenance_"
-                                + "sous_groupe:---\n");
-                        System.out.println("id_groupe\t id_sousGroupe\t");
-                        while (rs.next()) {
-                            System.out.printf("%d\t\t%d%n",
-                                    rs.getInt("id_groupe"),
-                                    rs.getInt("id_sousGroupe"));
-                        }
-                        System.out.println("-----------------------"
-                                + "-------------\n");
-
-                        rs.close();
-                    }
-                }
-            } else {
-                System.out.println("Il n'y a pas encore de groupes ayant"
-                        + " des sous-groupes!\n");
             }
         }
     }

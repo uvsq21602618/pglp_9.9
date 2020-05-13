@@ -29,7 +29,7 @@ public class DAOFactory {
      * @return le DAO correspondant
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
-     */
+     *
     public DAO<Cercle> getCercleDAO()
             throws IOException, SQLException {
         return new CercleDAO();
@@ -39,7 +39,7 @@ public class DAOFactory {
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     */
+     *
     public DAO<Rectangle> getRectangleDAO()
             throws IOException, SQLException {
         return new RectangleDAO();
@@ -49,7 +49,7 @@ public class DAOFactory {
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     */
+     *
     public DAO<Triangle> getTriangleDAO()
             throws IOException, SQLException {
         return new TriangleDAO();
@@ -59,7 +59,7 @@ public class DAOFactory {
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     */
+     *
     public DAO<Point> getPointDAO()
             throws IOException, SQLException {
         return new PointDAO();
@@ -69,9 +69,9 @@ public class DAOFactory {
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     */
+     *
     public DAO<ComposantDessin> getComposantDessinDAO()
             throws IOException, SQLException {
         return new ComposantDessinDAO();
-    }
+    }*/
 }

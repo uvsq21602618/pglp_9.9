@@ -1,4 +1,7 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
+
+import java.util.List;
+
 /**
  * Classe pour le dessin du carré qui hérite de Forme.
  * @author Nathalie
