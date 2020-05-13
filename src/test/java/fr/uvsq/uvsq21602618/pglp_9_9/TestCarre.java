@@ -39,7 +39,7 @@ public class TestCarre {
         
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        c.affiche();
+        c.affiche(); 
         String expected = "c1 = Carré((15, 20), 5)";
 
         assertEquals(expected, outContent.toString().trim());
