@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-public class Carre extends Forme {
+public class Carre extends Forme implements Dessin {
     /**
      * Le point en haut à gauche du carré.
      */
@@ -61,5 +61,14 @@ public class Carre extends Forme {
     @Override
     public String getNomForme() {
         return this.nomForme;
+    }
+    /**
+     * Affiche les informations du carre.
+     */
+    public void affiche() {
+        String s =this.nom + " = " + this.nomForme
+                + "((" + this.hg.getX() + ", " + this.hg.getY()
+                + "), " + this.longueur + ")";
+        System.out.println(s);       
     }
 }

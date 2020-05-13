@@ -63,4 +63,14 @@ public class Rectangle extends Forme {
     public Point getPointBD() {
         return this.bd;
     }
+    /**
+     * Affiche les informations du rectangle.
+     */
+    public void affiche() {
+        String s =this.nom + " = " + this.nomForme
+                + "((" + this.hg.getX() + ", " + this.hg.getY()
+                + "), (" + this.bd.getX() + ", " + this.bd.getY()
+                + "))";
+        System.out.println(s);   
+    }
 }

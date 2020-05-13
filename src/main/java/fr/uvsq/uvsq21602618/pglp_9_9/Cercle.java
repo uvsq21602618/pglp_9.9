@@ -64,6 +64,13 @@ public class Cercle extends Forme {
     public int getRayon() {
         return this.rayon;
     }
-
-
+    /**
+     * Affiche les informations du cercle.
+     */
+    public void affiche() {
+        String s =this.nom + " = " + this.nomForme
+                + "((" + this.centre.getX() + ", " + this.centre.getY()
+                + "), " + this.rayon + ")";
+        System.out.println(s);       
+    }
 }
