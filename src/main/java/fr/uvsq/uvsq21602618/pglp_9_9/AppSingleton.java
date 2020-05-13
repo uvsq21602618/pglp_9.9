@@ -33,6 +33,9 @@ public enum AppSingleton {
         Cercle c2 = new Cercle("c2", p1, 5);
         cercleDAO.create(c2);
         
+        DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
+        Rectangle r = new Rectangle("r1", p1, p2);
+        rectangleDAO.create(r);
     }
     /**
      * Main.
