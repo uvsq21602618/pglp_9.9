@@ -31,11 +31,16 @@ public class Triangle extends Forme {
         this.p2 = point2;
         this.p3 = point3;
     }
-    
+    /**
+     * Methode pour deplacer le triangle.
+     * @param valx la valeur a ajouter au x d'un point
+     * @param valy la valeur a ajouter au y d'un point
+     */
     @Override
-    public void dessine() {
-        // TODO Auto-generated method stub
-        
+    public void deplace(final int valx, final int valy) {
+        this.p1.deplace(valx, valy);
+        this.p2.deplace(valx, valy);
+        this.p3.deplace(valx, valy);
     }
 
 }

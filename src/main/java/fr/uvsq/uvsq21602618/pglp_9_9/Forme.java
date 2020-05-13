@@ -14,8 +14,8 @@ public abstract class Forme {
      */
     public String nomForme;
     /**
-     * Méthode pour dessiner une forme.
+     * Méthode pour deplacer une forme.
      */
-    public abstract void dessine();
-    
+    public abstract void deplace(final int valx, final int valy) ;
+   
 }
