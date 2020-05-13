@@ -36,6 +36,11 @@ public enum AppSingleton {
         DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
         Rectangle r = new Rectangle("r1", p1, p2);
         rectangleDAO.create(r);
+        
+        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+        Point p3 = new Point(10, 10);
+        Triangle t = new Triangle("t1", p1, p2, p3);
+        triangleDAO.create(t);
     }
     /**
      * Main.

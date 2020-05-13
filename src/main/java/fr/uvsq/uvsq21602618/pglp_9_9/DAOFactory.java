@@ -49,7 +49,7 @@ public class DAOFactory {
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     *
+     */
     public DAO<Triangle> getTriangleDAO()
             throws IOException, SQLException {
         return new TriangleDAO();

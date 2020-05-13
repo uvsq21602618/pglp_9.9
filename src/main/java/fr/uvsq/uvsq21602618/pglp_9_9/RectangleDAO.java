@@ -113,7 +113,7 @@ public class RectangleDAO extends DAO<Rectangle>{
                     }
                 }
             } else {
-                System.out.println("Il n'y a pas encore de carres"
+                System.out.println("Il n'y a pas encore de rectangles"
                         + " dans la base de données!\n");
             }
         }
