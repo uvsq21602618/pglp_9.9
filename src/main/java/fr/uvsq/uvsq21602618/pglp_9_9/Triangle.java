@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-public class Triangle extends Forme {
+public class Triangle extends Forme implements Dessin{
     /**
      * Premier point du triangle.
      */
@@ -88,7 +88,7 @@ public class Triangle extends Forme {
                 + "((" + this.p1.getX() + ", " + this.p1.getY()
                 + "), (" + this.p2.getX() + ", " + this.p2.getY()
                 + "), (" + this.p3.getX() + ", " + this.p3.getY()
-                + "))";
+                + "))\n";
         System.out.println(s);   
     }
 

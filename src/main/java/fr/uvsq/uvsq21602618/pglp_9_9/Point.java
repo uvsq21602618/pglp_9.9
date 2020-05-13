@@ -33,14 +33,14 @@ public class Point {
      * @return x
      */
     public int getX() {
-        return this.getX();
+        return this.x;
     }
     /**
      * Méthode pour retourner la coordonnee y du point.
      * @return y
      */
     public int getY() {
-        return this.getY();
+        return this.y;
     }
     /**
      * Methode qui deplace un point.

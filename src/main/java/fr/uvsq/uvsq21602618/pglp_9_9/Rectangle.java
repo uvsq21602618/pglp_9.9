@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-public class Rectangle extends Forme {
+public class Rectangle extends Forme implements Dessin {
     /**
      * Le point en haut a gauche du rectangle.
      */
@@ -70,7 +70,7 @@ public class Rectangle extends Forme {
         String s =this.nom + " = " + this.nomForme
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
                 + "), (" + this.bd.getX() + ", " + this.bd.getY()
-                + "))";
+                + "))\n";
         System.out.println(s);   
     }
 }

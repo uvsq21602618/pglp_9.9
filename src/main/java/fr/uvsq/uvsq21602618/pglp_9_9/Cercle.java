@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-public class Cercle extends Forme {
+public class Cercle extends Forme implements Dessin {
     /**
      * Le centre du cercle.
      */
@@ -70,7 +70,7 @@ public class Cercle extends Forme {
     public void affiche() {
         String s =this.nom + " = " + this.nomForme
                 + "((" + this.centre.getX() + ", " + this.centre.getY()
-                + "), " + this.rayon + ")";
+                + "), " + this.rayon + ")\n";
         System.out.println(s);       
     }
 }

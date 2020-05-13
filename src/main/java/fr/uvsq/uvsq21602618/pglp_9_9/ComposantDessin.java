@@ -1,9 +1,6 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.util.ArrayList;
-
-import com.sun.tools.javac.util.List;
-
 /**
  * Le composite derive de Forme.
  * @author Nathalie
@@ -17,7 +14,7 @@ public class ComposantDessin {
     /**
      * Methode pour afficher les informations du composant.
      */
-    public void affichage() {
+    public void affiche() {
         for (Dessin dessin : dessinFils) {
             dessin.affiche();
         }
