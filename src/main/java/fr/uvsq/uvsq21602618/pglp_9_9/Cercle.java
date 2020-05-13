@@ -34,6 +34,36 @@ public class Cercle extends Forme {
     public void deplace(final int valx, final int valy) {
         this.centre.deplace(valx, valy);
     }
+    /**
+     * Retourne le nom de la forme.
+     * @return le nom de la forme.
+     */
+    @Override
+    public String getNomForme() {
+        return this.nomForme;
+    }
+    /**
+     * Retourne le nom du cercle.
+     * @return nom
+     */
+    @Override
+    public String getNom() {
+        return this.nom;
+    }
+    /**
+     * Retourne les coordonées du centre du cercle.
+     * @return centre
+     */
+    public Point getCentre() {
+        return this.centre;
+    }
+    /**
+     * Retourne le rayon du cercle.
+     * @return rayon
+     */
+    public int getRayon() {
+        return this.rayon;
+    }
 
 
 }
