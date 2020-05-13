@@ -29,7 +29,7 @@ public class DAOFactory {
      * @return le DAO correspondant
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
+     */
     public DAO<Cercle> getCercleDAO()
             throws IOException, SQLException {
         return new CercleDAO();

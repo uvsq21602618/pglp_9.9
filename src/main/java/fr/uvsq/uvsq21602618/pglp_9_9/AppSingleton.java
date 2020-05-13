@@ -26,9 +26,12 @@ public enum AppSingleton {
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
-        Carre c = new Carre("c1", p1, 5);
-        
+        Carre c = new Carre("c1", p1, 5);        
         carreDAO.create(c);
+        
+        DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+        Cercle c2 = new Cercle("c2", p1, 5);
+        cercleDAO.create(c2);
         
     }
     /**
