@@ -42,5 +42,42 @@ public class Triangle extends Forme {
         this.p2.deplace(valx, valy);
         this.p3.deplace(valx, valy);
     }
+    /**
+     * Methode qui retourne le nom du triangle.
+     * @return le nom
+     */
+    @Override
+    public String getNom() {
+        return this.nom;
+    }
+    /**
+     * Methode qui retourne le nom de la forme.
+     * @return le nom de la forme
+     */
+    @Override
+    public String getNomForme() {
+        return this.nomForme;
+    }
+    /**
+     * Retourne le premier point du triangle.
+     * @return p1
+     */
+    public Point getPoint1() {
+        return this.p1;
+    }
+    /**
+     * Retourne le deuxieme point du triangle.
+     * @return p2
+     */
+    public Point getPoint2() {
+        return this.p2;
+    }
+    /**
+     * Retourne le troisieme point du triangle.
+     * @return p3
+     */
+    public Point getPoint3() {
+        return this.p3;
+    }
 
 }

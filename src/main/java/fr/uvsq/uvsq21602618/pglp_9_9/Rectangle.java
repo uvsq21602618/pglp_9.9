@@ -35,4 +35,65 @@ public class Rectangle extends Forme {
         this.hg.deplace(valx, valy);
         this.bd.deplace(valx, valy); 
     }
+    /**
+     * Methode pour recuperer le nom du rectangle.
+     */
+    public String getNom() {
+        return this.nom;
+    }
+    /**
+     * Methode pour recuperer le nom de la forme.
+     */
+    public String getNomForme() {
+        return this.nomForme;
+    }
+    /**
+     * Methode pour recupere le point en haut a gauche du rectangle.
+     * @return hg
+     */
+    public Point getPointHG() {
+        return this.hg;
+    }
+    /**
+     * Methode pour recupere le point en bas a droite du rectangle.
+     * @return bd
+     */
+    public Point getPointBD() {
+        return this.bd;
+    }
+    /**
+     * La fonction de hachage.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((bd == null) ? 0 : bd.hashCode());
+        result = prime * result + ((hg == null) ? 0 : hg.hashCode());
+        return result;
+    }
+    /**
+     * La methode de comparaison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Rectangle other = (Rectangle) obj;
+        if (bd == null) {
+            if (other.bd != null)
+                return false;
+        } else if (!bd.equals(other.bd))
+            return false;
+        if (hg == null) {
+            if (other.hg != null)
+                return false;
+        } else if (!hg.equals(other.hg))
+            return false;
+        return true;
+    }
 }

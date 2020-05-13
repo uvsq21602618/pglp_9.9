@@ -34,5 +34,34 @@ public class Carre extends Forme {
     public void deplace(final int valx, final int valy) {
         this.hg.deplace(valx, valy);  
     }
+    /**
+     * Methode pour retourner le point en haut a gauche du carre.
+     * @return hg
+     */
+    public Point getPointHG() {
+        return this.hg;
+    }
+    /**
+     * Methode pour recuperer la longueur des cotes.
+     * @return longueur
+     */
+    public int getLongueur() {
+        return longueur;
+    }
+    /**
+     * Methode pour retourner le nom du carre.
+     */
+    @Override
+    public String getNom() {
+        return this.nom;
+    }
+    /**
+     * Methode pour retourner le nom de la forme.
+     */
+    @Override
+    public String getNomForme() {
+        return this.nomForme;
+    }
+    
 
 }

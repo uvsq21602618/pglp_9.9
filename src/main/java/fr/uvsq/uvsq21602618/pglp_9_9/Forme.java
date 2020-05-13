@@ -17,5 +17,13 @@ public abstract class Forme {
      * Méthode pour deplacer une forme.
      */
     public abstract void deplace(final int valx, final int valy) ;
+    /**
+     * Methode pour recuperer le nom de la forme.
+     */
+    public abstract String getNomForme();
+    /**
+     * Methode pour recuperer le nom.
+     */
+    public abstract String getNom();
    
 }
