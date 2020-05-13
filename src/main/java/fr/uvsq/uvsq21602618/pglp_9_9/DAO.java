@@ -2,9 +2,34 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class DAO<T> {
+    /**
+     * Chaîne de connexion precisant les informations pour
+     * la connexion a la base de données.
+     */
+    private String dbUrl;
+    /**
+     * Permet l'interaction avec le JDBC.
+     */
+    private Connection connect;
+
+    /**
+     * Constructeur du DAO pour JDBC.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    public DAO() throws SQLException {
+        dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
+
+        try {
+            setConnect(DriverManager.getConnection(dbUrl));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Méthode de création.
      * @param obj L'objet à créer
@@ -38,4 +63,18 @@ public abstract class DAO<T> {
      */
     public abstract T find(int id) throws FileNotFoundException,
     ClassNotFoundException, IOException, SQLException;
+    /**
+     * Methode pour recuperer connect.
+     * @return connect.
+     */
+    public Connection getConnect() {
+        return connect;
+    }
+    /**
+     * Methode pour redefinir connect.
+     * @param newCon a remplacer
+     */
+    public void setConnect(final Connection newCon) {
+        this.connect = newCon;
+    }
 }
