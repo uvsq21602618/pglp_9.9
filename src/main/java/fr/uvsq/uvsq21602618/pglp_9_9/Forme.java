@@ -1,10 +1,17 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
+
+import java.util.ArrayList;
+
 /**
  * Super classe pour les formes dessinables.
  * @author Nathalie
  *
  */
 public abstract class Forme {
+    /**
+     * Liste des noms deja existants.
+     */
+    public static ArrayList<String> listeNoms = new ArrayList<String>();
     /**
      * Le nom de la forme dessinée.
      */

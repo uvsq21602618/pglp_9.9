@@ -14,9 +14,11 @@ import org.junit.Test;
 public class TestCarre {
     /**
      * Test de la fonction deplace de Carre.
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testDeplace() {
+    public void testDeplace() throws NameAlreadyExistsException {
         Point p1 = new Point(15, 20);
         Carre c = new Carre("c1", p1, 5);
         c.deplace(5, -5);
@@ -31,9 +33,11 @@ public class TestCarre {
     }
     /**
      * Test de la fonction affichage dans Carre.
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testAffichage() {
+    public void testAffichage() throws NameAlreadyExistsException {
         Point p1 = new Point(15, 20);
         Carre c = new Carre("c1", p1, 5);
         

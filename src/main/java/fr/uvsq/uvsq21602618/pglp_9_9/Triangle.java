@@ -23,14 +23,21 @@ public class Triangle extends Forme implements Dessin{
      * @param point1 Le premier point du triangle
      * @param point2 Le deuxieme point du triangle
      * @param point3 Le troisieme point du triangle
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
     public Triangle(final String nom2, final Point point1,
-            final Point point2, final Point point3) {
-        this.nom = nom2;
-        this.nomForme = "Triangle";
-        this.p1 = point1;
-        this.p2 = point2;
-        this.p3 = point3;
+            final Point point2, final Point point3) throws NameAlreadyExistsException {
+        if(Forme.listeNoms.indexOf(nom2) == -1) {
+            listeNoms.add(nom2);
+            this.nom = nom2;
+            this.nomForme = "Triangle";
+            this.p1 = point1;
+            this.p2 = point2;
+            this.p3 = point3;
+        } else {
+            throw new NameAlreadyExistsException("Ce nom existe dejà !");
+        }
     }
     /**
      * Methode pour deplacer le triangle.

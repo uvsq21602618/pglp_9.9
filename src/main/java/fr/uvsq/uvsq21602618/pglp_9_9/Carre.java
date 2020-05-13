@@ -18,12 +18,20 @@ public class Carre extends Forme implements Dessin {
      * @param nom2 nom du carre
      * @param p point en haut a gauche du carre
      * @param l longueur du carre
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
-    public Carre(final String nom2, final Point p, final int l) {
-        this.nom = nom2;
-        this.nomForme = "Carré";
-        this.hg = p;
-        this.longueur = l;
+    public Carre(final String nom2, final Point p, final int l)
+            throws NameAlreadyExistsException {
+        if (listeNoms.indexOf(nom2) == -1) {
+            listeNoms.add(nom2);
+            this.nom = nom2;
+            this.nomForme = "Carré";
+            this.hg = p;
+            this.longueur = l;
+        } else {
+            throw new NameAlreadyExistsException("Ce nom existe dejà !");
+        }
     }
     /**
      * Methode pour deplacer le carre.

@@ -14,9 +14,11 @@ import org.junit.Test;
 public class TestRectangle {
     /**
      * Test de la fonction deplace de Rectangle.
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testDeplace() {
+    public void testDeplace() throws NameAlreadyExistsException {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
         Rectangle r = new Rectangle("r1", p1, p2);
@@ -33,9 +35,11 @@ public class TestRectangle {
     }  
     /**
      * Test de la fonction affichage dans Rectangle.
+     * @throws NameAlreadyExistsException Exception pour 
+     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testAffichage() {
+    public void testAffichage() throws NameAlreadyExistsException {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
         Rectangle r = new Rectangle("r1", p1, p2);

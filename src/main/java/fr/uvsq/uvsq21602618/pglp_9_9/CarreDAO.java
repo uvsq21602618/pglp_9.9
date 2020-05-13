@@ -19,6 +19,14 @@ public class CarreDAO extends DAO<Carre>{
      */
     private DAO<Carre> carreJDBC;
     /**
+     * initialisation de la constante 3 pour eviter le "magic number".
+     */
+    static final int TROIS = 3;
+    /**
+     * initialisation de la constante 4 pour eviter le "magic number".
+     */
+    static final int QUATRE = 4;
+    /**
      * Constructeur de CarreDAO.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
@@ -38,55 +46,45 @@ public class CarreDAO extends DAO<Carre>{
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "groupe_personnels".toUpperCase(), null);
+                "carres".toUpperCase(), null);
 
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
-                creation.executeUpdate("Create table groupe_personnels"
-                        + " (nom String primary key, nom_groupe varchar(30))");
+                creation.executeUpdate("Create table carres"
+                        + " (nom String primary key, hg_x int(5),"
+                        + " hg_y int(5), longueur int(5)");
             }
-            try {
-                String updateString = ("insert into groupe_personnels values ("
-                        + "?, ? )");
+            /*try {*/
+                String updateString = ("insert into carres values ("
+                        + "?, ?, ?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
-                update.setInt(1, obj.getId());
-                update.setString(2, obj.getNomGroupe());
+                update.setString(1, obj.getNom());
+                update.setInt(2, obj.getPointHG().getX());
+                update.setInt(TROIS, obj.getPointHG().getY());
+                update.setInt(QUATRE, obj.getLongueur());
                 update.executeUpdate();
                 update.close();
-                rs = creation.executeQuery("SELECT * FROM groupe_personnels");
+                rs = creation.executeQuery("SELECT * FROM carres");
 
-                System.out.println("---Table groupe_personnels:---\n");
-                System.out.println("id\t nom_groupe\t");
+                System.out.println("---Table carres:---\n");
+                System.out.println("nom\t hg_x\t hg_y\t longueur");
                 while (rs.next()) {
-                    System.out.printf("%d\t%s%n", rs.getInt("id"),
-                            rs.getString("nom_groupe"));
+                    System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
+                            rs.getInt("hg_x"), rs.getInt("hg_y"),
+                            rs.getInt("longueur"));
                 }
                 System.out.println("------------------------------------\n");
-
+                System.out.println("L'objet " + obj.getNom()
+                + " a bien été enregistré!\n");
                 rs.close();
-                Personnel p;
-                GroupePersonnels gp;
-                for (Composant comp : obj.getChildren()) {
-                    if (comp instanceof Personnel) {
-                        p = (Personnel) comp;
-                        persoJDBC.create(p);
-                        this.appartientPersonnel(obj.getId(), p.getId());
-                    } else {
-                        gp = (GroupePersonnels) comp;
-                        this.create(gp);
-                        this.appartientGroupe(obj.getId(), gp.getId());
-                    }
-                }
-
-                System.out.println("L'objet " + obj.toString()
-                + "a bien été enregistré!\n\n");
-            }  catch (org.apache.derby.shared.common.error
+                creation.close();
+            }/*  catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Cet id a deja était utilisé"
-                        + " pour la table GroupePersonnels!\n");
+                System.out.println("Ce nom a deja était utilisé pour"
+                        + " la table carres!\n");
             }
-            creation.close();
+            creation.close();*/
             return obj;
         }
 
@@ -468,4 +466,4 @@ public class CarreDAO extends DAO<Carre>{
             }
         }
     }
-}
+}*/
