@@ -1,6 +1,6 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 /**
- * Classe pour un point
+ * Classe pour un point.
  * @author Nathalie
  */
 public class Point {
@@ -19,7 +19,7 @@ public class Point {
      */
     public Point(final int x2, final int y2) {
         this.x = x2;
-        this.y= y2;
+        this.y = y2;
     }
     /**
      * Methode pour recuperer le point.
@@ -66,18 +66,23 @@ public class Point {
      * Fonction de comparaison.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Point other = (Point) obj;
-        if (x != other.x)
+        if (x != other.x) {
             return false;
-        if (y != other.y)
+        }
+        if (y != other.y) {
             return false;
+        }
         return true;
     }
 }

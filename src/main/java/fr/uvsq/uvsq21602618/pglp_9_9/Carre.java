@@ -32,7 +32,7 @@ public class Carre extends Forme {
      */
     @Override
     public void deplace(final int valx, final int valy) {
-        this.hg.deplace(valx, valy);  
+        this.hg.deplace(valx, valy);
     }
     /**
      * Methode pour retourner le point en haut a gauche du carre.
@@ -62,6 +62,4 @@ public class Carre extends Forme {
     public String getNomForme() {
         return this.nomForme;
     }
-    
-
 }

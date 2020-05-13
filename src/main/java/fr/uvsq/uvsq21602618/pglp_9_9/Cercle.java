@@ -19,7 +19,7 @@ public class Cercle extends Forme {
      * @param p le centre du cercle
      * @param ray le rayon du cercle
      */
-    public Cercle (final String nom2, final Point p, final int ray) {
+    public Cercle(final String nom2, final Point p, final int ray) {
         this.nom = nom2;
         this.nomForme = "Cercle";
         this.centre = p;

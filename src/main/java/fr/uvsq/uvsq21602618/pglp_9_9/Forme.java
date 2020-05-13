@@ -15,15 +15,18 @@ public abstract class Forme {
     public String nomForme;
     /**
      * Méthode pour deplacer une forme.
+     * @param valx valeur a ajoute a x
+     * @param valy valeur a ajoute a y
      */
-    public abstract void deplace(final int valx, final int valy) ;
+    public abstract void deplace(int valx, int valy);
     /**
      * Methode pour recuperer le nom de la forme.
+     * @return le nom
      */
     public abstract String getNomForme();
     /**
      * Methode pour recuperer le nom.
+     * @return le nom de la forme
      */
     public abstract String getNom();
-   
 }

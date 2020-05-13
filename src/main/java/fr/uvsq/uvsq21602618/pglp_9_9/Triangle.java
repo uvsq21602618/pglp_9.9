@@ -24,7 +24,8 @@ public class Triangle extends Forme {
      * @param point2 Le deuxieme point du triangle
      * @param point3 Le troisieme point du triangle
      */
-    public Triangle (final String nom2, final Point point1, final Point point2, final Point point3) {
+    public Triangle(final String nom2, final Point point1,
+            final Point point2, final Point point3) {
         this.nom = nom2;
         this.nomForme = "Triangle";
         this.p1 = point1;
