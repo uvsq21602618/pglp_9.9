@@ -15,6 +15,10 @@ import java.sql.Statement;
  */
 public class RectangleDAO extends DAO<Rectangle>{
     /**
+     * Le DAO de Rectangle.
+     */
+    private DAO<Rectangle> rectangleDAO;
+    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -33,6 +37,7 @@ public class RectangleDAO extends DAO<Rectangle>{
      */
     public RectangleDAO() throws SQLException, IOException {
         super();
+        rectangleDAO = new DAOFactory().getRectangleDAO();
     }
     /**
      * Méthode de création.

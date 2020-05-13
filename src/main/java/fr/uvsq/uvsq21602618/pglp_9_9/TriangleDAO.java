@@ -15,6 +15,10 @@ import java.sql.Statement;
  */
 public class TriangleDAO extends DAO<Triangle> {
     /**
+     * Le DAO de Triangle.
+     */
+    private DAO<Triangle> triangleDAO;
+    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -41,6 +45,7 @@ public class TriangleDAO extends DAO<Triangle> {
      */
     public TriangleDAO() throws SQLException, IOException {
         super();
+        triangleDAO = new DAOFactory().getTriangleDAO();
     }
     /**
      * Méthode de création.

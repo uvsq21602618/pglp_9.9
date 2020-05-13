@@ -15,6 +15,10 @@ import java.sql.Statement;
  */
 public class CercleDAO extends DAO<Cercle>{
     /**
+     * Le DAO de Cercle.
+     */
+    private DAO<Cercle> cercleDAO;
+    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -29,6 +33,7 @@ public class CercleDAO extends DAO<Cercle>{
      */
     public CercleDAO() throws SQLException, IOException {
         super();
+        cercleDAO = new DAOFactory().getCercleDAO();
     }
     /**
      * Méthode de création.

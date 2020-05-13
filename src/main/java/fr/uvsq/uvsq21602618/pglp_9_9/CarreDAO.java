@@ -16,7 +16,7 @@ public class CarreDAO extends DAO<Carre>{
     /**
      * Le DAO de Carre.
      */
-    private DAO<Carre> carreJDBC;
+    private DAO<Carre> carreDAO;
     /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
@@ -32,6 +32,7 @@ public class CarreDAO extends DAO<Carre>{
      */
     public CarreDAO() throws SQLException, IOException {
         super();
+        carreDAO = new DAOFactory().getCarreDAO();
     }
     /**
      * Méthode de création.
