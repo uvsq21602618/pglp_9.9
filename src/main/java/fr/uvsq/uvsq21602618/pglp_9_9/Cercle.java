@@ -25,10 +25,15 @@ public class Cercle extends Forme {
         this.centre = p;
         this.rayon = ray;
     }
+    /**
+     * Methode pour deplacer le cercle.
+     * @param valx la valeur a ajouter au x d'un point
+     * @param valy la valeur a ajouter au y d'un point
+     */
     @Override
-    public void dessine() {
-        // TODO Auto-generated method stub
-        
+    public void deplace(final int valx, final int valy) {
+        this.centre.deplace(valx, valy);
     }
+
 
 }

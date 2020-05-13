@@ -25,10 +25,14 @@ public class Rectangle extends Forme {
         this.hg = p1;
         this.bd = p2;
     }
+    /**
+     * Methode pour deplacer le rectangle.
+     * @param valx la valeur a ajouter au x d'un point
+     * @param valy la valeur a ajouter au y d'un point
+     */
     @Override
-    public void dessine() {
-        // TODO Auto-generated method stub
-        
+    public void deplace(final int valx, final int valy) {
+        this.hg.deplace(valx, valy);
+        this.bd.deplace(valx, valy); 
     }
-
 }

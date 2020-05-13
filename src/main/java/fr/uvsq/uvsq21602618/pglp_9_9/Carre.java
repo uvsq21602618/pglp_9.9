@@ -25,10 +25,14 @@ public class Carre extends Forme {
         this.hg = p;
         this.longueur = l;
     }
+    /**
+     * Methode pour deplacer le carre.
+     * @param valx la valeur a ajouter au x d'un point
+     * @param valy la valeur a ajouter au y d'un point
+     */
     @Override
-    public void dessine() {
-        // TODO Auto-generated method stub
-        
+    public void deplace(final int valx, final int valy) {
+        this.hg.deplace(valx, valy);  
     }
 
 }
