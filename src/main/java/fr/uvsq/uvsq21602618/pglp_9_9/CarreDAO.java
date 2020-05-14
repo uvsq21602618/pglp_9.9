@@ -12,7 +12,7 @@ import java.sql.Statement;
  * @author Nathalie
  *
  */
-public class CarreDAO extends DAO<Carre>{
+public class CarreDAO extends DAO<Carre> {
     /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
@@ -73,13 +73,15 @@ public class CarreDAO extends DAO<Carre>{
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja été utilisé dans formes!\n");
+                creation.close();
             }
             rs = dbmd.getTables(null, null,
                     "carres".toUpperCase(), null);
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
                     creation2.executeUpdate("Create table carres"
-                            + " (nom varchar(30) primary key, hg_x int not null,"
+                            + " (nom varchar(30) primary key,"
+                            + " hg_x int not null,"
                             + " hg_y int not null, longueur int not null, "
                             + "foreign key (nom) references formes(nom))");
                 }
@@ -99,7 +101,8 @@ public class CarreDAO extends DAO<Carre>{
                     System.out.println("---Table carres:---\n");
                     System.out.println("nom\t hg_x\t hg_y\t longueur");
                     while (rs.next()) {
-                        System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
+                        System.out.printf("%s\t%d\t%d\t%d%n",
+                                rs.getString("nom"),
                                 rs.getInt("hg_x"), rs.getInt("hg_y"),
                                 rs.getInt("longueur"));
                     }
@@ -113,7 +116,13 @@ public class CarreDAO extends DAO<Carre>{
                         .DerbySQLIntegrityConstraintViolationException e) {
                     System.out.println("Ce nom a deja été utilisé dans"
                             + " carres!\n");
+                    creation.close();
                 }
+            }
+        } finally {
+
+            if (rs != null) {
+                rs.close();
             }
         }
         return obj;
@@ -135,7 +144,8 @@ public class CarreDAO extends DAO<Carre>{
                         System.out.println("---Table carres:---\n");
                         System.out.println("nom\t hg_x\t hg_y\t longueur");
                         while (rs.next()) {
-                            System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
+                            System.out.printf("%s\t%d\t%d\t%d%n",
+                                    rs.getString("nom"),
                                     rs.getInt("hg_x"), rs.getInt("hg_y"),
                                     rs.getInt("longueur"));
                         }
@@ -150,7 +160,6 @@ public class CarreDAO extends DAO<Carre>{
             }
         }
     }
-    
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
@@ -172,11 +181,11 @@ public class CarreDAO extends DAO<Carre>{
                         .DerbySQLIntegrityConstraintViolationException e) {
                     e.printStackTrace();
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-        }  
+        }
         try (ResultSet rs = dbmd.getTables(null, null,
                 "carres".toUpperCase(), null)) {
             if (rs.next()) {
@@ -187,23 +196,24 @@ public class CarreDAO extends DAO<Carre>{
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
 
-                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                    try (ResultSet rs2 = dbmd.getTables(null, null,
                             "formes".toUpperCase(), null)) {
-                        if(rs2.next()) {
+                        if (rs2.next()) {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                    getConnect().prepareStatement(updateString)) {
+                                getConnect().prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom());
                                 update2.executeUpdate();
 
-                                System.out.printf("Le carre avec le nom " + obj.getNom()
+                                System.out.printf("Le carre avec le nom "
+                                + obj.getNom()
                                 + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
-                                    .DerbySQLIntegrityConstraintViolationException e) {
+                           .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
-                        }  
+                        }
                     } catch (org.apache.derby.shared.common.error
                             .DerbySQLIntegrityConstraintViolationException e) {
                         e.printStackTrace();
@@ -212,7 +222,7 @@ public class CarreDAO extends DAO<Carre>{
                         .DerbySQLIntegrityConstraintViolationException e) {
                     e.printStackTrace();
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
@@ -229,7 +239,6 @@ public class CarreDAO extends DAO<Carre>{
     @Override
     public Carre update(final Carre obj)
             throws SQLException, IOException {
-        
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -256,10 +265,9 @@ public class CarreDAO extends DAO<Carre>{
         }
         return obj;
     }
-    
     /**
      * Méthode de recherche des informations.
-     * @param id de l'information
+     * @param nom de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -275,7 +283,7 @@ public class CarreDAO extends DAO<Carre>{
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
-            
+
             if (!res.next()) {
                 System.out.println("Il n'y a pas de carré de nom "
                         + nom + " dans la base de données!\n");

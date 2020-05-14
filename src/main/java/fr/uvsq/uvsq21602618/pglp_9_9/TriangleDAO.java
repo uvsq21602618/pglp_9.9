@@ -85,15 +85,19 @@ public class TriangleDAO extends DAO<Triangle> {
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja été utilisé dans formes!\n");
+                rs.close();
+                creation.close();
             }
             rs = dbmd.getTables(null, null,
                     "triangles".toUpperCase(), null);
-    
+
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
                     creation2.executeUpdate("Create table triangles"
-                            + " (nom varchar(30) primary key, p1_x int not null,"
-                            + " p1_y int not null, p2_x int not null, p2_y int not null,"
+                            + " (nom varchar(30) primary key,"
+                            + " p1_x int not null,"
+                            + " p1_y int not null, p2_x int not null,"
+                            + " p2_y int not null,"
                             + " p3_x int not null, p3_y int not null, "
                             + " foreign key (nom) references formes(nom))");
                 }
@@ -112,17 +116,18 @@ public class TriangleDAO extends DAO<Triangle> {
                     update.executeUpdate();
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM triangles");
-    
+
                     System.out.println("---Table triangles:---\n");
                     System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
                             + " p3_x\t p3_y");
                     while (rs.next()) {
-                        System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
+                        System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n",
+                                rs.getString("nom"),
                                 rs.getInt("p1_x"), rs.getInt("p1_y"),
                                 rs.getInt("p2_x"), rs.getInt("p2_y"),
                                 rs.getInt("p3_x"), rs.getInt("p3_y"));
                     }
-                    System.out.println("----------------------------------------"
+                    System.out.println("---------------------------------------"
                             + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n");
@@ -132,8 +137,13 @@ public class TriangleDAO extends DAO<Triangle> {
                         .DerbySQLIntegrityConstraintViolationException e) {
                     System.out.println("Ce nom a deja été utilisé dans"
                             + " triangles!\n");
+                    rs.close();
+                    creation2.close();
                 }
             }
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
         }
         return obj;
     }
@@ -155,12 +165,13 @@ public class TriangleDAO extends DAO<Triangle> {
                         System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
                                 + " p3_x\t p3_y");
                         while (rs.next()) {
-                            System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
+                            System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n",
+                                    rs.getString("nom"),
                                     rs.getInt("p1_x"), rs.getInt("p1_y"),
                                     rs.getInt("p2_x"), rs.getInt("p2_y"),
                                     rs.getInt("p3_x"), rs.getInt("p3_y"));
                         }
-                        System.out.println("-------------------------------------"
+                        System.out.println("-----------------------------------"
                                 + "------------------------\n");
                         rs.close();
                     }
@@ -192,11 +203,11 @@ public class TriangleDAO extends DAO<Triangle> {
                         .DerbySQLIntegrityConstraintViolationException e) {
                     e.printStackTrace();
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-        }  
+        }
         try (ResultSet rs = dbmd.getTables(null, null,
                 "triangles".toUpperCase(), null)) {
             if (rs.next()) {
@@ -206,24 +217,25 @@ public class TriangleDAO extends DAO<Triangle> {
                         getConnect().prepareStatement(updateString)) {
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
-                    
-                    try(ResultSet rs2 = dbmd.getTables(null, null,
+
+                    try (ResultSet rs2 = dbmd.getTables(null, null,
                             "formes".toUpperCase(), null)) {
-                        if(rs2.next()) {
+                        if (rs2.next()) {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
                                     getConnect().prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom());
                                 update2.executeUpdate();
-                                
-                                System.out.printf("Le triangle avec le nom " + obj.getNom()
-                                + " a bien été supprimé!\n");
+
+                                System.out.printf("Le triangle avec le nom "
+                                        + obj.getNom()
+                                        + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
                                     .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
-                        }  
+                        }
                     } catch (org.apache.derby.shared.common.error
                             .DerbySQLIntegrityConstraintViolationException e) {
                         e.printStackTrace();
@@ -232,7 +244,7 @@ public class TriangleDAO extends DAO<Triangle> {
                         .DerbySQLIntegrityConstraintViolationException e) {
                     e.printStackTrace();
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
@@ -248,7 +260,7 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle update(final Triangle obj)
             throws SQLException, IOException {
-        
+
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -277,7 +289,7 @@ public class TriangleDAO extends DAO<Triangle> {
     }
     /**
      * Méthode de recherche des informations.
-     * @param id de l'information
+     * @param nom de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -293,7 +305,7 @@ public class TriangleDAO extends DAO<Triangle> {
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
-            
+
             if (!res.next()) {
                 System.out.println("Il n'y a pas de triangle de nom "
                         + nom + " dans la base de données!\n");

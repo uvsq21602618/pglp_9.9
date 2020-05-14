@@ -67,10 +67,10 @@ public class Carre extends Forme implements Dessin {
      * Affiche les informations du carre.
      */
     public void affiche() {
-        String s =this.nom + " = " + this.nomForme
+        String s = this.nom + " = " + this.nomForme
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
                 + "), " + this.longueur + ")\n";
-        System.out.println(s);       
+        System.out.println(s);
     }
     /**
      * Methode de hachage.
@@ -87,7 +87,7 @@ public class Carre extends Forme implements Dessin {
      * Methode de comparaison.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

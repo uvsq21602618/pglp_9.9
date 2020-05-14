@@ -13,7 +13,7 @@ import java.sql.Statement;
  * @author Nathalie
  *
  */
-public class CercleDAO extends DAO<Cercle>{
+public class CercleDAO extends DAO<Cercle> {
     /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
@@ -73,6 +73,8 @@ public class CercleDAO extends DAO<Cercle>{
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja été utilisé dans formes!\n");
+                creation.close();
+                rs.close();
             }
             rs = dbmd.getTables(null, null,
                     "cercles".toUpperCase(), null);
@@ -80,7 +82,8 @@ public class CercleDAO extends DAO<Cercle>{
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
                     creation2.executeUpdate("Create table cercles"
-                            + " (nom varchar(30) primary key, centre_x int not null,"
+                            + " (nom varchar(30) primary key,"
+                            + " centre_x int not null,"
                             + " centre_y int not null, rayon int not null, "
                             + "foreign key (nom) references formes(nom))");
                 }
@@ -100,25 +103,31 @@ public class CercleDAO extends DAO<Cercle>{
                     System.out.println("---Table cercles:---\n");
                     System.out.println("nom\t centre_x\t centre_y\t rayon");
                     while (rs.next()) {
-                        System.out.printf("%s\t\t%d\t\t%d\t\t%d%n", rs.getString("nom"),
+                        System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
+                                rs.getString("nom"),
                                 rs.getInt("centre_x"), rs.getInt("centre_y"),
                                 rs.getInt("rayon"));
                     }
-                    System.out.println("------------------------------------\n");
+                    System.out.println("----------------------------------\n");
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n");
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé dans cercles!\n");
+                    System.out.println("Ce nom a deja été utilisé"
+                            + " dans cercles!\n");
+                    creation.close();
                 }
-
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
             }
         }
         return obj;
     }
-    
+
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
@@ -137,12 +146,12 @@ public class CercleDAO extends DAO<Cercle>{
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        
+
         try (ResultSet rs = dbmd.getTables(null, null,
                 "cercles".toUpperCase(), null)) {
             if (rs.next()) {
@@ -153,35 +162,36 @@ public class CercleDAO extends DAO<Cercle>{
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
 
-                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                    try (ResultSet rs2 = dbmd.getTables(null, null,
                             "formes".toUpperCase(), null)) {
-                        if(rs2.next()) {
+                        if (rs2.next()) {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                    getConnect().prepareStatement(updateString)) {
+                                 getConnect().prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom());
                                 update2.executeUpdate();
 
-                                System.out.printf("Le cercle avec le nom " + obj.getNom()
-                                + " a bien été supprimé!\n");
+                                System.out.printf("Le cercle avec le nom "
+                                        + obj.getNom()
+                                        + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
-                                    .DerbySQLIntegrityConstraintViolationException e) {
+                             .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
-                        }  
+                        }
                     } catch (org.apache.derby.shared.common.error
                             .DerbySQLIntegrityConstraintViolationException e) {
                         e.printStackTrace();
                     }
                 }
-            } 
+            }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Methode pour afficher le contenu de la table cercles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
@@ -199,11 +209,13 @@ public class CercleDAO extends DAO<Cercle>{
                         System.out.println("---Table cercles:---\n");
                         System.out.println("nom\t centre_x\t centre_y\t rayon");
                         while (rs.next()) {
-                            System.out.printf("%s\t\t%d\t\t%d\t\t%d%n", rs.getString("nom"),
-                                    rs.getInt("centre_x"), rs.getInt("centre_y"),
+                            System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
+                                    rs.getString("nom"),
+                                    rs.getInt("centre_x"),
+                                    rs.getInt("centre_y"),
                                     rs.getInt("rayon"));
                         }
-                        System.out.println("------------------------------------\n");
+                        System.out.println("-------------------------------\n");
                         rs.close();
                     }
                 }
@@ -213,7 +225,7 @@ public class CercleDAO extends DAO<Cercle>{
             }
         }
     }
-    
+
     /**
      * Méthode de mise à jour.
      * @param obj L'objet à mettre à jour
@@ -224,7 +236,7 @@ public class CercleDAO extends DAO<Cercle>{
     @Override
     public Cercle update(final Cercle obj)
             throws SQLException, IOException {
-        
+
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -251,10 +263,10 @@ public class CercleDAO extends DAO<Cercle>{
         }
         return obj;
     }
-    
+
     /**
      * Méthode de recherche des informations.
-     * @param id de l'information
+     * @param nom de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -270,13 +282,14 @@ public class CercleDAO extends DAO<Cercle>{
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
-            
+
             if (!res.next()) {
                 System.out.println("Il n'y a pas de cercle de nom "
                         + nom + " dans la base de données!\n");
                 return null;
             } else {
-                Point p = new Point(res.getInt("centre_x"), res.getInt("centre_y"));
+                Point p = new Point(res.getInt("centre_x"),
+                        res.getInt("centre_y"));
                 int r = res.getInt("rayon");
                 Cercle c = new Cercle(nom, p, r);
                 System.out.println("Un cercle de nom "

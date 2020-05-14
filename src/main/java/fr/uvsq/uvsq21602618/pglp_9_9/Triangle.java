@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-public class Triangle extends Forme implements Dessin{
+public class Triangle extends Forme implements Dessin {
     /**
      * Premier point du triangle.
      */
@@ -84,12 +84,12 @@ public class Triangle extends Forme implements Dessin{
      * Affiche les informations du triangle.
      */
     public void affiche() {
-        String s =this.nom + " = " + this.nomForme
+        String s = this.nom + " = " + this.nomForme
                 + "((" + this.p1.getX() + ", " + this.p1.getY()
                 + "), (" + this.p2.getX() + ", " + this.p2.getY()
                 + "), (" + this.p3.getX() + ", " + this.p3.getY()
                 + "))\n";
-        System.out.println(s);   
+        System.out.println(s);
     }
     /**
      * Methode de hachage.
@@ -107,7 +107,7 @@ public class Triangle extends Forme implements Dessin{
      * Methode de comparaison.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

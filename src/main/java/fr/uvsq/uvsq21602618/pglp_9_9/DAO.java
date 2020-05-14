@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * Classe DAO abstraite.
+ * @author Nathalie
+ *
+ * @param <T> pour mettre la classe du DAO qu'on souhaitre accéder
+ */
 public abstract class DAO<T> {
     /**
      * Chaîne de connexion precisant les informations pour
@@ -54,7 +59,7 @@ public abstract class DAO<T> {
     public abstract T update(T obj) throws IOException, SQLException;
     /**
      * Méthode de recherche des informations.
-     * @param id de l'information
+     * @param nom de l'information
      * @return T une classe donnée
      * @throws FileNotFoundException Exception si le fichier n'existe pas
      * @throws IOException Exception liee aux entrees/sorties

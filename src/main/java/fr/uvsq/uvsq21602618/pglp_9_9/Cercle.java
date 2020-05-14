@@ -19,7 +19,7 @@ public class Cercle extends Forme implements Dessin {
      * @param p le centre du cercle
      * @param ray le rayon du cercle
      */
-    public Cercle(final String nom2, final Point p, final int ray) {  
+    public Cercle(final String nom2, final Point p, final int ray) {
         this.nom = nom2;
         this.nomForme = "Cercle";
         this.centre = p;
@@ -40,7 +40,7 @@ public class Cercle extends Forme implements Dessin {
      * Methode de comparaison.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -106,9 +106,9 @@ public class Cercle extends Forme implements Dessin {
      * Affiche les informations du cercle.
      */
     public void affiche() {
-        String s =this.nom + " = " + this.nomForme
+        String s = this.nom + " = " + this.nomForme
                 + "((" + this.centre.getX() + ", " + this.centre.getY()
                 + "), " + this.rayon + ")\n";
-        System.out.println(s);       
+        System.out.println(s);
     }
 }

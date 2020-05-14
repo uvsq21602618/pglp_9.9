@@ -89,9 +89,11 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja été utilisé dans formes!");
+                rs.close();
+                creation.close();
             }
-        rs = dbmd.getTables(null, null,
-                "composants_dessin".toUpperCase(), null);
+            rs = dbmd.getTables(null, null,
+                    "composants_dessin".toUpperCase(), null);
 
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
@@ -100,10 +102,12 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                             + " nom_composant varchar(30),"
                             + "primary key (nom, nom_composant), "
                             + "foreign key (nom) references formes(nom),"
-                            + "foreign key (nom_composant) references formes(nom))");
+                            + "foreign key (nom_composant)"
+                            + " references formes(nom))");
                 }
                 try {
-                    String updateString = ("insert into composants_dessin values ("
+                    String updateString = ("insert into composants_dessin"
+                            + " values ("
                             + "?, ?, ? )");
                     PreparedStatement update;
                     Forme f;
@@ -124,36 +128,50 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         } else if (dessin instanceof Rectangle) {
                             Rectangle r = (Rectangle) dessin;
                             rectangleDAO.create(r);
-                        } else if (dessin instanceof Triangle){
+                        } else if (dessin instanceof Triangle) {
                             Triangle t = (Triangle) dessin;
                             triangleDAO.create(t);
-                        }else if (dessin instanceof ComposantDessin) {
+                        } else if (dessin instanceof ComposantDessin) {
                             cd = (ComposantDessin) dessin;
                             this.create(cd);
                         }
                         update.executeUpdate();
                         update.close();
                     }
-                    rs = creation2.executeQuery("SELECT * FROM composants_dessin");
-    
-                    System.out.println("-------Table composants_dessin:--------\n");
-                    System.out.println("nom\t\t type_composant\t\t nom_composant");
+                    rs = creation2.executeQuery("SELECT * FROM"
+                            + " composants_dessin");
+
+                    System.out.println("-------Table"
+                            + " composants_dessin:--------\n");
+                    System.out.println("nom\t\t type_composant\t\t"
+                            + " nom_composant");
                     while (rs.next()) {
-                        System.out.printf("%s\t\t%s\t\t%s%n", rs.getString("nom"),
-                                rs.getString("type_composant"), rs.getString("nom_composant"));
+                        System.out.printf("%s\t\t%s\t\t%s%n",
+                                rs.getString("nom"),
+                                rs.getString("type_composant"),
+                                rs.getString("nom_composant"));
                     }
-                    System.out.println("---------------------------------------------\n");
+                    System.out.println("----------------------------"
+                            + "-----------------\n");
                     rs.close();
-    
+
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n\n");
                 }  catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé dans composants_dessin!");
+                    System.out.println("Ce nom a deja été utilisé"
+                            + " dans composants_dessin!");
+                    creation.close();
+                    rs.close();
                 }
                 this.affichageTable();
                 creation2.close();
-                
+
+            } catch (org.apache.derby.shared.common.error
+                    .DerbySQLIntegrityConstraintViolationException e) {
+                e.printStackTrace();
+                creation.close();
+                rs.close();
             }
         }
         return obj;
@@ -172,13 +190,18 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 try (Statement stmt = getConnect().createStatement()) {
                     try (ResultSet rs = stmt.executeQuery("SELECT *"
                             + " FROM composants_dessin")) {
-                        System.out.println("--------Table composants_dessin:--------\n");
-                        System.out.println("nom\t\t type_composant\t\t nom_composant");
+                        System.out.println("--------Table"
+                                + " composants_dessin:--------\n");
+                        System.out.println("nom\t\t type_composant\t\t"
+                                + " nom_composant");
                         while (rs.next()) {
-                            System.out.printf("%s\t\t%s\t\t%s%n", rs.getString("nom"),
-                                    rs.getString("type_composant"), rs.getString("nom_composant"));
+                            System.out.printf("%s\t\t%s\t\t%s%n",
+                                    rs.getString("nom"),
+                                    rs.getString("type_composant"),
+                                    rs.getString("nom_composant"));
                         }
-                        System.out.println("---------------------------------------------\n");
+                        System.out.println("------------------------------"
+                                + "---------------\n");
                         rs.close();
                     }
                 }
@@ -225,7 +248,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Méthode de mise à jour.
      * @param obj L'objet à mettre à jour
@@ -234,9 +257,9 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      * @return obj L'objet à mettre à jour
      */
     @Override
-    public ComposantDessin update(ComposantDessin obj)
+    public ComposantDessin update(final ComposantDessin obj)
             throws IOException, SQLException {
-       
+
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -263,10 +286,10 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
         }
         return obj;
     }
-    
+
     /**
      * Méthode de recherche des informations.
-     * @param id de l'information
+     * @param nom de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -274,15 +297,16 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public ComposantDessin find(String nom)
-            throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
+    public ComposantDessin find(final String nom)
+            throws FileNotFoundException, ClassNotFoundException, IOException,
+            SQLException {
         String updateString = "select * from composants_dessin where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
-            
+
             if (!res.next()) {
                 System.out.println("Il n'y a pas de dessin de nom "
                         + nom + " dans la base de données!\n");
@@ -290,20 +314,24 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             } else {
                 ComposantDessin cd = new ComposantDessin(nom);
                 while (res.next()) {
-                   String type = res.getString("type_composant");
+                    String type = res.getString("type_composant");
                     if (type == "Carré") {
-                        Carre c = carreDAO.find(res.getString("nom_composant"));
+                        Carre c = carreDAO.
+                                find(res.getString("nom_composant"));
                         cd.ajoute(c);
                     } else if (type == "Cercle") {
-                        Cercle c = cercleDAO.find(res.getString("nom_composant"));
+                        Cercle c = cercleDAO.
+                                find(res.getString("nom_composant"));
                         cd.ajoute(c);
                     } else if (type == "Rectangle") {
                         Rectangle r =
-                                rectangleDAO.find(res.getString("nom_composant"));
+                                rectangleDAO.
+                                find(res.getString("nom_composant"));
                         cd.ajoute(r);
                     } else if (type == "Triangle") {
                         Triangle c =
-                                triangleDAO.find(res.getString("nom_composant"));
+                                triangleDAO.
+                                find(res.getString("nom_composant"));
                         triangleDAO.delete(c);
                     } else if (type == "Composant du dessin") {
                         ComposantDessin cd2 =

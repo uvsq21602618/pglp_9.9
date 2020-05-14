@@ -8,5 +8,5 @@ public interface Dessin {
     /**
      * Methode pour afficher les infos du dessin.
      */
-    public void affiche();
+    void affiche();
 }

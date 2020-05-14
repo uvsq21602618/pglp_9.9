@@ -8,14 +8,14 @@ import java.util.List;
  * @author Nathalie
  *
  */
-public class ComposantDessin extends Forme implements Dessin { 
+public class ComposantDessin extends Forme implements Dessin {
     /**
-     * Liste de composants. 
+     * Liste de composants.
      */
     private ArrayList<Dessin> dessinFils = new ArrayList<Dessin>();
     /**
      * Constructeur de ComposantDessin.
-     * @param nom2
+     * @param nom2 le nom du composant
      */
     public ComposantDessin(final String nom2) {
         this.nom = nom2;
@@ -34,14 +34,14 @@ public class ComposantDessin extends Forme implements Dessin {
      * Ajouter un dessin a la liste.
      * @param dessin un dessin
      */
-    public void ajoute(Dessin dessin) {
+    public void ajoute(final Dessin dessin) {
         dessinFils.add(dessin);
     }
     /**
      * Retirer un dessin a la liste.
      * @param dessin un dessin
      */
-    public void retire(Dessin dessin) {
+    public void retire(final Dessin dessin) {
         dessinFils.remove(dessin);
     }
     /**
@@ -77,14 +77,15 @@ public class ComposantDessin extends Forme implements Dessin {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((dessinFils == null) ? 0 : dessinFils.hashCode());
+        result = prime * result
+                + ((dessinFils == null) ? 0 : dessinFils.hashCode());
         return result;
     }
     /**
      * Methode de comparaison.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
