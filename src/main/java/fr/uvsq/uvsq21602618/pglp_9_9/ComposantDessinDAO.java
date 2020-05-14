@@ -136,7 +136,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     }
                     rs = creation2.executeQuery("SELECT * FROM composants_dessin");
     
-                    System.out.println("---Table composants_dessin:---\n");
+                    System.out.println("-------Table composants_dessin:--------\n");
                     System.out.println("nom\t\t type_composant\t\t nom_composant");
                     while (rs.next()) {
                         System.out.printf("%s\t\t%s\t\t%s%n", rs.getString("nom"),
@@ -172,7 +172,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 try (Statement stmt = getConnect().createStatement()) {
                     try (ResultSet rs = stmt.executeQuery("SELECT *"
                             + " FROM composants_dessin")) {
-                        System.out.println("---Table composants_dessin:---\n");
+                        System.out.println("--------Table composants_dessin:--------\n");
                         System.out.println("nom\t\t type_composant\t\t nom_composant");
                         while (rs.next()) {
                             System.out.printf("%s\t\t%s\t\t%s%n", rs.getString("nom"),

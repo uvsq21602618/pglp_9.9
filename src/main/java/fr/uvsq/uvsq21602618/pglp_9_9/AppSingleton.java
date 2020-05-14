@@ -51,6 +51,10 @@ public enum AppSingleton {
         dessin2.ajoute(dessin1);
         dessin2.ajoute(c2);
         composantDessinDAO.create(dessin2);
+        carreDAO.delete(c);
+        
+        
+        
     }
     /**
      * Main.

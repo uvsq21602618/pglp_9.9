@@ -36,6 +36,7 @@ public class CarreDAO extends DAO<Carre>{
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
+    @Override
     public Carre create(final Carre obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -94,7 +95,7 @@ public class CarreDAO extends DAO<Carre>{
                     update.executeUpdate();
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM carres");
-    
+
                     System.out.println("---Table carres:---\n");
                     System.out.println("nom\t hg_x\t hg_y\t longueur");
                     while (rs.next()) {
@@ -149,11 +150,6 @@ public class CarreDAO extends DAO<Carre>{
         }
     }
     @Override
-    public void delete(Carre obj) throws SQLException {
-        // TODO Auto-generated method stub
-        
-    }
-    @Override
     public Carre update(Carre obj) throws IOException, SQLException {
         // TODO Auto-generated method stub
         return null;
@@ -163,67 +159,64 @@ public class CarreDAO extends DAO<Carre>{
         // TODO Auto-generated method stub
         return null;
     }
-}
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
      * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
-    public void delete(final GroupePersonnels obj) throws SQLException {
+     */
+    @Override
+    public void delete(final Carre obj) throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
-
-        try (Statement stmt = getConnect().createStatement()) {
-            int idGroupe;
-            idGroupe = obj.getId();
-            String sql;
-            try (Statement exist = getConnect()
-                    .createStatement()) {
-                ResultSet rs2 = dbmd.getTables(null, null,
-                        "appartenance_personnel".toUpperCase(), null);
-                if (rs2.next()) {
-                    sql = "delete from appartenance_personnel where id_groupe="
-                            + idGroupe;
-                    stmt.executeUpdate(sql);
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from composants_dessin"
+                        + " where nom_composant= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
                 }
-                rs2.close();
-            }
-
-            try (Statement exist = getConnect().createStatement()) {
-                ResultSet rs3 = dbmd.getTables(null, null,
-                        "appartenance_sous_groupe".toUpperCase(), null);
-                if (rs3.next()) {
-                    sql = "delete from appartenance_sous_groupe"
-                            + " where id_groupe="
-                            + idGroupe;
-                    stmt.executeUpdate(sql);
-
-                    sql = "delete from appartenance_sous_groupe"
-                            + " where id_sousGroupe=" + idGroupe;
-                    stmt.executeUpdate(sql);
-
-                    sql = "delete from groupe_personnels where id="
-                            + idGroupe;
-                    stmt.executeUpdate(sql);
-
-                    exist.close();
+            } 
+        }   
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "carres".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from carres"
+                        + " where nom= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                    
+                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                            "formes".toUpperCase(), null)) {
+                        if(rs2.next()) {
+                            updateString = "delete from formes"
+                                    + " where nom= ?";
+                            try (PreparedStatement update2 =
+                                    getConnect().prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom());
+                                update2.executeUpdate();
+                                
+                                System.out.printf("Le carre avec le nom " + obj.getNom()
+                                + " a bien été supprimé!\n");
+                                this.affichageTable();
+                            }
+                        }  
+                    }
                 }
-                rs3.close();
-            }
-            stmt.close();
-
-            System.out.printf("Le groupe avec l'id " + obj.getId()
-            + " a bien été supprimé!\n");
-
+            } 
         }
-
     }
-    /**
-     * Méthode de mise à jour.
-     * @param obj L'objet à mettre à jour
-     * @throws IOException Exceptions liees aux entrees/sorties
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     * @return obj L'objet à mettre à jour
-     *
+}
+/**
+ * Méthode de mise à jour.
+ * @param obj L'objet à mettre à jour
+ * @throws IOException Exceptions liees aux entrees/sorties
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ * @return obj L'objet à mettre à jour
+ *
     public GroupePersonnels update(final GroupePersonnels obj)
             throws SQLException,
             IOException {
@@ -250,14 +243,14 @@ public class CarreDAO extends DAO<Carre>{
         }
     }
     /**
-     * Méthode de recherche des informations.
-     * @param id de l'information
-     * @return gp le GroupePersonnel du fichier, null sinon
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     * @throws FileNotFoundException liee au fichier non trouve
-     * @throws IOException liee aux entreés/sorties
-     * @throws ClassNotFoundException Exception lié à une classe inexistante
-     *
+ * Méthode de recherche des informations.
+ * @param id de l'information
+ * @return gp le GroupePersonnel du fichier, null sinon
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ * @throws FileNotFoundException liee au fichier non trouve
+ * @throws IOException liee aux entreés/sorties
+ * @throws ClassNotFoundException Exception lié à une classe inexistante
+ *
     public GroupePersonnels find(final int id) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -336,12 +329,12 @@ public class CarreDAO extends DAO<Carre>{
         return null;
     }
     /**
-     * Methode pour creer la table qui associe le composant de classe Personnel
-     * avec le groupe de Personnels auquel il appartient.
-     * @param idGroupe identifiant du groupe
-     * @param idPerso identifiant du personnel
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
+ * Methode pour creer la table qui associe le composant de classe Personnel
+ * avec le groupe de Personnels auquel il appartient.
+ * @param idGroupe identifiant du groupe
+ * @param idPerso identifiant du personnel
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ *
     private void appartientPersonnel(final int idGroupe, final int idPerso)
             throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -388,12 +381,12 @@ public class CarreDAO extends DAO<Carre>{
         }
     }
     /**
-     * Methode pour creer la table qui associe le composant de classe
-     * GroupePersonnels avec le groupe de Personnels auquel il appartient.
-     * @param idGroupe identifiant du groupe
-     * @param idSousGr identifiant du sous groupe
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
+ * Methode pour creer la table qui associe le composant de classe
+ * GroupePersonnels avec le groupe de Personnels auquel il appartient.
+ * @param idGroupe identifiant du groupe
+ * @param idSousGr identifiant du sous groupe
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ *
     private void appartientGroupe(final int idGroupe, final int idSousGr)
             throws SQLException {
 
@@ -441,9 +434,9 @@ public class CarreDAO extends DAO<Carre>{
         }
     }
     /**
-     * Methode pour afficher le contenu de la table groupe_personnels.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
+ * Methode pour afficher le contenu de la table groupe_personnels.
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ *
     public void affichageTableGroupePersonnels() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
@@ -474,9 +467,9 @@ public class CarreDAO extends DAO<Carre>{
     }
 
     /**
-     * Methode pour afficher le contenu de la table appartenance_personnel.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     *
+ * Methode pour afficher le contenu de la table appartenance_personnel.
+ * @throws SQLException Exception liee a l'acces a la base de donnees
+ *
     public void affichageTableAppartenancePersonnel() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
