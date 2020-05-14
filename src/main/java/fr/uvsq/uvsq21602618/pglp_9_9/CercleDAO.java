@@ -76,7 +76,7 @@ public class CercleDAO extends DAO<Cercle>{
             }
             rs = dbmd.getTables(null, null,
                     "cercles".toUpperCase(), null);
-    
+
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
                     creation2.executeUpdate("Create table cercles"
@@ -96,7 +96,7 @@ public class CercleDAO extends DAO<Cercle>{
                     update.executeUpdate();
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM cercles");
-    
+
                     System.out.println("---Table cercles:---\n");
                     System.out.println("nom\t centre_x\t centre_y\t rayon");
                     while (rs.next()) {
@@ -113,16 +113,80 @@ public class CercleDAO extends DAO<Cercle>{
                         .DerbySQLIntegrityConstraintViolationException e) {
                     System.out.println("Ce nom a deja été utilisé dans cercles!");
                 }
-            
+
             }
         }
         return obj;
     }
+    
+    /**
+     * Méthode pour effacer.
+     * @param obj L'objet à effacer
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    @Override
+    public void delete(final Cercle obj) throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from composants_dessin"
+                        + " where nom_composant= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
+        
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "cercles".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from cercles"
+                        + " where nom= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+
+                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                            "formes".toUpperCase(), null)) {
+                        if(rs2.next()) {
+                            updateString = "delete from formes"
+                                    + " where nom= ?";
+                            try (PreparedStatement update2 =
+                                    getConnect().prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom());
+                                update2.executeUpdate();
+
+                                System.out.printf("Le cercle avec le nom " + obj.getNom()
+                                + " a bien été supprimé!\n");
+                            } catch (org.apache.derby.shared.common.error
+                                    .DerbySQLIntegrityConstraintViolationException e) {
+                                e.printStackTrace();
+                            }
+                        }  
+                    } catch (org.apache.derby.shared.common.error
+                            .DerbySQLIntegrityConstraintViolationException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * Methode pour afficher le contenu de la table cercles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public void affichageTableNumero() throws SQLException {
+    public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -149,11 +213,7 @@ public class CercleDAO extends DAO<Cercle>{
             }
         }
     }
-    @Override
-    public void delete(Cercle obj) throws SQLException {
-        // TODO Auto-generated method stub
-        
-    }
+    
     @Override
     public Cercle update(Cercle obj) throws IOException, SQLException {
         // TODO Auto-generated method stub

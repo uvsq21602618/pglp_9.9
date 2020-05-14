@@ -117,12 +117,13 @@ public class TriangleDAO extends DAO<Triangle> {
                     System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
                             + " p3_x\t p3_y");
                     while (rs.next()) {
-                        System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%n", rs.getString("nom"),
+                        System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
                                 rs.getInt("p1_x"), rs.getInt("p1_y"),
                                 rs.getInt("p2_x"), rs.getInt("p2_y"),
                                 rs.getInt("p3_x"), rs.getInt("p3_y"));
                     }
-                    System.out.println("------------------------------------\n");
+                    System.out.println("----------------------------------------"
+                            + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n");
                     rs.close();
@@ -153,12 +154,13 @@ public class TriangleDAO extends DAO<Triangle> {
                         System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
                                 + " p3_x\t p3_y");
                         while (rs.next()) {
-                            System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%n", rs.getString("nom"),
+                            System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
                                     rs.getInt("p1_x"), rs.getInt("p1_y"),
                                     rs.getInt("p2_x"), rs.getInt("p2_y"),
                                     rs.getInt("p3_x"), rs.getInt("p3_y"));
                         }
-                        System.out.println("------------------------------------\n");
+                        System.out.println("-------------------------------------"
+                                + "------------------------\n");
                         rs.close();
                     }
                 }
@@ -168,10 +170,72 @@ public class TriangleDAO extends DAO<Triangle> {
             }
         }
     }
+    /**
+     * Méthode pour effacer.
+     * @param obj L'objet à effacer
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
     @Override
-    public void delete(Triangle obj) throws SQLException {
-        // TODO Auto-generated method stub
-        
+    public void delete(final Triangle obj) throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from composants_dessin"
+                        + " where nom_composant= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }  
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "triangles".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from triangles"
+                        + " where nom= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                    
+                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                            "formes".toUpperCase(), null)) {
+                        if(rs2.next()) {
+                            updateString = "delete from formes"
+                                    + " where nom= ?";
+                            try (PreparedStatement update2 =
+                                    getConnect().prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom());
+                                update2.executeUpdate();
+                                
+                                System.out.printf("Le triangle avec le nom " + obj.getNom()
+                                + " a bien été supprimé!\n");
+                            } catch (org.apache.derby.shared.common.error
+                                    .DerbySQLIntegrityConstraintViolationException e) {
+                                e.printStackTrace();
+                            }
+                        }  
+                    } catch (org.apache.derby.shared.common.error
+                            .DerbySQLIntegrityConstraintViolationException e) {
+                        e.printStackTrace();
+                    }
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public Triangle update(Triangle obj) throws IOException, SQLException {

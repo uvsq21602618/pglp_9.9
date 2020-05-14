@@ -176,9 +176,15 @@ public class CarreDAO extends DAO<Carre>{
                         getConnect().prepareStatement(updateString)) {
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
                 }
             } 
-        }   
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }  
         try (ResultSet rs = dbmd.getTables(null, null,
                 "carres".toUpperCase(), null)) {
             if (rs.next()) {
@@ -201,12 +207,23 @@ public class CarreDAO extends DAO<Carre>{
                                 
                                 System.out.printf("Le carre avec le nom " + obj.getNom()
                                 + " a bien été supprimé!\n");
-                                this.affichageTable();
+                            } catch (org.apache.derby.shared.common.error
+                                    .DerbySQLIntegrityConstraintViolationException e) {
+                                e.printStackTrace();
                             }
                         }  
+                    } catch (org.apache.derby.shared.common.error
+                            .DerbySQLIntegrityConstraintViolationException e) {
+                        e.printStackTrace();
                     }
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
                 }
             } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
         }
     }
 }

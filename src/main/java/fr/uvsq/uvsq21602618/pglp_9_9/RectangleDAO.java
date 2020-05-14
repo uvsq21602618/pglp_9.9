@@ -156,10 +156,72 @@ public class RectangleDAO extends DAO<Rectangle>{
             }
         }
     }
+    /**
+     * Méthode pour effacer.
+     * @param obj L'objet à effacer
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
     @Override
-    public void delete(Rectangle obj) throws SQLException {
-        // TODO Auto-generated method stub
-        
+    public void delete(final Rectangle obj) throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from composants_dessin"
+                        + " where nom_composant= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }  
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "rectangles".toUpperCase(), null)) {
+            if (rs.next()) {
+                String updateString = "delete from rectangles"
+                        + " where nom= ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom());
+                    update.executeUpdate();
+                    
+                    try(ResultSet rs2 = dbmd.getTables(null, null,
+                            "formes".toUpperCase(), null)) {
+                        if(rs2.next()) {
+                            updateString = "delete from formes"
+                                    + " where nom= ?";
+                            try (PreparedStatement update2 =
+                                    getConnect().prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom());
+                                update2.executeUpdate();
+                                
+                                System.out.printf("Le rectangle avec le nom " + obj.getNom()
+                                + " a bien été supprimé!\n");
+                            } catch (org.apache.derby.shared.common.error
+                                    .DerbySQLIntegrityConstraintViolationException e) {
+                                e.printStackTrace();
+                            }
+                        }  
+                    } catch (org.apache.derby.shared.common.error
+                            .DerbySQLIntegrityConstraintViolationException e) {
+                        e.printStackTrace();
+                    }
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
+                }
+            } 
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public Rectangle update(Rectangle obj) throws IOException, SQLException {
