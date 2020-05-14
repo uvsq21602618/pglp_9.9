@@ -15,11 +15,9 @@ import org.junit.Test;
 public class TestCercle {
     /**
      * Test de la fonction deplace de Cercle.
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testDeplace() throws NameAlreadyExistsException {
+    public void testDeplace() {
         Point p1 = new Point(15, 20);
         Cercle c = new Cercle("c1", p1, 5);
         c.deplace(5, -5);
@@ -34,11 +32,9 @@ public class TestCercle {
     }
     /**
      * Test de la fonction affichage dans Cercle.
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testAffichage() throws NameAlreadyExistsException {
+    public void testAffichage() {
         Point p1 = new Point(15, 20);
         Cercle c = new Cercle("c1", p1, 5);
         

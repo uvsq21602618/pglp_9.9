@@ -18,19 +18,12 @@ public class Rectangle extends Forme implements Dessin {
      * @param nom2 le nom du rectangle
      * @param p1 le point en haut a gauche
      * @param p2 le point en bas a droite
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
-    public Rectangle(final String nom2, final Point p1, final Point p2) throws NameAlreadyExistsException {
-        if (listeNoms.indexOf(nom2) == -1) {
-            listeNoms.add(nom2);
-            this.nom = nom2;
-            this.nomForme = "Rectangle";
-            this.hg = p1;
-            this.bd = p2;
-        } else {
-            throw new NameAlreadyExistsException("Ce nom existe dejà !");
-        }
+    public Rectangle(final String nom2, final Point p1, final Point p2) {
+        this.nom = nom2;
+        this.nomForme = "Rectangle";
+        this.hg = p1;
+        this.bd = p2;
     }
     /**
      * Methode pour deplacer le rectangle.

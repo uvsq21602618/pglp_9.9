@@ -10,10 +10,6 @@ import java.util.List;
  */
 public abstract class Forme {
     /**
-     * Liste des noms deja existants.
-     */
-    protected static ArrayList<String> listeNoms = new ArrayList<String>();
-    /**
      * Le nom de la forme dessinée.
      */
     protected String nom;

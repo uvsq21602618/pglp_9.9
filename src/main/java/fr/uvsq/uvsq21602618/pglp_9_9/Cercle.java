@@ -18,19 +18,12 @@ public class Cercle extends Forme implements Dessin {
      * @param nom2 le nom du cercle
      * @param p le centre du cercle
      * @param ray le rayon du cercle
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
-    public Cercle(final String nom2, final Point p, final int ray) throws NameAlreadyExistsException {
-        if (listeNoms.indexOf(nom2) == -1) {
-            listeNoms.add(nom2);   
-            this.nom = nom2;
-            this.nomForme = "Cercle";
-            this.centre = p;
-            this.rayon = ray;
-        } else {  
-            throw new NameAlreadyExistsException("Ce nom existe dejà !");
-        }
+    public Cercle(final String nom2, final Point p, final int ray) {  
+        this.nom = nom2;
+        this.nomForme = "Cercle";
+        this.centre = p;
+        this.rayon = ray;
     }
     /**
      * Methode pour deplacer le cercle.

@@ -14,11 +14,9 @@ import org.junit.Test;
 public class TestComposantDessin {
     /**
      * Test de la fonction affichage dans ComposantDessin.
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testAffichage() throws NameAlreadyExistsException {
+    public void testAffichage() {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
         Rectangle r = new Rectangle("r1", p1, p2);

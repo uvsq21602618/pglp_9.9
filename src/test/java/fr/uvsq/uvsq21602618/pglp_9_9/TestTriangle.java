@@ -15,11 +15,9 @@ import org.junit.Test;
 public class TestTriangle {
     /**
      * Test de la fonction deplace de Triangle.
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testDeplace() throws NameAlreadyExistsException {
+    public void testDeplace() {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(20, 30);
         Point p3 = new Point(10, 10);
@@ -38,11 +36,9 @@ public class TestTriangle {
     }
     /**
      * Test de la fonction affichage dans Triangle.
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     @Test
-    public void testAffichage() throws NameAlreadyExistsException {
+    public void testAffichage() {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(20, 30);
         Point p3 = new Point(10, 10);

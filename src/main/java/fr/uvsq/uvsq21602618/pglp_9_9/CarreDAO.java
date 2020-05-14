@@ -150,11 +150,6 @@ public class CarreDAO extends DAO<Carre>{
         }
     }
     @Override
-    public Carre update(Carre obj) throws IOException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    @Override
     public Carre find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
         // TODO Auto-generated method stub
         return null;
@@ -194,7 +189,7 @@ public class CarreDAO extends DAO<Carre>{
                         getConnect().prepareStatement(updateString)) {
                     update.setString(1, obj.getNom());
                     update.executeUpdate();
-                    
+
                     try(ResultSet rs2 = dbmd.getTables(null, null,
                             "formes".toUpperCase(), null)) {
                         if(rs2.next()) {
@@ -204,7 +199,7 @@ public class CarreDAO extends DAO<Carre>{
                                     getConnect().prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom());
                                 update2.executeUpdate();
-                                
+
                                 System.out.printf("Le carre avec le nom " + obj.getNom()
                                 + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
@@ -226,40 +221,46 @@ public class CarreDAO extends DAO<Carre>{
             e.printStackTrace();
         }
     }
+
+    /**
+     * Méthode de mise à jour.
+     * @param obj L'objet à mettre à jour
+     * @throws IOException Exceptions liees aux entrees/sorties
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @return obj L'objet à mettre à jour
+     */
+    @Override
+    public Carre update(final Carre obj)
+            throws SQLException, IOException {
+        
+        String updateString = "select * from formes where nom= ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, obj.getNom());
+            update.execute();
+            ResultSet res = update.getResultSet();
+            if (!res.next()) {
+                System.out.println("Ce nom n'a pas"
+                        + " encore été utilisé pour un carré,"
+                        + "il n'y a donc pas de mise a jour possible.");
+                this.create(obj);
+            } else {
+                this.delete(obj);
+                this.create(obj);
+                System.out.println("La mise à jour du carre "
+                        + obj.getNom()
+                        + " a été effectué!\n");
+            }
+            res.close();
+            update.close();
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
 }
 /**
- * Méthode de mise à jour.
- * @param obj L'objet à mettre à jour
- * @throws IOException Exceptions liees aux entrees/sorties
- * @throws SQLException Exception liee a l'acces a la base de donnees
- * @return obj L'objet à mettre à jour
- *
-    public GroupePersonnels update(final GroupePersonnels obj)
-            throws SQLException,
-            IOException {
-        try (Statement stmt = getConnect().createStatement()) {
-            try (ResultSet result = stmt.executeQuery("select *"
-                    + "from groupe_personnels where id="
-                    + obj.getId())) {
-                if (!result.next()) {
-                    System.out.println("Cet identifiant pour groupe n'a pas"
-                            + " encore été utilisé,"
-                            + "il n'y a donc pas de mise a jour possible.");
-                    this.create(obj);
-                } else {
-                    this.delete(obj);
-                    this.create(obj);
-                    System.out.println("La mise à jour du groupe d'id "
-                            + obj.getId()
-                            + " dans la table groupe_personnels"
-                            + " a été effectué!\n");
-                }
-                stmt.close();
-                return obj;
-            }
-        }
-    }
-    /**
  * Méthode de recherche des informations.
  * @param id de l'information
  * @return gp le GroupePersonnel du fichier, null sinon

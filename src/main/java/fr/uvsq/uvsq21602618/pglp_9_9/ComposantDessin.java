@@ -16,17 +16,10 @@ public class ComposantDessin extends Forme implements Dessin {
     /**
      * Constructeur de ComposantDessin.
      * @param nom2
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
-    public ComposantDessin(final String nom2) throws NameAlreadyExistsException {
-        if (listeNoms.indexOf(nom2) == -1) {
-            listeNoms.add(nom2);
-            this.nom = nom2;
-            this.nomForme = "Composant du dessin";
-        } else {
-            throw new NameAlreadyExistsException("Ce nom existe dejà !");
-        }
+    public ComposantDessin(final String nom2) {
+        this.nom = nom2;
+        this.nomForme = "Composant du dessin";
     }
     /**
      * Methode pour afficher les informations du composant.

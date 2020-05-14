@@ -17,11 +17,9 @@ public enum AppSingleton {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws ClassNotFoundException Exceptions liees a une classe inexistante
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     public void run() throws IOException,
-    SQLException, ClassNotFoundException, NameAlreadyExistsException {
+    SQLException, ClassNotFoundException {
         
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         Point p1 = new Point(15, 20);
@@ -62,6 +60,10 @@ public enum AppSingleton {
         TriangleDAO dao2 = new TriangleDAO();
         dao2.affichageTable();
         
+        Carre c3 = new Carre("c1", p2, 5);   
+        carreDAO.create(c);
+        carreDAO.update(c3);
+        
         
         
     }
@@ -71,11 +73,9 @@ public enum AppSingleton {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      * @throws IOException liee aux entreés/sorties
-     * @throws NameAlreadyExistsException Exception pour 
-     * quand le nom utilise en argument existe deja
      */
     public static void main(final String[] args) throws SQLException,
-    ClassNotFoundException, IOException, NameAlreadyExistsException {
+    ClassNotFoundException, IOException {
         ENVIRONNEMENT.run();
     }
 }
