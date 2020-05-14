@@ -55,23 +55,13 @@ public class DAOFactory {
         return new TriangleDAO();
     }
     /**
-     * Méthode pour récuperer le DAO de Point.
-     * @throws IOException Exceptions liees aux entrees/sorties
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     * @return le DAO correspondant
-     *
-    public DAO<Point> getPointDAO()
-            throws IOException, SQLException {
-        return new PointDAO();
-    }
-    /**
      * Méthode pour récuperer le DAO de ComposantDessin.
      * @throws IOException Exceptions liees aux entrees/sorties
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @return le DAO correspondant
-     *
+     */
     public DAO<ComposantDessin> getComposantDessinDAO()
             throws IOException, SQLException {
         return new ComposantDessinDAO();
-    }*/
+    }
 }

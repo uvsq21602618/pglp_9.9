@@ -1,6 +1,8 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 /**
  * Le composite derive de Forme.
  * @author Nathalie
@@ -75,5 +77,13 @@ public class ComposantDessin extends Forme implements Dessin {
     @Override
     public String getNom() {
         return this.nom;
+    }
+    /**
+     * Retourne une liste non modifiable de dessinFils.
+     * @return la liste de dessinFils
+     */
+    public List<Dessin> getDessinFils() {
+        List<Dessin> liste = Collections.unmodifiableList(this.dessinFils);
+        return liste;
     }
 }

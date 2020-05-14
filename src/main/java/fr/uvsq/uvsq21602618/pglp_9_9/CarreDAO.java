@@ -14,10 +14,6 @@ import java.sql.Statement;
  */
 public class CarreDAO extends DAO<Carre>{
     /**
-     * Le DAO de Carre.
-     */
-    private DAO<Carre> carreDAO;
-    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -32,7 +28,6 @@ public class CarreDAO extends DAO<Carre>{
      */
     public CarreDAO() throws SQLException, IOException {
         super();
-        carreDAO = new DAOFactory().getCarreDAO();
     }
     /**
      * Méthode de création.
@@ -45,63 +40,98 @@ public class CarreDAO extends DAO<Carre>{
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "carres".toUpperCase(), null);
-
+                "formes".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
-                creation.executeUpdate("Create table carres"
-                        + " (nom varchar(30) primary key, hg_x int not null,"
-                        + " hg_y int not null, longueur int not null)");
+                creation.executeUpdate("Create table formes"
+                        + " (nom varchar(30) primary key, type varchar(30))");
             }
             try {
-                String updateString = ("insert into carres values ("
-                        + "?, ?, ?, ? )");
+                String updateString = ("insert into formes values ("
+                        + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
                 update.setString(1, obj.getNom());
-                update.setInt(2, obj.getPointHG().getX());
-                update.setInt(TROIS, obj.getPointHG().getY());
-                update.setInt(QUATRE, obj.getLongueur());
+                update.setString(2, obj.getNomForme());
                 update.executeUpdate();
                 update.close();
-                rs = creation.executeQuery("SELECT * FROM carres");
+                rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table carres:---\n");
-                System.out.println("nom\t hg_x\t hg_y\t longueur");
+                System.out.println("---Table formes:---\n");
+                System.out.println("nom\t type");
                 while (rs.next()) {
-                    System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
-                            rs.getInt("hg_x"), rs.getInt("hg_y"),
-                            rs.getInt("longueur"));
+                    System.out.printf("%s\t%s%n", rs.getString("nom"),
+                            rs.getString("type"));
                 }
                 System.out.println("-----------------------"
                         + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré!\n");
+                + " a bien été enregistré dans formes!\n");
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja était utilisé!");
+                System.out.println("Ce nom a deja été utilisé dans formes!");
             }
-        return obj;
+            rs = dbmd.getTables(null, null,
+                    "carres".toUpperCase(), null);
+            try (Statement creation2 = getConnect().createStatement()) {
+                if (!rs.next()) {
+                    creation2.executeUpdate("Create table carres"
+                            + " (nom varchar(30) primary key, hg_x int not null,"
+                            + " hg_y int not null, longueur int not null, "
+                            + "foreign key (nom) references formes(nom))");
+                }
+                try {
+                    String updateString = ("insert into carres values ("
+                            + "?, ?, ?, ? )");
+                    PreparedStatement update =
+                            getConnect().prepareStatement(updateString);
+                    update.setString(1, obj.getNom());
+                    update.setInt(2, obj.getPointHG().getX());
+                    update.setInt(TROIS, obj.getPointHG().getY());
+                    update.setInt(QUATRE, obj.getLongueur());
+                    update.executeUpdate();
+                    update.close();
+                    rs = creation2.executeQuery("SELECT * FROM carres");
+    
+                    System.out.println("---Table carres:---\n");
+                    System.out.println("nom\t hg_x\t hg_y\t longueur");
+                    while (rs.next()) {
+                        System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
+                                rs.getInt("hg_x"), rs.getInt("hg_y"),
+                                rs.getInt("longueur"));
+                    }
+                    System.out.println("-----------------------"
+                            + "-----------------------\n");
+                    System.out.println("L'objet " + obj.getNom()
+                    + " a bien été enregistré dans carres!\n");
+                    rs.close();
+                    creation2.close();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    System.out.println("Ce nom a deja été utilisé dans carres!");
+                }
+            }
         }
+        return obj;
     }
     /**
-     * Methode pour afficher le contenu de la table cercles.
+     * Methode pour afficher le contenu de la table carres.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public void affichageTableNumero() throws SQLException {
+    public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
-                    "cercles".toUpperCase(),
+                    "carres".toUpperCase(),
                     null);
             if (rsEx.next()) {
                 try (Statement stmt = getConnect().createStatement()) {
                     try (ResultSet rs = stmt.executeQuery("SELECT *"
-                            + " FROM cercles")) {
+                            + " FROM carres")) {
                         System.out.println("---Table carres:---\n");
-                        System.out.println("nom\t centre_x\t centre_y\t rayon");
+                        System.out.println("nom\t hg_x\t hg_y\t longueur");
                         while (rs.next()) {
                             System.out.printf("%s\t%d\t%d\t%d%n", rs.getString("nom"),
                                     rs.getInt("hg_x"), rs.getInt("hg_y"),
@@ -113,7 +143,7 @@ public class CarreDAO extends DAO<Carre>{
                     }
                 }
             } else {
-                System.out.println("Il n'y a pas encore de cercles"
+                System.out.println("Il n'y a pas encore de carres"
                         + " dans la base de données!\n");
             }
         }

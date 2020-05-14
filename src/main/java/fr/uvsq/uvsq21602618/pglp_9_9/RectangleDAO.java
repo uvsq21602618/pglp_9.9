@@ -15,10 +15,6 @@ import java.sql.Statement;
  */
 public class RectangleDAO extends DAO<Rectangle>{
     /**
-     * Le DAO de Rectangle.
-     */
-    private DAO<Rectangle> rectangleDAO;
-    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -37,7 +33,6 @@ public class RectangleDAO extends DAO<Rectangle>{
      */
     public RectangleDAO() throws SQLException, IOException {
         super();
-        rectangleDAO = new DAOFactory().getRectangleDAO();
     }
     /**
      * Méthode de création.
@@ -50,52 +45,90 @@ public class RectangleDAO extends DAO<Rectangle>{
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "rectangles".toUpperCase(), null);
-
+                "formes".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
-                creation.executeUpdate("Create table rectangles"
-                        + " (nom varchar(30) primary key, hg_x int not null,"
-                        + " hg_y int not null, bd_x int not null, bd_y int not null)");
+                creation.executeUpdate("Create table formes"
+                        + " (nom varchar(30) primary key, type varchar(30))");
             }
             try {
-                String updateString = ("insert into rectangles values ("
-                        + "?, ?, ?, ?, ? )");
+                String updateString = ("insert into formes values ("
+                        + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
                 update.setString(1, obj.getNom());
-                update.setInt(2, obj.getPointHG().getX());
-                update.setInt(TROIS, obj.getPointHG().getY());
-                update.setInt(QUATRE, obj.getPointBD().getX());
-                update.setInt(CINQ, obj.getPointBD().getY());
+                update.setString(2, obj.getNomForme());
                 update.executeUpdate();
                 update.close();
-                rs = creation.executeQuery("SELECT * FROM rectangles");
+                rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table rectangles:---\n");
-                System.out.println("nom\t hg_x\t hg_y\t bd_x\t bd_y");
+                System.out.println("---Table formes:---\n");
+                System.out.println("nom\t type");
                 while (rs.next()) {
-                    System.out.printf("%s\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
-                            rs.getInt("hg_x"), rs.getInt("hg_y"),
-                            rs.getInt("bd_x"), rs.getInt("bd_y"));
+                    System.out.printf("%s\t%s%n", rs.getString("nom"),
+                            rs.getString("type"));
                 }
-                System.out.println("------------------------------------\n");
+                System.out.println("-----------------------"
+                        + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré!\n");
+                + " a bien été enregistré dans formes!\n");
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja était utilisé!");
+                System.out.println("Ce nom a deja été utilisé dans formes!");
             }
-        return obj;
+            
+            rs = dbmd.getTables(null, null,
+                    "rectangles".toUpperCase(), null);
+    
+            try (Statement creation2 = getConnect().createStatement()) {
+                if (!rs.next()) {
+                    creation2.executeUpdate("Create table rectangles"
+                            + " (nom varchar(30) primary key, hg_x int not null,"
+                            + " hg_y int not null, bd_x int not null,"
+                            + " bd_y int not null,"
+                            + " foreign key (nom) references formes(nom))");
+                }
+                try {
+                    String updateString = ("insert into rectangles values ("
+                            + "?, ?, ?, ?, ? )");
+                    PreparedStatement update =
+                            getConnect().prepareStatement(updateString);
+                    update.setString(1, obj.getNom());
+                    update.setInt(2, obj.getPointHG().getX());
+                    update.setInt(TROIS, obj.getPointHG().getY());
+                    update.setInt(QUATRE, obj.getPointBD().getX());
+                    update.setInt(CINQ, obj.getPointBD().getY());
+                    update.executeUpdate();
+                    update.close();
+                    rs = creation2.executeQuery("SELECT * FROM rectangles");
+    
+                    System.out.println("---Table rectangles:---\n");
+                    System.out.println("nom\t hg_x\t hg_y\t bd_x\t bd_y");
+                    while (rs.next()) {
+                        System.out.printf("%s\t%d\t%d\t%d\t%d%n", rs.getString("nom"),
+                                rs.getInt("hg_x"), rs.getInt("hg_y"),
+                                rs.getInt("bd_x"), rs.getInt("bd_y"));
+                    }
+                    System.out.println("------------------------------------\n");
+                    System.out.println("L'objet " + obj.getNom()
+                    + " a bien été enregistré!\n");
+                    rs.close();
+                    creation2.close();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    System.out.println("Ce nom a deja était utilisé!");
+                }
+            }
         }
+        return obj;
     }
     /**
-     * Methode pour afficher le contenu de la table carres.
+     * Methode pour afficher le contenu de la table rectangles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public void affichageTableNumero() throws SQLException {
+    public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,

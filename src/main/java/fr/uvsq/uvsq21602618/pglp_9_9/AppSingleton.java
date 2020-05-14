@@ -27,20 +27,30 @@ public enum AppSingleton {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
         Carre c = new Carre("c1", p1, 5);        
-        carreDAO.create(c);
+        //carreDAO.create(c);
         
         DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
         Cercle c2 = new Cercle("c2", p1, 5);
-        cercleDAO.create(c2);
+        //cercleDAO.create(c2);
+        
         
         DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
         Rectangle r = new Rectangle("r1", p1, p2);
-        rectangleDAO.create(r);
+        //rectangleDAO.create(r);
         
         DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
         Point p3 = new Point(10, 10);
         Triangle t = new Triangle("t1", p1, p2, p3);
-        triangleDAO.create(t);
+        //triangleDAO.create(t);
+        
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory().getComposantDessinDAO();
+        ComposantDessin dessin1 = new ComposantDessin("dessin1");
+        ComposantDessin dessin2 = new ComposantDessin("dessin2");
+        dessin1.ajoute(r);
+        dessin1.ajoute(c);
+        dessin2.ajoute(dessin1);
+        dessin2.ajoute(c2);
+        composantDessinDAO.create(dessin2);
     }
     /**
      * Main.

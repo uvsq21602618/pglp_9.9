@@ -15,10 +15,6 @@ import java.sql.Statement;
  */
 public class CercleDAO extends DAO<Cercle>{
     /**
-     * Le DAO de Cercle.
-     */
-    private DAO<Cercle> cercleDAO;
-    /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
     static final int TROIS = 3;
@@ -33,7 +29,6 @@ public class CercleDAO extends DAO<Cercle>{
      */
     public CercleDAO() throws SQLException, IOException {
         super();
-        cercleDAO = new DAOFactory().getCercleDAO();
     }
     /**
      * Méthode de création.
@@ -46,69 +41,105 @@ public class CercleDAO extends DAO<Cercle>{
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "cercles".toUpperCase(), null);
-
+                "formes".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
-                creation.executeUpdate("Create table cercles"
-                        + " (nom varchar(30) primary key, centre_x int not null,"
-                        + " centre_y int not null, rayon int not null)");
+                creation.executeUpdate("Create table formes"
+                        + " (nom varchar(30) primary key, type varchar(30))");
             }
             try {
-                String updateString = ("insert into cercles values ("
-                        + "?, ?, ?, ? )");
+                String updateString = ("insert into formes values ("
+                        + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
                 update.setString(1, obj.getNom());
-                update.setInt(2, obj.getCentre().getX());
-                update.setInt(TROIS, obj.getCentre().getY());
-                update.setInt(QUATRE, obj.getRayon());
+                update.setString(2, obj.getNomForme());
                 update.executeUpdate();
                 update.close();
-                rs = creation.executeQuery("SELECT * FROM cercles");
+                rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table cercles:---\n");
-                System.out.println("nom\t centre_x\t centre_y\t rayon");
+                System.out.println("---Table formes:---\n");
+                System.out.println("nom\t type");
                 while (rs.next()) {
-                    System.out.printf("%s\t\t%d\t\t%d\t\t%d%n", rs.getString("nom"),
-                            rs.getInt("centre_x"), rs.getInt("centre_y"),
-                            rs.getInt("rayon"));
+                    System.out.printf("%s\t%s%n", rs.getString("nom"),
+                            rs.getString("type"));
                 }
-                System.out.println("------------------------------------\n");
+                System.out.println("-----------------------"
+                        + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré!\n");
+                + " a bien été enregistré dans formes!\n");
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja était utilisé!");
+                System.out.println("Ce nom a deja été utilisé dans formes!");
             }
-        return obj;
+            rs = dbmd.getTables(null, null,
+                    "cercles".toUpperCase(), null);
+    
+            try (Statement creation2 = getConnect().createStatement()) {
+                if (!rs.next()) {
+                    creation2.executeUpdate("Create table cercles"
+                            + " (nom varchar(30) primary key, centre_x int not null,"
+                            + " centre_y int not null, rayon int not null, "
+                            + "foreign key (nom) references formes(nom))");
+                }
+                try {
+                    String updateString = ("insert into cercles values ("
+                            + "?, ?, ?, ? )");
+                    PreparedStatement update =
+                            getConnect().prepareStatement(updateString);
+                    update.setString(1, obj.getNom());
+                    update.setInt(2, obj.getCentre().getX());
+                    update.setInt(TROIS, obj.getCentre().getY());
+                    update.setInt(QUATRE, obj.getRayon());
+                    update.executeUpdate();
+                    update.close();
+                    rs = creation2.executeQuery("SELECT * FROM cercles");
+    
+                    System.out.println("---Table cercles:---\n");
+                    System.out.println("nom\t centre_x\t centre_y\t rayon");
+                    while (rs.next()) {
+                        System.out.printf("%s\t\t%d\t\t%d\t\t%d%n", rs.getString("nom"),
+                                rs.getInt("centre_x"), rs.getInt("centre_y"),
+                                rs.getInt("rayon"));
+                    }
+                    System.out.println("------------------------------------\n");
+                    System.out.println("L'objet " + obj.getNom()
+                    + " a bien été enregistré!\n");
+                    rs.close();
+                    creation2.close();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    System.out.println("Ce nom a deja été utilisé dans cercles!");
+                }
+            
+            }
         }
+        return obj;
     }
     /**
-     * Methode pour afficher le contenu de la table carres.
+     * Methode pour afficher le contenu de la table cercles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public void affichageTableNumero() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
-                    "carres".toUpperCase(),
+                    "cercles".toUpperCase(),
                     null);
             if (rsEx.next()) {
                 try (Statement stmt = getConnect().createStatement()) {
                     try (ResultSet rs = stmt.executeQuery("SELECT *"
-                            + " FROM carres")) {
-                        System.out.println("---Table carres:---\n");
-                        System.out.println("nom\t hg_x\t hg_y\t longueur");
+                            + " FROM cercles")) {
+                        System.out.println("---Table cercles:---\n");
+                        System.out.println("nom\t centre_x\t centre_y\t rayon");
                         while (rs.next()) {
-                            System.out.printf("%s\t\t\t%d\t%d\t%d%n", rs.getString("nom"),
-                                    rs.getInt("hg_x"), rs.getInt("hg_y"),
-                                    rs.getInt("longueur"));
+                            System.out.printf("%s\t\t%d\t\t%d\t\t%d%n", rs.getString("nom"),
+                                    rs.getInt("centre_x"), rs.getInt("centre_y"),
+                                    rs.getInt("rayon"));
                         }
-                        System.out.println("----------------------------"
-                                + "-------------------\n");
+                        System.out.println("------------------------------------\n");
                         rs.close();
                     }
                 }
