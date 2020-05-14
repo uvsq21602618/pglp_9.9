@@ -188,16 +188,82 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             }
         }
     }
+    /**
+     * Méthode pour effacer.
+     * @param obj L'objet à effacer
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
     @Override
-    public void delete(ComposantDessin obj) throws SQLException {
-        // TODO Auto-generated method stub
-        
+    public void delete(final ComposantDessin obj) throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null)) {
+            if (rs.next()) {
+                for (Dessin dessin : obj.getDessinFils()) {
+                    if (dessin instanceof Carre) {
+                        Carre c = (Carre) dessin;
+                        carreDAO.delete(c);
+                    } else if (dessin instanceof Cercle) {
+                        Cercle c = (Cercle) dessin;
+                        cercleDAO.delete(c);
+                    } else if (dessin instanceof Rectangle) {
+                        Rectangle r = (Rectangle) dessin;
+                        rectangleDAO.delete(r);
+                    } else if (dessin instanceof Triangle) {
+                        Triangle c = (Triangle) dessin;
+                        triangleDAO.delete(c);
+                    } else if (dessin instanceof ComposantDessin) {
+                        ComposantDessin cd = (ComposantDessin) dessin;
+                        this.delete(cd);
+                    }
+                }
+                System.out.printf("Le dessin avec le nom " + obj.getNom()
+                + " a bien été supprimé!\n");
+            }
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
     }
+    
+    /**
+     * Méthode de mise à jour.
+     * @param obj L'objet à mettre à jour
+     * @throws IOException Exceptions liees aux entrees/sorties
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @return obj L'objet à mettre à jour
+     */
     @Override
-    public ComposantDessin update(ComposantDessin obj) throws IOException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
+    public ComposantDessin update(ComposantDessin obj)
+            throws IOException, SQLException {
+       
+        String updateString = "select * from formes where nom= ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, obj.getNom());
+            update.execute();
+            ResultSet res = update.getResultSet();
+            if (!res.next()) {
+                System.out.println("Ce nom n'a pas"
+                        + " encore été utilisé pour un dessin,"
+                        + "il n'y a donc pas de mise a jour possible.");
+                this.create(obj);
+            } else {
+                this.delete(obj);
+                this.create(obj);
+                System.out.println("La mise à jour du dessin "
+                        + obj.getNom()
+                        + " a été effectué!\n");
+            }
+            res.close();
+            update.close();
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
+    
     @Override
     public ComposantDessin find(int id)
             throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {

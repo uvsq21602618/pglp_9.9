@@ -76,6 +76,11 @@ public enum AppSingleton {
         triangleDAO.create(t);
         triangleDAO.update(t2);
         
+        ComposantDessin dessin3 = new ComposantDessin("dessin2");
+        dessin3.ajoute(t);
+        composantDessinDAO.update(dessin3);
+        composantDessinDAO.delete(dessin2);
+        
         
         
     }
