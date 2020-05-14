@@ -63,18 +63,22 @@ public enum AppSingleton {
         Carre c3 = new Carre("c1", p2, 5);   
         carreDAO.create(c);
         carreDAO.update(c3);
+        carreDAO.find("c1");
         
         Cercle c4 = new Cercle("c2", p2, 5);
         cercleDAO.create(c2);
         cercleDAO.update(c4);
+        cercleDAO.find("c2");
         
         Rectangle r2 = new Rectangle("r1", p2, p3);
         rectangleDAO.create(r);
         rectangleDAO.update(r2);
+        rectangleDAO.find("r1");
         
         Triangle t2 = new Triangle("t1", p2, p1, p3);
         triangleDAO.create(t);
         triangleDAO.update(t2);
+        triangleDAO.find("t1");
         
         ComposantDessin dessin3 = new ComposantDessin("dessin2");
         dessin3.ajoute(t);

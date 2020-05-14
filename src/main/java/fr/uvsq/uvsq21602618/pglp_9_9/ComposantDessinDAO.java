@@ -263,9 +263,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
         }
         return obj;
     }
-    
     @Override
-    public ComposantDessin find(int id)
+    public ComposantDessin find(String nom)
             throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
         // TODO Auto-generated method stub
         return null;

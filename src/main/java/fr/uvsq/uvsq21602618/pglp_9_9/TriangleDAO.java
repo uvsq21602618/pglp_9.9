@@ -84,7 +84,7 @@ public class TriangleDAO extends DAO<Triangle> {
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja été utilisé dans formes!");
+                System.out.println("Ce nom a deja été utilisé dans formes!\n");
             }
             rs = dbmd.getTables(null, null,
                     "triangles".toUpperCase(), null);
@@ -130,14 +130,15 @@ public class TriangleDAO extends DAO<Triangle> {
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé!");
+                    System.out.println("Ce nom a deja été utilisé dans"
+                            + " triangles!\n");
                 }
             }
         }
         return obj;
     }
     /**
-     * Methode pour afficher le contenu de la table carres.
+     * Methode pour afficher le contenu de la table triangles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public void affichageTable() throws SQLException {
@@ -257,7 +258,7 @@ public class TriangleDAO extends DAO<Triangle> {
             if (!res.next()) {
                 System.out.println("Ce nom n'a pas"
                         + " encore été utilisé pour un triangle,"
-                        + "il n'y a donc pas de mise a jour possible.");
+                        + "il n'y a donc pas de mise a jour possible.\n");
                 this.create(obj);
             } else {
                 this.delete(obj);
@@ -274,10 +275,43 @@ public class TriangleDAO extends DAO<Triangle> {
         }
         return obj;
     }
-    
+    /**
+     * Méthode de recherche des informations.
+     * @param id de l'information
+     * @return gp le GroupePersonnel du fichier, null sinon
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @throws FileNotFoundException liee au fichier non trouve
+     * @throws IOException liee aux entreés/sorties
+     * @throws ClassNotFoundException Exception lié à une classe inexistante
+     */
     @Override
-    public Triangle find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
-        // TODO Auto-generated method stub
+    public Triangle find(final String nom) throws SQLException,
+    FileNotFoundException, ClassNotFoundException, IOException {
+        String updateString = "select * from triangles where nom = ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, nom);
+            update.execute();
+            ResultSet res = update.getResultSet();
+            
+            if (!res.next()) {
+                System.out.println("Il n'y a pas de triangle de nom "
+                        + nom + " dans la base de données!\n");
+                return null;
+            } else {
+                Point p = new Point(res.getInt("p1_x"), res.getInt("p1_y"));
+                Point p2 = new Point(res.getInt("p2_x"), res.getInt("p2_y"));
+                Point p3 = new Point(res.getInt("p3_x"), res.getInt("p3_y"));
+                Triangle t = new Triangle(nom, p, p2, p3);
+                System.out.println("Un triangle de nom "
+                        + nom + " a été trouvé dans la base de données!\n");
+                return t;
+            }
+
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

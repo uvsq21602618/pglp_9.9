@@ -61,7 +61,7 @@ public abstract class DAO<T> {
      * @throws ClassNotFoundException Exception si la classe n'existe pas
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public abstract T find(int id) throws FileNotFoundException,
+    public abstract T find(String nom) throws FileNotFoundException,
     ClassNotFoundException, IOException, SQLException;
     /**
      * Methode pour recuperer connect.

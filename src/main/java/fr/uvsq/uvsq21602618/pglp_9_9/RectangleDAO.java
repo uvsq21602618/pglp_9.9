@@ -76,7 +76,7 @@ public class RectangleDAO extends DAO<Rectangle>{
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja été utilisé dans formes!");
+                System.out.println("Ce nom a deja été utilisé dans formes!\n");
             }
             
             rs = dbmd.getTables(null, null,
@@ -118,7 +118,8 @@ public class RectangleDAO extends DAO<Rectangle>{
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja était utilisé!");
+                    System.out.println("Ce nom a deja était utilisé dans"
+                            + " rectangles!\n");
                 }
             }
         }
@@ -243,7 +244,7 @@ public class RectangleDAO extends DAO<Rectangle>{
             if (!res.next()) {
                 System.out.println("Ce nom n'a pas"
                         + " encore été utilisé pour un rectangle,"
-                        + "il n'y a donc pas de mise a jour possible.");
+                        + "il n'y a donc pas de mise a jour possible.\n");
                 this.create(obj);
             } else {
                 this.delete(obj);
@@ -261,9 +262,42 @@ public class RectangleDAO extends DAO<Rectangle>{
         return obj;
     }
     
+    /**
+     * Méthode de recherche des informations.
+     * @param id de l'information
+     * @return gp le GroupePersonnel du fichier, null sinon
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @throws FileNotFoundException liee au fichier non trouve
+     * @throws IOException liee aux entreés/sorties
+     * @throws ClassNotFoundException Exception lié à une classe inexistante
+     */
     @Override
-    public Rectangle find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
-        // TODO Auto-generated method stub
+    public Rectangle find(final String nom) throws SQLException,
+    FileNotFoundException, ClassNotFoundException, IOException {
+        String updateString = "select * from rectangles where nom = ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, nom);
+            update.execute();
+            ResultSet res = update.getResultSet();
+            
+            if (!res.next()) {
+                System.out.println("Il n'y a pas de rectangle de nom "
+                        + nom + " dans la base de données!\n");
+                return null;
+            } else {
+                Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));
+                Point p2 = new Point(res.getInt("bd_x"), res.getInt("bd_y"));
+                Rectangle r = new Rectangle(nom, p, p2);
+                System.out.println("Un rectangle de nom "
+                        + nom + " a été trouvé dans la base de données!\n");
+                return r;
+            }
+
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

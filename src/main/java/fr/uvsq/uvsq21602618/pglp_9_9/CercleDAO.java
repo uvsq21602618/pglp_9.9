@@ -72,7 +72,7 @@ public class CercleDAO extends DAO<Cercle>{
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja été utilisé dans formes!");
+                System.out.println("Ce nom a deja été utilisé dans formes!\n");
             }
             rs = dbmd.getTables(null, null,
                     "cercles".toUpperCase(), null);
@@ -111,7 +111,7 @@ public class CercleDAO extends DAO<Cercle>{
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé dans cercles!");
+                    System.out.println("Ce nom a deja été utilisé dans cercles!\n");
                 }
 
             }
@@ -234,7 +234,7 @@ public class CercleDAO extends DAO<Cercle>{
             if (!res.next()) {
                 System.out.println("Ce nom n'a pas"
                         + " encore été utilisé pour un cercle,"
-                        + "il n'y a donc pas de mise a jour possible.");
+                        + "il n'y a donc pas de mise a jour possible.\n");
                 this.create(obj);
             } else {
                 this.delete(obj);
@@ -252,9 +252,42 @@ public class CercleDAO extends DAO<Cercle>{
         return obj;
     }
     
+    /**
+     * Méthode de recherche des informations.
+     * @param id de l'information
+     * @return gp le GroupePersonnel du fichier, null sinon
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @throws FileNotFoundException liee au fichier non trouve
+     * @throws IOException liee aux entreés/sorties
+     * @throws ClassNotFoundException Exception lié à une classe inexistante
+     */
     @Override
-    public Cercle find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
-        // TODO Auto-generated method stub
+    public Cercle find(final String nom) throws SQLException,
+    FileNotFoundException, ClassNotFoundException, IOException {
+        String updateString = "select * from cercles where nom = ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, nom);
+            update.execute();
+            ResultSet res = update.getResultSet();
+            
+            if (!res.next()) {
+                System.out.println("Il n'y a pas de cercle de nom "
+                        + nom + " dans la base de données!\n");
+                return null;
+            } else {
+                Point p = new Point(res.getInt("centre_x"), res.getInt("centre_y"));
+                int r = res.getInt("rayon");
+                Cercle c = new Cercle(nom, p, r);
+                System.out.println("Un cercle de nom "
+                        + nom + " a été trouvé dans la base de données!\n");
+                return c;
+            }
+
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
