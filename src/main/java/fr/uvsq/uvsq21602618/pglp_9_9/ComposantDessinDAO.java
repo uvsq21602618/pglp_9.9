@@ -263,10 +263,63 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
         }
         return obj;
     }
+    
+    /**
+     * Méthode de recherche des informations.
+     * @param id de l'information
+     * @return gp le GroupePersonnel du fichier, null sinon
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @throws FileNotFoundException liee au fichier non trouve
+     * @throws IOException liee aux entreés/sorties
+     * @throws ClassNotFoundException Exception lié à une classe inexistante
+     */
     @Override
     public ComposantDessin find(String nom)
             throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
-        // TODO Auto-generated method stub
+        String updateString = "select * from composants_dessin where nom = ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, nom);
+            update.execute();
+            ResultSet res = update.getResultSet();
+            
+            if (!res.next()) {
+                System.out.println("Il n'y a pas de dessin de nom "
+                        + nom + " dans la base de données!\n");
+                return null;
+            } else {
+                ComposantDessin cd = new ComposantDessin(nom);
+                while (res.next()) {
+                   String type = res.getString("type_composant");
+                    if (type == "Carré") {
+                        Carre c = carreDAO.find(res.getString("nom_composant"));
+                        cd.ajoute(c);
+                    } else if (type == "Cercle") {
+                        Cercle c = cercleDAO.find(res.getString("nom_composant"));
+                        cd.ajoute(c);
+                    } else if (type == "Rectangle") {
+                        Rectangle r =
+                                rectangleDAO.find(res.getString("nom_composant"));
+                        cd.ajoute(r);
+                    } else if (type == "Triangle") {
+                        Triangle c =
+                                triangleDAO.find(res.getString("nom_composant"));
+                        triangleDAO.delete(c);
+                    } else if (type == "Composant du dessin") {
+                        ComposantDessin cd2 =
+                                this.find(res.getString("nom_composant"));
+                        cd.ajoute(cd2);
+                    }
+                }
+                System.out.println("Un dessin de nom "
+                        + nom + " a été trouvé dans la base de données!\n");
+                return cd;
+            }
+
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

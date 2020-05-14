@@ -82,7 +82,8 @@ public enum AppSingleton {
         
         ComposantDessin dessin3 = new ComposantDessin("dessin2");
         dessin3.ajoute(t);
-        composantDessinDAO.update(dessin3);
+        //composantDessinDAO.update(dessin3);
+        composantDessinDAO.find("dessin2");
         composantDessinDAO.delete(dessin2);
         
         
