@@ -210,8 +210,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         Rectangle r = (Rectangle) dessin;
                         rectangleDAO.delete(r);
                     } else if (dessin instanceof Triangle) {
-                        Triangle c = (Triangle) dessin;
-                        triangleDAO.delete(c);
+                        Triangle t = (Triangle) dessin;
+                        triangleDAO.delete(t);
                     } else if (dessin instanceof ComposantDessin) {
                         ComposantDessin cd = (ComposantDessin) dessin;
                         this.delete(cd);

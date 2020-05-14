@@ -26,6 +26,44 @@ public class Cercle extends Forme implements Dessin {
         this.rayon = ray;
     }
     /**
+     * Methode de hachage.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((centre == null) ? 0 : centre.hashCode());
+        result = prime * result + rayon;
+        return result;
+    }
+    /**
+     * Methode de comparaison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Cercle other = (Cercle) obj;
+        if (centre == null) {
+            if (other.centre != null) {
+                return false;
+            }
+        } else if (!centre.equals(other.centre)) {
+            return false;
+        }
+        if (rayon != other.rayon) {
+            return false;
+        }
+        return true;
+    }
+    /**
      * Methode pour deplacer le cercle.
      * @param valx la valeur a ajouter au x d'un point
      * @param valy la valeur a ajouter au y d'un point

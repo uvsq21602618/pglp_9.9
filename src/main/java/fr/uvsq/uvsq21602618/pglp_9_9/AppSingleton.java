@@ -20,7 +20,9 @@ public enum AppSingleton {
      */
     public void run() throws IOException,
     SQLException, ClassNotFoundException {
-        
+        /*
+         * Gerer le deplacement de figures utilisant les memes points.
+         */
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
@@ -84,10 +86,7 @@ public enum AppSingleton {
         dessin3.ajoute(t);
         //composantDessinDAO.update(dessin3);
         composantDessinDAO.find("dessin2");
-        composantDessinDAO.delete(dessin2);
-        
-        
-        
+        composantDessinDAO.delete(dessin2);   
     }
     /**
      * Main.

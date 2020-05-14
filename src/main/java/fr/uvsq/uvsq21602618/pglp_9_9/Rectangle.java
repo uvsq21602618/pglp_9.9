@@ -26,6 +26,48 @@ public class Rectangle extends Forme implements Dessin {
         this.bd = p2;
     }
     /**
+     * Methode de hachage.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((bd == null) ? 0 : bd.hashCode());
+        result = prime * result + ((hg == null) ? 0 : hg.hashCode());
+        return result;
+    }
+    /**
+     * Methode de comparaison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Rectangle other = (Rectangle) obj;
+        if (bd == null) {
+            if (other.bd != null) {
+                return false;
+            }
+        } else if (!bd.equals(other.bd)) {
+            return false;
+        }
+        if (hg == null) {
+            if (other.hg != null) {
+                return false;
+            }
+        } else if (!hg.equals(other.hg)) {
+            return false;
+        }
+        return true;
+    }
+    /**
      * Methode pour deplacer le rectangle.
      * @param valx la valeur a ajouter au x d'un point
      * @param valy la valeur a ajouter au y d'un point

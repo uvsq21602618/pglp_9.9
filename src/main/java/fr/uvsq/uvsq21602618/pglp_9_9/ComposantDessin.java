@@ -52,8 +52,57 @@ public class ComposantDessin extends Forme implements Dessin {
     @Override
     public void deplace(final int valx, final int valy) {
         for (Dessin dessin : dessinFils) {
-            ((ComposantDessin) dessin).deplace(valx, valy);
+            if (dessin instanceof Carre) {
+                Carre c = (Carre) dessin;
+                c.deplace(valx, valy);
+            } else if (dessin instanceof Cercle) {
+                Cercle c = (Cercle) dessin;
+                c.deplace(valx, valy);
+            } else if (dessin instanceof Rectangle) {
+                Rectangle r = (Rectangle) dessin;
+                r.deplace(valx, valy);
+            } else if (dessin instanceof Triangle) {
+                Triangle t = (Triangle) dessin;
+                t.deplace(valx, valy);
+            } else if (dessin instanceof ComposantDessin) {
+                ComposantDessin cd = (ComposantDessin) dessin;
+                cd.deplace(valx, valy);
+            }
         }
+    }
+    /**
+     * Fonction de hachage.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dessinFils == null) ? 0 : dessinFils.hashCode());
+        return result;
+    }
+    /**
+     * Methode de comparaison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ComposantDessin other = (ComposantDessin) obj;
+        if (dessinFils == null) {
+            if (other.dessinFils != null) {
+                return false;
+            }
+        } else if (!dessinFils.equals(other.dessinFils)) {
+            return false;
+        }
+        return true;
     }
     /**
      * Retourne le type du composant.

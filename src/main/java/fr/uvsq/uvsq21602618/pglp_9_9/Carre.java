@@ -72,4 +72,42 @@ public class Carre extends Forme implements Dessin {
                 + "), " + this.longueur + ")\n";
         System.out.println(s);       
     }
+    /**
+     * Methode de hachage.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((hg == null) ? 0 : hg.hashCode());
+        result = prime * result + longueur;
+        return result;
+    }
+    /**
+     * Methode de comparaison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Carre other = (Carre) obj;
+        if (hg == null) {
+            if (other.hg != null) {
+                return false;
+            }
+        } else if (!hg.equals(other.hg)) {
+            return false;
+        }
+        if (longueur != other.longueur) {
+            return false;
+        }
+        return true;
+    }
 }
