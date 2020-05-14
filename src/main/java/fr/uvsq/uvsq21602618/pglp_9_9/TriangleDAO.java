@@ -237,11 +237,44 @@ public class TriangleDAO extends DAO<Triangle> {
             e.printStackTrace();
         }
     }
+    /**
+     * Méthode de mise à jour.
+     * @param obj L'objet à mettre à jour
+     * @throws IOException Exceptions liees aux entrees/sorties
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     * @return obj L'objet à mettre à jour
+     */
     @Override
-    public Triangle update(Triangle obj) throws IOException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
+    public Triangle update(final Triangle obj)
+            throws SQLException, IOException {
+        
+        String updateString = "select * from formes where nom= ?";
+        try (PreparedStatement update =
+                getConnect().prepareStatement(updateString)) {
+            update.setString(1, obj.getNom());
+            update.execute();
+            ResultSet res = update.getResultSet();
+            if (!res.next()) {
+                System.out.println("Ce nom n'a pas"
+                        + " encore été utilisé pour un triangle,"
+                        + "il n'y a donc pas de mise a jour possible.");
+                this.create(obj);
+            } else {
+                this.delete(obj);
+                this.create(obj);
+                System.out.println("La mise à jour du triangle "
+                        + obj.getNom()
+                        + " a été effectué!\n");
+            }
+            res.close();
+            update.close();
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
+    
     @Override
     public Triangle find(int id) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
         // TODO Auto-generated method stub

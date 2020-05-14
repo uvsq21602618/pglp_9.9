@@ -64,6 +64,18 @@ public enum AppSingleton {
         carreDAO.create(c);
         carreDAO.update(c3);
         
+        Cercle c4 = new Cercle("c2", p2, 5);
+        cercleDAO.create(c2);
+        cercleDAO.update(c4);
+        
+        Rectangle r2 = new Rectangle("r1", p2, p3);
+        rectangleDAO.create(r);
+        rectangleDAO.update(r2);
+        
+        Triangle t2 = new Triangle("t1", p2, p1, p3);
+        triangleDAO.create(t);
+        triangleDAO.update(t2);
+        
         
         
     }

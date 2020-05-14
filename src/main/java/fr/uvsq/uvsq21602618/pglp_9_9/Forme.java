@@ -1,8 +1,5 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Super classe pour les formes dessinables.
  * @author Nathalie
