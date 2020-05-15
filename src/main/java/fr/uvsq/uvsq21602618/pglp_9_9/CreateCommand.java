@@ -26,16 +26,22 @@ public class CreateCommand implements Command {
      */
     @Override
     public void execute() {
-        if (this.creation.contains("carre")) {
-            this.forme = createCarre();       
-        } else if (this.creation.contains("cercle")) {
-            this.forme = createCercle();
-        } else if (this.creation.contains("rectangle")) {
-            this.forme = createRectangle();
-        } else if (this.creation.contains("triangle")) {
-            this.forme = createTriangle();
-        } else {
-            this.forme = createComposantDessin();
+        try {
+            if (this.creation.contains("carre")) {
+                this.forme = createCarre();       
+            } else if (this.creation.contains("cercle")) {
+                this.forme = createCercle();
+            } else if (this.creation.contains("rectangle")) {
+                this.forme = createRectangle();
+            } else if (this.creation.contains("triangle")) {
+                this.forme = createTriangle();
+            } else {
+                this.forme = createComposantDessin();
+            }
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("La commande de creation est incorrecte!\n");
+        } catch(NumberFormatException e) {
+            System.out.println("La commande de creation est incorrecte!\n");
         }
     }
     /**
