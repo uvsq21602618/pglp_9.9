@@ -22,7 +22,7 @@ public enum AppSingleton {
     SQLException, ClassNotFoundException {
         /*
          * Gerer le deplacement de figures utilisant les memes points.
-         */
+         *
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
@@ -87,6 +87,27 @@ public enum AppSingleton {
         //composantDessinDAO.update(dessin3);
         composantDessinDAO.find("dessin2");
         composantDessinDAO.delete(dessin2);   
+        */
+        
+        String str = "c1 = Carre((2, 3), 5)";
+        Command com = new CreateCommand(str.toLowerCase());
+        com.execute();
+        
+        String str2 = "c2 = Cercle((2, 3), 5)";
+        Command com2 = new CreateCommand(str2.toLowerCase());
+        com2.execute();
+        
+        String str3 = "r1 = Rectangle((5, 5), (3, 3))";
+        Command com3 = new CreateCommand(str3.toLowerCase());
+        com3.execute();
+        
+        String str4 = "t1 = triangle((5, 5), (3, 3), (2,2))";
+        Command com4 = new CreateCommand(str4);
+        com4.execute();
+        
+        String str5 = "dessin = composantdessin";
+        Command com5 = new CreateCommand(str5);
+        com5.execute();
     }
     /**
      * Main.

@@ -3,8 +3,6 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import fr.uvsq21602618.Commande;
-
 /**
  * Classe qui se charge des interactions avec l'utilisateur.
  * @author Nathalie
@@ -47,7 +45,12 @@ Elle proposera également une méthode permettant d'afficher un dessin.
         Command com = null;
         
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
-        
+            String ligne = scanner.next().toLowerCase();
+            if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
+                    || (ligne.contains("carre")) || (ligne.contains("triangle"))
+                            || (ligne.contains("dessin"))) {
+                        com = new CreateCommand(ligne);
+                    }
         }
         
         return com;
