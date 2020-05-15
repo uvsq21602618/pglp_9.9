@@ -224,7 +224,8 @@ public class TriangleDAO extends DAO<Triangle> {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                    getConnect().prepareStatement(updateString)) {
+                                    getConnect()
+                                    .prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom());
                                 update2.executeUpdate();
 
@@ -232,7 +233,7 @@ public class TriangleDAO extends DAO<Triangle> {
                                         + obj.getNom()
                                         + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
-                                    .DerbySQLIntegrityConstraintViolationException e) {
+                             .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
                         }
