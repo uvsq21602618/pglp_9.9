@@ -13,6 +13,10 @@ public class DeleteCommand implements Command {
      */
     private List<Forme> formes;
     /**
+     * La liste des noms des formes dessinees.
+     */
+    private List<String> noms;
+    /**
      * Nom de la forme a supprimer.
      */
     private String nom;
@@ -25,10 +29,12 @@ public class DeleteCommand implements Command {
      * @param ligne la commande de l'utilisateur
      * @param liste la liste des formes dessinees
      */
-    public DeleteCommand(final String ligne, final List<Forme> liste) {
+    public DeleteCommand(final String ligne, final List<Forme> liste,
+            final List<String> listeNoms) {
         this.suppression = ligne;
         recuperation();
         this.formes = liste;
+        this.noms = listeNoms;
     }
     /**
      * Execution de la commande de suppression.
@@ -41,6 +47,7 @@ public class DeleteCommand implements Command {
                 System.out.println("Suppression du " + f.getNomForme()
                 + " " + f.getNom() + "!");
                 this.formes.remove(f);
+                this.noms.remove(f.getNom());
                 flag = true;
             }
         }

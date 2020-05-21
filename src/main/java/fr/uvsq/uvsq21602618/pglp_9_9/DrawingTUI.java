@@ -34,12 +34,17 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      */
     private LinkedList<Forme> formes;
     /**
+     * Liste des noms utilisés pour les dessins.
+     */
+    private LinkedList<String> noms;
+    /**
      * Le constructeur de la classe.
      */
     public DrawingTUI() {
         this.commandes = new HashMap<String, Command>();
         this.scanner = new Scanner(System.in, "UTF-8");
         this.formes = new LinkedList<Forme>();
+        this.noms = new LinkedList<String>();
     }
     /**
      * Méthode qui analysera le texte saisi
@@ -62,10 +67,11 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                 CreateCommand create = (CreateCommand) com;
                 if (verification(create.getForme())) {
                     this.formes.add(create.getForme());
+                    this.noms.add(create.getForme().getNom());
                     return com;
                 }
             } else if (ligne.contains("delete")) {
-                com = new DeleteCommand(ligne, this.formes);
+                com = new DeleteCommand(ligne, this.formes, this.noms);
                 return com;
             } else if (ligne.contains("put")) {
                 com = new PutCommand(ligne, this.formes);
@@ -81,8 +87,8 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      * @return true si le nom est disponible, false sinon
      */
     public boolean verification(final Forme forme) {
-        for (Forme f : this.formes) {
-            if (f.getNom().equals(forme.getNom())) {
+        for (String s : this.noms) {
+            if (s.equals(forme.getNom())) {
                 System.out.println("Ce nom a deja ete utilise!");
                 return false;
             }

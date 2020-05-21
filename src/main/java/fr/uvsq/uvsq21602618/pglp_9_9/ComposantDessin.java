@@ -129,4 +129,16 @@ public class ComposantDessin extends Forme implements Dessin {
         List<Dessin> liste = Collections.unmodifiableList(this.dessinFils);
         return liste;
     }
+    /**
+     * Retourne la liste de dessins sous forme de Formes.
+     * @return liste de formes
+     */
+    public ArrayList<Forme> getDessinFilsFormes() {
+        ArrayList<Forme> formes = new ArrayList<Forme>();
+        for (Dessin d : this.dessinFils) {
+            Forme f = (Forme) d;
+            formes.add(f);
+        }
+        return formes;
+    }
 }

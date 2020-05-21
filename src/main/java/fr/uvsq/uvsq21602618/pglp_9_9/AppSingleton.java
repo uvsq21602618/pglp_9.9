@@ -2,6 +2,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  * Singleton contenant le main.
@@ -88,7 +89,7 @@ public enum AppSingleton {
         composantDessinDAO.find("dessin2");
         composantDessinDAO.delete(dessin2);   
         */
-        
+       /* 
         String str = "c1 = Carre((2, 3), 5)";
         Command com = new CreateCommand(str.toLowerCase());
         com.execute();
@@ -108,8 +109,27 @@ public enum AppSingleton {
         
         String str5 = "dessin = composantdessin";
         Command com5 = new CreateCommand(str5);
-        com5.execute();
-    }
+        com5.execute();*/
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
+        
+        String str = "c1 = Carre((2, 3), 5)";
+        CreateCommand com = new CreateCommand(str.toLowerCase());
+        com.execute();
+        Forme f = com.getForme();
+        formes.add(f);
+        noms.add(f.getNom());
+
+        str = "t1 = triangle((5, 5), (3, 3), (2,2))";
+        com = new CreateCommand(str.toLowerCase());
+        com.execute();
+        Forme f2 = com.getForme();
+        Triangle t1 = (Triangle) f2;
+
+        str = "put(t1, c1)";
+        PutCommand put = new PutCommand(str.toLowerCase(), formes);
+        put.execute();
+    } 
     /**
      * Main.
      * @param args pour le main

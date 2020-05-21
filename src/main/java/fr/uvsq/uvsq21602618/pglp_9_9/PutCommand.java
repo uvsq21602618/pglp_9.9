@@ -8,7 +8,7 @@ import java.util.List;
  * @author Nathalie
  *
  */
-public class PutCommand implements Command{
+public class PutCommand implements Command {
     /**
      * La liste des formes dessinees.
      */
@@ -40,48 +40,67 @@ public class PutCommand implements Command{
      */
     @Override
     public void execute() {
-        for (Forme f: this.formes) {
-            if (f.getNom().trim().equals(compose)) {
-                for (Forme f2: this.formes) {
-                    if (f2.getNom().trim().equals(composant)) {
-                        if(f instanceof ComposantDessin) {
-                            ComposantDessin cd = (ComposantDessin) f;
-                            Dessin d = (Dessin) f2;
-                            cd.ajoute(d);
+        int flag = 0;
+        flag = ajouteComposant(this.formes, flag);
 
-                            formes.remove(f2);
-                            System.out.println("Le composé " + compose
-                                    + " a été ajouté dans le composant "
-                                    + composant + "!");
-                        } else {
-                            System.out.println("Le compose indique ne peut pas"
-                                    + "contenir de composants!");
-                        }
-                    } else {
-                        System.out.println("Le composant indiqué n'a pas encore"
-                                + " été dessiné!");
-                    }
-                }
-
-
-            } else {
-                System.out.println("Le composé indiqué n'a pas encore"
-                        + " été dessiné!");
-            }
-        }    
+        if (flag == 0) {
+            System.out.println("Il semble que le composé : " + compose
+                    + " n'a pas encore été dessiné!");
+        } else if (flag == 1) {
+            System.out.println("Le composant indiqué: " + composant
+                    + " n'a pas encore"
+                    + " été dessiné!");
+        }
     }
     /**
      * Recupere le nom du compose auquel on veut ajouter un composant.
      * @param nom1 le compose
      * @param nom2 le composant
      */
-    public void recuperation(String nom1, String nom2) {
+    private void recuperation(final String nom1, final String nom2) {
         String str = this.put;
-        str.replaceAll("put\\(", "");
-        str.replaceAll("\\)", "");
+        str = str.replaceAll("put\\(", "");
+        str = str.replaceAll("\\)", "");
         String[] tab = str.split(",");
 
         this.compose = tab[0].trim();
         this.composant = tab[1].trim();
+    }
+    /**
+     * Methode pour ajouter un composant dans le compose d'une liste
+     *  en argument.
+     *  @param liste de formes
+     *  @param flag vaut 1 si le compose est trouvé, vaut 2 si le
+     *  composant est trouve.
+     *  @return le flag
+     */
+    private int ajouteComposant(final List<Forme> liste, int flag) {
+        for (Forme f: liste) {
+            if (f.getNom().trim().equals(compose)) {
+                flag = 1;
+                for (Forme f2: liste) {
+                    if (f2.getNom().trim().equals(composant)) {
+                        flag = 2;
+                        if (f instanceof ComposantDessin) {
+                            ComposantDessin cd = (ComposantDessin) f;
+                            Dessin d = (Dessin) f2;
+                            cd.ajoute(d);
+                            ajouteComposant(cd.getDessinFilsFormes(),
+                                    flag);
+
+                            formes.remove(f2);
+                            System.out.println("Le composant " + composant
+                                    + " a été ajouté dans le composé "
+                                    + compose + "!");
+                        } else {
+                            System.out.println("Le composé indiqué: " + compose
+                                    + " ne peut pas "
+                                    + "contenir de composants!");
+                        }
+                    }
+                }
+            }
+        }
+        return flag;
     }
 }
