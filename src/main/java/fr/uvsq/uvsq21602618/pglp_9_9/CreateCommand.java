@@ -15,10 +15,22 @@ public class CreateCommand implements Command {
      */
     private String creation;
     /**
+     * initialisation de la constante 3 pour eviter le "magic number".
+     */
+    static final int TROIS = 3;
+    /**
+     * initialisation de la constante 4 pour eviter le "magic number".
+     */
+    static final int QUATRE = 4;
+    /**
+     * initialisation de la constante 5 pour eviter le "magic number".
+     */
+    static final int CINQ = 5;
+    /**
      * Constructeur de CreateCommand.
      * @param ligne la commande de l'utilisateur
      */
-    public CreateCommand(String ligne) {
+    public CreateCommand(final String ligne) {
         this.creation = ligne;
     }
     /**
@@ -28,7 +40,7 @@ public class CreateCommand implements Command {
     public void execute() {
         try {
             if (this.creation.contains("carre")) {
-                this.forme = createCarre();       
+                this.forme = createCarre();
             } else if (this.creation.contains("cercle")) {
                 this.forme = createCercle();
             } else if (this.creation.contains("rectangle")) {
@@ -38,17 +50,16 @@ public class CreateCommand implements Command {
             } else {
                 this.forme = createComposantDessin();
             }
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("La commande de creation est incorrecte!\n");
-        } catch(NumberFormatException e) {
-            System.out.println("La commande de creation est incorrecte!\n");
+        } catch (NumberFormatException e) {
+            System.out.println("La commande de creation est incorrecte!!\n");
         }
     }
     /**
      * Methode pour creer une instance de Carre a partir d'une ligne
      * de l'utilisateur.
-     * @param str ligne tapee par l'utilisateur
-     * @return un carre 
+     * @return un carre
      */
     private Carre createCarre() {
         String[] tab = this.creation.split(" = ");
@@ -58,7 +69,7 @@ public class CreateCommand implements Command {
         String x = tab2[0].trim();
         x = x.replaceAll("carre\\(\\(", "");
         String y = tab2[1].trim();
-        y = y.replaceAll("\\)","");
+        y = y.replaceAll("\\)", "");
         String l = tab2[2].trim();
         l = l.replaceAll("\\)", "");
 
@@ -70,8 +81,7 @@ public class CreateCommand implements Command {
     /**
      * Methode pour creer une instance de Cercle a partir d'une ligne
      * de l'utilisateur.
-     * @param str ligne tapee par l'utilisateur
-     * @return un cercle 
+     * @return un cercle
      */
     private Cercle createCercle() {
         String[] tab = this.creation.split(" = ");
@@ -81,7 +91,7 @@ public class CreateCommand implements Command {
         String x = tab2[0].trim();
         x = x.replaceAll("cercle\\(\\(", "");
         String y = tab2[1].trim();
-        y = y.replaceAll("\\)","");
+        y = y.replaceAll("\\)", "");
         String r = tab2[2].trim();
         r = r.replaceAll("\\)", "");
 
@@ -93,7 +103,6 @@ public class CreateCommand implements Command {
     /**
      * Methode pour creer une instance de Rectangle a partir d'une ligne
      * de l'utilisateur.
-     * @param str ligne tapee par l'utilisateur
      * @return un rectangle
      */
     private Rectangle createRectangle() {
@@ -104,10 +113,10 @@ public class CreateCommand implements Command {
         String x = tab2[0].trim();
         x = x.replaceAll("rectangle\\(\\(", "");
         String y = tab2[1].trim();
-        y = y.replaceAll("\\)","");
+        y = y.replaceAll("\\)", "");
         String x2 = tab2[2].trim();
         x2 = x2.replaceAll("\\(", "");
-        String y2 = tab2[3].trim();
+        String y2 = tab2[TROIS].trim();
         y2 = y2.replaceAll("\\)\\)", "");
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
@@ -119,7 +128,6 @@ public class CreateCommand implements Command {
     /**
      * Methode pour creer une instance de Triangle a partir d'une ligne
      * de l'utilisateur.
-     * @param str ligne tapee par l'utilisateur
      * @return un triangle
      */
     private Triangle createTriangle() {
@@ -130,14 +138,14 @@ public class CreateCommand implements Command {
         String x = tab2[0].trim();
         x = x.replaceAll("triangle\\(\\(", "");
         String y = tab2[1].trim();
-        y = y.replaceAll("\\)","");
+        y = y.replaceAll("\\)", "");
         String x2 = tab2[2].trim();
         x2 = x2.replaceAll("\\(", "");
-        String y2 = tab2[3].trim();
+        String y2 = tab2[TROIS].trim();
         y2 = y2.replaceAll("\\)", "");
-        String x3 = tab2[4].trim();
+        String x3 = tab2[QUATRE].trim();
         x3 = x3.replaceAll("\\(", "");
-        String y3 = tab2[5].trim();
+        String y3 = tab2[CINQ].trim();
         y3 = y3.replaceAll("\\)\\)", "");
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
@@ -150,7 +158,6 @@ public class CreateCommand implements Command {
     /**
      * Methode pour creer une instance de ComposantDessin a partir d'une ligne
      * de l'utilisateur.
-     * @param str ligne tapee par l'utilisateur
      * @return un composant du dessin
      */
     private ComposantDessin createComposantDessin() {
@@ -162,8 +169,8 @@ public class CreateCommand implements Command {
         return cd;
     }
     /**
-     * Retourne la forme créé par la commande.
-     * @return
+     * Retourne la forme creee par la commande.
+     * @return la forme creee
      */
     public Forme getForme() {
         return this.forme;

@@ -117,13 +117,13 @@ public class TestCreateCommand {
      */
     @Test
     public void testMauvaisesFormes() {
-        String str = "c = CercleCarre((5, 3))";
+        String str = "c2 = CarreCercle((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase());
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         
         com.execute();
-        String expected = "La commande de creation est incorrecte!";
+        String expected = "La commande de creation est incorrecte!!";
         assertEquals(expected, outContent.toString().trim());
     }
 }

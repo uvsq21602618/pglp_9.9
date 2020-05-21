@@ -1,9 +1,7 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -12,15 +10,15 @@ import java.util.Scanner;
  *
  */
 public class DrawingTUI {
-/*
- * Cette classe fournira une méthode `nextCommand` qui analysera le texte saisi
- *  par l’utilisateur et retournera un objet implémentant l’interface Commande (cf. question suivante).
+    /*
+     * Cette classe fournira une méthode `nextCommand` qui analysera le texte saisi
+     *  par l’utilisateur et retournera un objet implémentant l’interface Commande (cf. question suivante).
 Elle proposera également une méthode permettant d'afficher un dessin.
 1. Les commandes seront implémentées à l’aide du modèle de conception _Commande_.
    1. créer l’interface `Command` comportant la méthode `execute`,
    1. créer une classe implémentant cette interface pour chaque action.
 1. Réaliser la classe principale `DrawingApp`.
- */  
+     */
     /**
      * La table de hachage qui associe une chaine
      * de caractere a une commande.
@@ -43,27 +41,30 @@ Elle proposera également une méthode permettant d'afficher un dessin.
     }
     /**
      * Méthode qui analysera le texte saisi
-     * par l’utilisateur et retournera un objet implémentant l’interface Commande.
+     * par l’utilisateur et retournera un objet implémentant l’interface
+     *  Commande.
      * @param nom de la commande
      * @param commande l'instance
+     * @return la commande à faire
      */
     public Command nextCommand(final String nom,
             final Command commande) {
         Command com = null;
-        
+
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
             String ligne = scanner.next().toLowerCase();
             if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
                     || (ligne.contains("carre")) || (ligne.contains("triangle"))
-                            || (ligne.contains("dessin"))) {
-                        com = new CreateCommand(ligne);
-                        CreateCommand create = (CreateCommand) com;
-                        if(verification(create.getForme())) {
-                            this.formes.add(create.getForme());
-                        }
-                    }
+                    || (ligne.contains("dessin"))) {
+                com = new CreateCommand(ligne);
+                CreateCommand create = (CreateCommand) com;
+                if (verification(create.getForme())) {
+                    this.formes.add(create.getForme());
+                    return com;
+                }
+            }
         }
-        
+
         return com;
     }
     /**
@@ -71,14 +72,14 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      * @param forme qui va être creee
      * @return true si le nom est disponible, false sinon
      */
-    public boolean verification(Forme forme) {
-        for(Forme f : this.formes) {
-            if(f.getNom().equals(forme.getNom())) {
+    public boolean verification(final Forme forme) {
+        for (Forme f : this.formes) {
+            if (f.getNom().equals(forme.getNom())) {
                 System.out.println("Ce nom a deja ete utilise!");
                 return false;
             }
         }
         return true;
     }
-    
+
 }
