@@ -42,13 +42,13 @@ public class ShowCommand implements Command {
             flag = true;
         } else {
             for (Forme f : formes) {
-                if(f.getNom().equals(nom)) {
+                if (f.getNom().equals(nom)) {
                     f.affiche();
                     flag = true;
                 }
             }
         }
-        if(!flag) {
+        if (!flag) {
             System.out.println("Le nom indiqué ne correspond a aucun dessin!");
         }
     }
