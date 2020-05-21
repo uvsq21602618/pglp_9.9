@@ -7,7 +7,7 @@ import java.util.List;
  * @author Nathalie
  *
  */
-public class MoveCommand implements Command{
+public class MoveCommand implements Command {
     /**
      * La ligne de commande.
      */
@@ -45,22 +45,27 @@ public class MoveCommand implements Command{
             if (!flag) {
                 System.out.println("Le dessin a deplace n'a pas ete trouve!");
             } else {
-                System.out.println("Le composant " + this.nom 
-                        + " a ete deplace de (" + this.deplacement.getX() 
-                        + ", " + this.deplacement.getY() +")!");
+                System.out.println("Le composant " + this.nom
+                        + " a ete deplace de (" + this.deplacement.getX()
+                        + ", " + this.deplacement.getY() + ")!");
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("La commande n'a pas été saisie correctement!");
         }
     }
-    
+    /**
+     * Methode pour deplacer une forme dans une liste donnee.
+     * @param liste ou se situe le composant a deplacer
+     * @param flag vaut vrai si un composant correspond, false sinon
+     * @return flag
+     */
     private boolean deplace(final List<Forme> liste, boolean flag) {
         for (Forme f: liste) {
-            if(f.getNom().equals(this.nom)) {
+            if (f.getNom().equals(this.nom)) {
                 flag = true;
                 f.deplace(this.deplacement.getX(),
                         this.deplacement.getY());
-                if(f instanceof ComposantDessin) {
+                if (f instanceof ComposantDessin) {
                     ComposantDessin cd = (ComposantDessin) f;
                     deplace(cd.getDessinFilsFormes(), flag);
                 }
@@ -76,13 +81,13 @@ public class MoveCommand implements Command{
         str = str.replaceAll("move\\(", "");
         str = str.trim();
         String[] tab = str.split(",");
-        
+
         String x = tab[1];
         x = x.replaceAll("\\(", "").trim();
         String y = tab[2];
         y = y.replaceAll("\\)\\)", "").trim();
         this.deplacement = new Point(Integer.parseInt(x), Integer.parseInt(y));
         this.nom = tab[0].trim();
-        
+
     }
 }
