@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import org.junit.Test;
 
 /**
- * Classe de tests pour la classe MoveCommand
+ * Classe de tests pour la classe MoveCommand.
  * @author Nathalie
  *
  */
@@ -37,8 +37,7 @@ public class TestMoveCommand {
         str = "put(dessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
-        
-        //str = "move(dessin)";
+
         str = "move(dessin, (2, 2))";
         MoveCommand move = new MoveCommand(str.toLowerCase(), formes);
         move.execute();

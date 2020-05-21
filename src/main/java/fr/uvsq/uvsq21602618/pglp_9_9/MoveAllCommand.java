@@ -3,23 +3,19 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 import java.util.List;
 
 /**
- * Classe pour la commande les deplacements du dessin.
+ * Classe pour la commande le deplacement de tout le dessin en cours.
  * @author Nathalie
  *
  */
-public class MoveCommand implements Command {
+public class MoveAllCommand implements Command {
     /**
      * La ligne de commande.
      */
-    private String move;
+    private String moveAll;
     /**
      * La liste des formes dessinees.
      */
     private List<Forme> formes;
-    /**
-     * Nom de la forme a deplacer.
-     */
-    private String nom;
     /**
      * Les valeurs a deplacer pour le dessin.
      */
@@ -29,8 +25,8 @@ public class MoveCommand implements Command {
      * @param ligne la commande de l'utilisateur
      * @param liste la liste des formes dessinees
      */
-    public MoveCommand(final String ligne, final List<Forme> liste) {
-        this.move = ligne;
+    public MoveAllCommand(final String ligne, final List<Forme> liste) {
+        this.moveAll = ligne;
         this.formes = liste;
     }
     /**
@@ -38,14 +34,13 @@ public class MoveCommand implements Command {
      */
     @Override
     public void execute() {
-        boolean flag = false;
         try {
             recuperation();
-            flag = deplace(this.formes, flag);
-            if (!flag) {
-                System.out.println("Le dessin a deplace n'a pas ete trouve!");
+            deplace(this.formes);
+            if (this.formes.isEmpty()) {
+                System.out.println("Il n'y a rien n'a déplacer!");
             } else {
-                System.out.println("Le composant " + this.nom
+                System.out.println("Tout le dessin"
                         + " a ete deplace de (" + this.deplacement.getX()
                         + ", " + this.deplacement.getY() + ")!");
             }
@@ -59,34 +54,32 @@ public class MoveCommand implements Command {
      * @param flag vaut vrai si un composant correspond, false sinon
      * @return flag
      */
-    private boolean deplace(final List<Forme> liste, boolean flag) {
+    private void deplace(final List<Forme> liste) {
+        
         for (Forme f: liste) {
-            if (f.getNom().equals(this.nom)) {
-                flag = true;
-                f.deplace(this.deplacement.getX(),
-                        this.deplacement.getY());
-                /*if (f instanceof ComposantDessin) {
-                    ComposantDessin cd = (ComposantDessin) f;
-                    deplace(cd.getDessinFilsFormes(), flag);
-                }*/
-            }
+            f.deplace(this.deplacement.getX(),
+                    this.deplacement.getY());
         }
-        return flag;
     }
     /**
-     * Fonction pour recuperer le nom de la forme ou du dessin a deplacer.
+     * Fonction pour recuperer les valeurs du deplacement.
      */
     private void recuperation() {
-        String str = this.move;
-        str = str.replaceAll("move\\(", "");
+        String str = this.moveAll;
+        str = str.replaceAll("moveall\\(", "");
         str = str.trim();
         String[] tab = str.split(",");
 
-        String x = tab[1];
+        String x = tab[0];
         x = x.replaceAll("\\(", "").trim();
-        String y = tab[2];
-        y = y.replaceAll("\\)\\)", "").trim();
+        String y = tab[1];
+        y = y.replaceAll("\\)", "").trim();
+        if(tab[2].trim()!= "") {
+            tab[2] = tab[2].replaceAll("\\)", "");
+            System.out.println("L'argument en trop \'" + tab[2] 
+                    + "\' a été retiré!");
+        }
+        
         this.deplacement = new Point(Integer.parseInt(x), Integer.parseInt(y));
-        this.nom = tab[0].trim();
     }
 }

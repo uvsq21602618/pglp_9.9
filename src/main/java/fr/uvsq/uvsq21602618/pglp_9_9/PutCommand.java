@@ -75,6 +75,7 @@ public class PutCommand implements Command {
      *  @return le flag
      */
     private int ajouteComposant(final List<Forme> liste, int flag) {
+        Forme remove = null;
         for (Forme f: liste) {
             if (f.getNom().trim().equals(compose)) {
                 flag = 1;
@@ -87,8 +88,7 @@ public class PutCommand implements Command {
                             cd.ajoute(d);
                             ajouteComposant(cd.getDessinFilsFormes(),
                                     flag);
-
-                            formes.remove(f2);
+                            remove = f2;
                             System.out.println("Le composant " + composant
                                     + " a été ajouté dans le composé "
                                     + compose + "!");
@@ -100,6 +100,9 @@ public class PutCommand implements Command {
                     }
                 }
             }
+        }
+        if (remove != null) {
+            formes.remove(remove);
         }
         return flag;
     }
