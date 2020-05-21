@@ -110,25 +110,27 @@ public enum AppSingleton {
         String str5 = "dessin = composantdessin";
         Command com5 = new CreateCommand(str5);
         com5.execute();*/
-        LinkedList<Forme> formes = new LinkedList<Forme>();
-        LinkedList<String> noms = new LinkedList<String>();
+LinkedList<Forme> formes = new LinkedList<Forme>();
         
         String str = "c1 = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f = com.getForme();
         formes.add(f);
-        noms.add(f.getNom());
 
-        str = "t1 = triangle((5, 5), (3, 3), (2,2))";
+        str = "dessin = composantdessin";
         com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f2 = com.getForme();
-        Triangle t1 = (Triangle) f2;
-
-        str = "put(t1, c1)";
+        formes.add(f2);
+        
+        str = "put(dessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
+        
+        str = "move(dessin)";
+        MoveCommand move = new MoveCommand(str.toLowerCase(), formes);
+        move.execute();
     } 
     /**
      * Main.
