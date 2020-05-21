@@ -51,11 +51,9 @@ public class MoveAllCommand implements Command {
     /**
      * Methode pour deplacer une forme dans une liste donnee.
      * @param liste ou se situe le composant a deplacer
-     * @param flag vaut vrai si un composant correspond, false sinon
-     * @return flag
      */
     private void deplace(final List<Forme> liste) {
-        
+
         for (Forme f: liste) {
             f.deplace(this.deplacement.getX(),
                     this.deplacement.getY());
@@ -74,12 +72,12 @@ public class MoveAllCommand implements Command {
         x = x.replaceAll("\\(", "").trim();
         String y = tab[1];
         y = y.replaceAll("\\)", "").trim();
-        if(tab[2].trim()!= "") {
+        if (tab[2].trim() != "") {
             tab[2] = tab[2].replaceAll("\\)", "");
-            System.out.println("L'argument en trop \'" + tab[2] 
+            System.out.println("L'argument en trop \'" + tab[2]
                     + "\' a été retiré!");
         }
-        
+
         this.deplacement = new Point(Integer.parseInt(x), Integer.parseInt(y));
     }
 }
