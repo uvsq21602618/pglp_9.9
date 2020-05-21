@@ -77,7 +77,7 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                 com = new PutCommand(ligne, this.formes);
                 return com;
             } else if (ligne.contains("move")) {
-                if(ligne.contains("moveall")) {
+                if (ligne.contains("moveall")) {
                     com = new MoveCommand(ligne, this.formes);
                     return com;
                 } else {
@@ -85,7 +85,11 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                     return com;
                 }
             } else if (ligne.contains("show")) {
-                com = new MoveCommand(ligne, this.formes);
+                if (ligne.contains("showall")) {
+                    com = new ShowAllCommand(this.formes);
+                    return com;
+                }
+                com = new ShowCommand(ligne, this.formes);
                 return com;
             }
         }
