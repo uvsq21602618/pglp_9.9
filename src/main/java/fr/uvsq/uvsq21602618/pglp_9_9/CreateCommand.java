@@ -161,5 +161,12 @@ public class CreateCommand implements Command {
         cd.affiche();
         return cd;
     }
+    /**
+     * Retourne la forme créé par la commande.
+     * @return
+     */
+    public Forme getForme() {
+        return this.forme;
+    }
 
 }

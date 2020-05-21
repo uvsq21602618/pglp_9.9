@@ -92,6 +92,7 @@ public enum AppSingleton {
         String str = "c1 = Carre((2, 3), 5)";
         Command com = new CreateCommand(str.toLowerCase());
         com.execute();
+
         
         String str2 = "c2 = Cercle((2, 3), 5)";
         Command com2 = new CreateCommand(str2.toLowerCase());

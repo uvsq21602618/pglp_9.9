@@ -1,6 +1,9 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,6 +31,10 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      */
     private Scanner scanner;
     /**
+     * Liste des formes dessinées.
+     */
+    private LinkedList<Forme> formes;
+    /**
      * Le constructeur de la classe.
      */
     public DrawingTUI() {
@@ -36,7 +43,7 @@ Elle proposera également une méthode permettant d'afficher un dessin.
     }
     /**
      * Méthode qui analysera le texte saisi
-     * par l’utilisateur et retournera un objet implémentant l’interface Commande
+     * par l’utilisateur et retournera un objet implémentant l’interface Commande.
      * @param nom de la commande
      * @param commande l'instance
      */
@@ -50,10 +57,28 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                     || (ligne.contains("carre")) || (ligne.contains("triangle"))
                             || (ligne.contains("dessin"))) {
                         com = new CreateCommand(ligne);
+                        CreateCommand create = (CreateCommand) com;
+                        if(verification(create.getForme())) {
+                            this.formes.add(create.getForme());
+                        }
                     }
         }
         
         return com;
+    }
+    /**
+     * Fonction pour verifier si le nom a deja ete utilise.
+     * @param forme qui va être creee
+     * @return true si le nom est disponible, false sinon
+     */
+    public boolean verification(Forme forme) {
+        for(Forme f : this.formes) {
+            if(f.getNom().equals(forme.getNom())) {
+                System.out.println("Ce nom a deja ete utilise!");
+                return false;
+            }
+        }
+        return true;
     }
     
 }
