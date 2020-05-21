@@ -138,17 +138,26 @@ public enum AppSingleton {
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
 
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        String expected = "dessin = Composant du dessin";
-        String expected2 = "c1 = Carré((2, 3), 5)";
+        str = "moveAll(2, 2)";
+        MoveAllCommand moveAll = new MoveAllCommand(str.toLowerCase(), formes);
+        moveAll.execute();
+/*
+        ComposantDessin cd = (ComposantDessin) formes.get(0);
+        Triangle t1 = (Triangle) formes.get(1);        
+        Point p = new Point(4, 5);
+        Carre c1 = new Carre("c1", p, 5);
+        ComposantDessin exp = new ComposantDessin("dessin");
+        exp.ajoute(c1);
 
-        str = "show(dessin)";
-        ShowCommand show = new ShowCommand(str.toLowerCase(), formes);
-        show.execute();
-
-        assertEquals(expected, outContent.toString().split(":")[0]);
-        assertEquals(expected2, outContent.toString().split(":")[1].trim());
+        Point p1 = new Point(7, 7);
+        Point p2 = new Point(5, 5);
+        Point p3 = new Point(4, 4);
+        Triangle exp2 = new Triangle("t1", p1, p2, p3);
+        
+        for (Forme f4 : formes ) {
+            f4.affiche();
+        }*/
+       
     } 
     /**
      * Main.

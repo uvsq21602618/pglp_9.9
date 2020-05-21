@@ -46,14 +46,16 @@ public class TestShowCommand {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String expected = "dessin = Composant du dessin";
-        String expected2 = "c1 = Carré((2, 3), 5)";
+        String expected2 = "\r\n" + 
+                "c1 = Carré((2, 3), 5)";
 
         str = "show(dessin)";
         ShowCommand show = new ShowCommand(str.toLowerCase(), formes);
         show.execute();
-
-        assertEquals(expected, outContent.toString().split(":")[0]);
-        assertEquals(expected2, outContent.toString().split(":")[1].trim());
+        
+        String ligne = outContent.toString().replace("-", "").trim();
+        assertEquals(expected, ligne.split(":")[0]);
+        assertEquals(expected2, ligne.split(":")[1]);
     }
     /**
      * Test de la fonction execute quand la liste est vide.

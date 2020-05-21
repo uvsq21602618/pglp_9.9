@@ -72,12 +72,11 @@ public class MoveAllCommand implements Command {
         x = x.replaceAll("\\(", "").trim();
         String y = tab[1];
         y = y.replaceAll("\\)", "").trim();
-        if (tab[2].trim() != "") {
+        if (tab.length > 2) {
             tab[2] = tab[2].replaceAll("\\)", "");
             System.out.println("L'argument en trop \'" + tab[2]
                     + "\' a été retiré!");
         }
-
         this.deplacement = new Point(Integer.parseInt(x), Integer.parseInt(y));
     }
 }

@@ -62,11 +62,11 @@ public class TestComposantDessin {
 
         String expected = "cd1 = Composant du dessin:";
         String[] actual = outContent.toString().split("\n");
-        assertEquals(expected, actual[0]);
+        assertEquals(expected, actual[0].trim());
         expected = "r1 = Rectangle((15, 20), (25, 10))";
-        assertEquals(expected, actual[2]);
+        assertEquals(expected, actual[1].trim());
         expected = "c1 = Cercle((15, 20), 5)";
-        assertEquals(expected, actual[4]);
+        assertEquals(expected, actual[3].trim());
     } 
     
 }

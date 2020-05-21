@@ -60,9 +60,13 @@ public class TestMoveAllCommand {
         Point p2 = new Point(5, 5);
         Point p3 = new Point(4, 4);
         Triangle exp2 = new Triangle("t1", p1, p2, p3);
-
-        assertEquals(exp, cd);
+        
+        for (Forme f4 : formes ) {
+            f4.affiche();
+        }
+        
         assertEquals(exp2, t1);
+        assertEquals(exp, cd);
     }
     /**
      * Test de la fonction execute quand il n'y a rien a deplacer.
