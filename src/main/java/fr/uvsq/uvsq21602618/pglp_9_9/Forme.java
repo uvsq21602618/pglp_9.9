@@ -30,4 +30,8 @@ public abstract class Forme {
      * @return le nom de la forme
      */
     public abstract String getNom();
+    /**
+     * Methode pour afficher les informations d'une forme.
+     */
+    public abstract void affiche();
 }

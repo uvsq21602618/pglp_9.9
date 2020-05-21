@@ -108,6 +108,7 @@ public class Rectangle extends Forme implements Dessin {
     /**
      * Affiche les informations du rectangle.
      */
+    @Override
     public void affiche() {
         String s = this.nom + " = " + this.nomForme
                 + "((" + this.hg.getX() + ", " + this.hg.getY()

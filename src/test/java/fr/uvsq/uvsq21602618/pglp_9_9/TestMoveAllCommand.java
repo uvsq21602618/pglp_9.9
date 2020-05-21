@@ -18,7 +18,7 @@ public class TestMoveAllCommand {
     /**
      * Test de la fonction execute. On verifie le deplacement du composant
      * indique en argument.
-     *
+     */
     @Test
     public void testExecute() {
         LinkedList<Forme> formes = new LinkedList<Forme>();
@@ -66,7 +66,7 @@ public class TestMoveAllCommand {
     }
     /**
      * Test de la fonction execute quand il n'y a rien a deplacer.
-     *
+     */
     @Test
     public void testExecuteVide() {
         LinkedList<Forme> formes = new LinkedList<Forme>();

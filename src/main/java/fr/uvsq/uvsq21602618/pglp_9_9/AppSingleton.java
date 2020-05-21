@@ -1,6 +1,10 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
@@ -134,9 +138,17 @@ public enum AppSingleton {
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
 
-        str = "moveAll(2,3)";
-        MoveAllCommand moveAll = new MoveAllCommand(str.toLowerCase(), formes);
-        moveAll.execute();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        String expected = "dessin = Composant du dessin";
+        String expected2 = "c1 = Carré((2, 3), 5)";
+
+        str = "show(dessin)";
+        ShowCommand show = new ShowCommand(str.toLowerCase(), formes);
+        show.execute();
+
+        assertEquals(expected, outContent.toString().split(":")[0]);
+        assertEquals(expected2, outContent.toString().split(":")[1].trim());
     } 
     /**
      * Main.

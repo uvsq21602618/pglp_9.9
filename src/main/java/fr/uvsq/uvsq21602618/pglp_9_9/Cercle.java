@@ -105,6 +105,7 @@ public class Cercle extends Forme implements Dessin {
     /**
      * Affiche les informations du cercle.
      */
+    @Override
     public void affiche() {
         String s = this.nom + " = " + this.nomForme
                 + "((" + this.centre.getX() + ", " + this.centre.getY()

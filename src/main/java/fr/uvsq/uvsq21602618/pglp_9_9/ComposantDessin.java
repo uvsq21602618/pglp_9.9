@@ -24,6 +24,7 @@ public class ComposantDessin extends Forme implements Dessin {
     /**
      * Methode pour afficher les informations du composant.
      */
+    @Override
     public void affiche() {
         System.out.println(this.nom + " = " + this.nomForme + ":\n");
         for (Dessin dessin : dessinFils) {

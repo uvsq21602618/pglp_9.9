@@ -83,6 +83,7 @@ public class Triangle extends Forme implements Dessin {
     /**
      * Affiche les informations du triangle.
      */
+    @Override
     public void affiche() {
         String s = this.nom + " = " + this.nomForme
                 + "((" + this.p1.getX() + ", " + this.p1.getY()

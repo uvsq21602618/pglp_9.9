@@ -65,10 +65,6 @@ public class MoveCommand implements Command {
                 flag = true;
                 f.deplace(this.deplacement.getX(),
                         this.deplacement.getY());
-                /*if (f instanceof ComposantDessin) {
-                    ComposantDessin cd = (ComposantDessin) f;
-                    deplace(cd.getDessinFilsFormes(), flag);
-                }*/
             }
         }
         return flag;

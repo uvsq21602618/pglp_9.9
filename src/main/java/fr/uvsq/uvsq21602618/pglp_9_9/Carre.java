@@ -66,6 +66,7 @@ public class Carre extends Forme implements Dessin {
     /**
      * Affiche les informations du carre.
      */
+    @Override
     public void affiche() {
         String s = this.nom + " = " + this.nomForme
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
