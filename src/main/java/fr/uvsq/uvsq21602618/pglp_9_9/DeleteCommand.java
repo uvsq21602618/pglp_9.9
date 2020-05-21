@@ -23,6 +23,7 @@ public class DeleteCommand implements Command {
     /**
      * Constructeur de DeleteCommand.
      * @param ligne la commande de l'utilisateur
+     * @param liste la liste des formes dessinees
      */
     public DeleteCommand(final String ligne, final List<Forme> liste) {
         this.suppression = ligne;
@@ -37,7 +38,7 @@ public class DeleteCommand implements Command {
         boolean flag = false;
         for (Forme f: this.formes) {
             if (f.getNom().trim().equals(nom)) {
-                System.out.println("Suppression du " + f.getNomForme() 
+                System.out.println("Suppression du " + f.getNomForme()
                 + " " + f.getNom() + "!");
                 this.formes.remove(f);
                 flag = true;

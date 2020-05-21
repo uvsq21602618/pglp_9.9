@@ -67,6 +67,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
             } else if (ligne.contains("delete")) {
                 com = new DeleteCommand(ligne, this.formes);
                 return com;
+            } else if (ligne.contains("put")) {
+                com = new PutCommand(ligne, this.formes);
+                return com;
             }
         }
 
