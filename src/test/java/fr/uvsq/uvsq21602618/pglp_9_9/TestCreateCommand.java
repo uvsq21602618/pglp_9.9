@@ -6,9 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import org.junit.Test;
-
-
-
 /**
  * Classe de tests pour la classe CreateCommand
  * @author Nathalie

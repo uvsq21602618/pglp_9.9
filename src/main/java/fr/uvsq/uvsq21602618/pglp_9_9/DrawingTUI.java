@@ -1,5 +1,6 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -38,6 +39,7 @@ Elle proposera également une méthode permettant d'afficher un dessin.
     public DrawingTUI() {
         this.commandes = new HashMap<String, Command>();
         this.scanner = new Scanner(System.in, "UTF-8");
+        this.formes = new LinkedList<Forme>();
     }
     /**
      * Méthode qui analysera le texte saisi
@@ -62,6 +64,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                     this.formes.add(create.getForme());
                     return com;
                 }
+            } else if (ligne.contains("delete")) {
+                com = new DeleteCommand(ligne, this.formes);
+                return com;
             }
         }
 
@@ -81,5 +86,4 @@ Elle proposera également une méthode permettant d'afficher un dessin.
         }
         return true;
     }
-
 }

@@ -4,7 +4,6 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
  * @author Nathalie
  *
  */
-
 public class CreateCommand implements Command {
     /**
      * La forme a dessiner.
