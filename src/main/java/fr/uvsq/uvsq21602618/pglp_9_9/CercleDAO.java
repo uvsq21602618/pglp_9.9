@@ -278,6 +278,14 @@ public class CercleDAO extends DAO<Cercle> {
     @Override
     public Cercle find(final String nom) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,
+                "cercles".toUpperCase(), null);
+        try (Statement creation = getConnect().createStatement()) {
+            if (!rs.next()) {
+                return null;
+            } 
+        }
         String updateString = "select * from cercles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

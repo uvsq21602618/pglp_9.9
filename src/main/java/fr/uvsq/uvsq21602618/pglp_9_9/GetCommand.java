@@ -56,22 +56,38 @@ public class GetCommand implements Command {
                 DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
                 DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
 
-                if (composantDessinDAO.find(this.nom) != null) {
-                    Forme f = (Forme) composantDessinDAO.find(this.nom);
+                Object obj = null;
+                obj = composantDessinDAO.find(this.nom);
+
+                if (obj != null) {
+                    Forme f = (Forme) obj;
                     formes.add(f);
-                } else if (carreDAO.find(this.nom) != null) {
-                    Forme f = (Forme) carreDAO.find(this.nom);
-                    formes.add(f);
-                } else if (cercleDAO.find(this.nom) != null) {
-                    Forme f = (Forme) cercleDAO.find(this.nom);
-                    formes.add(f);
-                } else if (rectangleDAO.find(this.nom) != null) {
-                    Forme f = (Forme) rectangleDAO.find(this.nom);
-                    formes.add(f);
-                } else if (triangleDAO.find(this.nom) != null) {
-                    Forme f = (Forme) triangleDAO.find(this.nom);
-                    formes.add(f);
+                } else {
+                    obj = carreDAO.find(this.nom) ;
+                    if (obj != null) {
+                        Forme f = (Forme) obj;
+                        formes.add(f);
+                    } else {
+                        obj = cercleDAO.find(this.nom);
+                        if (obj != null) {
+                            Forme f = (Forme) obj;
+                            formes.add(f);
+                        } else {
+                            obj = rectangleDAO.find(this.nom);
+                            if (obj != null) {
+                                Forme f = (Forme) obj;
+                                formes.add(f);
+                            } else {
+                                obj = triangleDAO.find(this.nom);
+                                if (obj != null) {
+                                    Forme f = (Forme) obj;
+                                    formes.add(f);
+                                }
+                            }
+                        }
+                    }
                 }
+                composantDessinDAO.affichageTable();
                 System.out.println("Le dessin: " + this.nom + " a été"
                         + " récupéré!");
             }

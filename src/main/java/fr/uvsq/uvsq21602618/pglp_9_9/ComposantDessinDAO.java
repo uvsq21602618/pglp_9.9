@@ -314,38 +314,39 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
-
-            if (!res.next()) {
+            boolean flag = res.next();
+            if (!flag) {
                 System.out.println("Il n'y a pas de dessin de nom "
                         + nom + " dans la base de données!\n");
                 return null;
             } else {
                 ComposantDessin cd = new ComposantDessin(nom);
-                while (res.next()) {
+                while (flag) {
                     String type = res.getString("type_composant");
-                    if (type == "Carré") {
+                    if (type.equals("Carré")) {
                         Carre c = carreDAO.
                                 find(res.getString("nom_composant"));
                         cd.ajoute(c);
-                    } else if (type == "Cercle") {
+                    } else if (type.equals("Cercle")) {
                         Cercle c = cercleDAO.
                                 find(res.getString("nom_composant"));
                         cd.ajoute(c);
-                    } else if (type == "Rectangle") {
+                    } else if (type.contentEquals("Rectangle")) {
                         Rectangle r =
                                 rectangleDAO.
                                 find(res.getString("nom_composant"));
                         cd.ajoute(r);
-                    } else if (type == "Triangle") {
+                    } else if (type.equals("Triangle")) {
                         Triangle c =
                                 triangleDAO.
                                 find(res.getString("nom_composant"));
-                        triangleDAO.delete(c);
-                    } else if (type == "Composant du dessin") {
+                        cd.ajoute(c);
+                    } else if (type.equals("Composant du dessin")) {
                         ComposantDessin cd2 =
                                 this.find(res.getString("nom_composant"));
                         cd.ajoute(cd2);
                     }
+                    flag = res.next();
                 }
                 System.out.println("Un dessin de nom "
                         + nom + " a été trouvé dans la base de données!\n");

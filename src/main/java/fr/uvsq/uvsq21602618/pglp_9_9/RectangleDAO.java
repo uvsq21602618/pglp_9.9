@@ -290,6 +290,14 @@ public class RectangleDAO extends DAO<Rectangle> {
     @Override
     public Rectangle find(final String nom) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,
+                "rectangles".toUpperCase(), null);
+        try (Statement creation = getConnect().createStatement()) {
+            if (!rs.next()) {
+                return null;
+            } 
+        }
         String updateString = "select * from rectangles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

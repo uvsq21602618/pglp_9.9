@@ -302,6 +302,14 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle find(final String nom) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,
+                "triangles".toUpperCase(), null);
+        try (Statement creation = getConnect().createStatement()) {
+            if (!rs.next()) {
+                return null;
+            } 
+        }
         String updateString = "select * from triangles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
