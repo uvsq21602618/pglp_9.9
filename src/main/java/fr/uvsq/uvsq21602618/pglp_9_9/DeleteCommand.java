@@ -28,7 +28,7 @@ public class DeleteCommand implements Command {
      * Constructeur de DeleteCommand.
      * @param ligne la commande de l'utilisateur
      * @param liste la liste des formes dessinees
-     * @param liste de la liste des noms deja utilise pour un dessin ou une
+     * @param listeNoms de la liste des noms deja utilise pour un dessin ou une
      * forme.
      */
     public DeleteCommand(final String ligne, final List<Forme> liste,

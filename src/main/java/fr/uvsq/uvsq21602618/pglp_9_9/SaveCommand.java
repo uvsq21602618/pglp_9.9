@@ -40,8 +40,10 @@ public class SaveCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     @Override
-    public void execute() throws IOException, SQLException, ClassNotFoundException {
-        DAO<ComposantDessin> composantDessinDAO = new DAOFactory().getComposantDessinDAO();
+    public void execute() throws IOException, SQLException,
+    ClassNotFoundException {
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                .getComposantDessinDAO();
         recuperation();
         if (this.nom == null) {
             System.out.println("Il faut indiquer un nom pour le dessin que l'on"
@@ -52,7 +54,7 @@ public class SaveCommand implements Command {
                 Dessin d = (Dessin) f;
                 dessin.ajoute(d);
             }
-            
+
             if (composantDessinDAO.find(this.nom) != null) {
                 System.out.println("Le nom: " + this.nom + " est deja utilise "
                         + "dans la base de donnees!");
@@ -71,7 +73,7 @@ public class SaveCommand implements Command {
         String str = this.save;
         str = str.replaceAll("save\\(", "");
         str = str.replaceAll("\\)", "");
-        
+
         this.nom = str.trim();
     }
 }

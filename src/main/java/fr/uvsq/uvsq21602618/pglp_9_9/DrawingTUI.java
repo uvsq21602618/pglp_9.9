@@ -99,6 +99,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
             } else if (ligne.contains("save")) {
                 com = new SaveCommand(ligne, this.formes);
                 return com;
+            } else if (ligne.contains("get")) {
+                com = new GetCommand(ligne, this.formes);
+                return com;
             }
         }
 

@@ -57,8 +57,8 @@ public class RectangleDAO extends DAO<Rectangle> {
                         + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
-                update.setString(1, obj.getNom());
-                update.setString(2, obj.getNomForme());
+                update.setString(1, obj.getNom().toLowerCase());
+                update.setString(2, obj.getNomForme().toLowerCase());
                 update.executeUpdate();
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
@@ -99,7 +99,7 @@ public class RectangleDAO extends DAO<Rectangle> {
                             + "?, ?, ?, ?, ? )");
                     PreparedStatement update =
                             getConnect().prepareStatement(updateString);
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.setInt(2, obj.getPointHG().getX());
                     update.setInt(TROIS, obj.getPointHG().getY());
                     update.setInt(QUATRE, obj.getPointBD().getX());
@@ -186,7 +186,7 @@ public class RectangleDAO extends DAO<Rectangle> {
                         + " where nom_composant= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
@@ -204,7 +204,8 @@ public class RectangleDAO extends DAO<Rectangle> {
                         + " where nom= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase()
+                            .toLowerCase());
                     update.executeUpdate();
 
                     try (ResultSet rs2 = dbmd.getTables(null, null,
@@ -254,7 +255,7 @@ public class RectangleDAO extends DAO<Rectangle> {
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
-            update.setString(1, obj.getNom());
+            update.setString(1, obj.getNom().toLowerCase());
             update.execute();
             ResultSet res = update.getResultSet();
             if (!res.next()) {
@@ -280,7 +281,7 @@ public class RectangleDAO extends DAO<Rectangle> {
 
     /**
      * Méthode de recherche des informations.
-     * @param nom de l'information
+     * @param nom2 de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -288,7 +289,7 @@ public class RectangleDAO extends DAO<Rectangle> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public Rectangle find(final String nom) throws SQLException,
+    public Rectangle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
@@ -296,8 +297,9 @@ public class RectangleDAO extends DAO<Rectangle> {
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
-            } 
+            }
         }
+        String nom = nom2.toLowerCase();
         String updateString = "select * from rectangles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

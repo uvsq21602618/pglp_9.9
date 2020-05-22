@@ -53,8 +53,8 @@ public class CercleDAO extends DAO<Cercle> {
                         + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
-                update.setString(1, obj.getNom());
-                update.setString(2, obj.getNomForme());
+                update.setString(1, obj.getNom().toLowerCase());
+                update.setString(2, obj.getNomForme().toLowerCase());
                 update.executeUpdate();
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
@@ -93,7 +93,7 @@ public class CercleDAO extends DAO<Cercle> {
                             + "?, ?, ?, ? )");
                     PreparedStatement update =
                             getConnect().prepareStatement(updateString);
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.setInt(2, obj.getCentre().getX());
                     update.setInt(TROIS, obj.getCentre().getY());
                     update.setInt(QUATRE, obj.getRayon());
@@ -144,7 +144,7 @@ public class CercleDAO extends DAO<Cercle> {
                         + " where nom_composant= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
                 }
             }
@@ -160,7 +160,7 @@ public class CercleDAO extends DAO<Cercle> {
                         + " where nom= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
-                    update.setString(1, obj.getNom());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
 
                     try (ResultSet rs2 = dbmd.getTables(null, null,
@@ -170,7 +170,8 @@ public class CercleDAO extends DAO<Cercle> {
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
                                  getConnect().prepareStatement(updateString)) {
-                                update2.setString(1, obj.getNom());
+                                update2.setString(1, obj.getNom()
+                                        .toLowerCase());
                                 update2.executeUpdate();
 
                                 System.out.printf("Le cercle avec le nom "
@@ -242,7 +243,7 @@ public class CercleDAO extends DAO<Cercle> {
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
-            update.setString(1, obj.getNom());
+            update.setString(1, obj.getNom().toLowerCase());
             update.execute();
             ResultSet res = update.getResultSet();
             if (!res.next()) {
@@ -268,7 +269,7 @@ public class CercleDAO extends DAO<Cercle> {
 
     /**
      * Méthode de recherche des informations.
-     * @param nom de l'information
+     * @param nom2 de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -276,7 +277,7 @@ public class CercleDAO extends DAO<Cercle> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public Cercle find(final String nom) throws SQLException,
+    public Cercle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
@@ -284,8 +285,9 @@ public class CercleDAO extends DAO<Cercle> {
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
-            } 
+            }
         }
+        String nom = nom2.toLowerCase();
         String updateString = "select * from cercles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

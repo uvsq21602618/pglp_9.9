@@ -116,7 +116,7 @@ public enum AppSingleton {
         com5.execute();*/
         LinkedList<Forme> formes = new LinkedList<Forme>();
 
-        /*String str = "c1 = Carre((2, 3), 5)";
+        String str = "c1 = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f = com.getForme();
@@ -144,15 +144,16 @@ public enum AppSingleton {
         
         str = "save(dessin)";
         SaveCommand save = new SaveCommand(str.toLowerCase(), formes);
-        save.execute();*/
+        save.execute();
         
-        String str = "get(dessin)";
+        str = "get(dessin)";
         GetCommand get = new GetCommand(str.toLowerCase(), formes);
         get.execute();
         
-        for (Forme f: formes) {
-            f.affiche();
-        }
+        str = "deleteBackUp(petitDessin)";
+        DeleteBackUpCommand DelBU = new DeleteBackUpCommand(str.toLowerCase()
+                , formes);
+        DelBU.execute();
        
     } 
     /**

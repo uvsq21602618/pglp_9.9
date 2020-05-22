@@ -68,8 +68,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         + "?, ? )");
                 PreparedStatement update =
                         getConnect().prepareStatement(updateString);
-                update.setString(1, obj.getNom());
-                update.setString(2, obj.getNomForme());
+                update.setString(1, obj.getNom().toLowerCase());
+                update.setString(2, obj.getNomForme().toLowerCase());
                 update.executeUpdate();
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
@@ -114,10 +114,10 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     ComposantDessin cd;
                     for (Dessin dessin : obj.getDessinFils()) {
                         update = getConnect().prepareStatement(updateString);
-                        update.setString(1, obj.getNom());
+                        update.setString(1, obj.getNom().toLowerCase());
                         f = (Forme) dessin;
-                        update.setString(2, f.getNomForme());
-                        update.setString(TROIS, f.getNom());
+                        update.setString(2, f.getNomForme().toLowerCase());
+                        update.setString(TROIS, f.getNom().toLowerCase());
 
                         if (dessin instanceof Carre) {
                             Carre c = (Carre) dessin;
@@ -240,7 +240,17 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         this.delete(cd);
                     }
                 }
-                System.out.printf("Le dessin avec le nom " + obj.getNom()
+                String updateString = "delete from composants_dessin"
+                        + " where nom = ?";
+                try (PreparedStatement update =
+                        getConnect().prepareStatement(updateString)) {
+                    update.setString(1, obj.getNom().toLowerCase());
+                    update.executeUpdate();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Le dessin avec le nom " + obj.getNom()
                 + " a bien été supprimé!\n");
             }
         } catch (org.apache.derby.shared.common.error
@@ -263,7 +273,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
-            update.setString(1, obj.getNom());
+            update.setString(1, obj.getNom().toLowerCase());
             update.execute();
             ResultSet res = update.getResultSet();
             if (!res.next()) {
@@ -289,7 +299,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
 
     /**
      * Méthode de recherche des informations.
-     * @param nom de l'information
+     * @param nom2 de l'information
      * @return gp le GroupePersonnel du fichier, null sinon
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws FileNotFoundException liee au fichier non trouve
@@ -297,7 +307,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public ComposantDessin find(final String nom)
+    public ComposantDessin find(final String nom2)
             throws FileNotFoundException, ClassNotFoundException, IOException,
             SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -306,8 +316,9 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
-            } 
+            }
         }
+        String nom = nom2.toLowerCase();
         String updateString = "select * from composants_dessin where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

@@ -27,8 +27,10 @@ public class ComposantDessin extends Forme implements Dessin {
     @Override
     public void affiche() {
         System.out.println(this.nom + " = " + this.nomForme + ":");
-        for (Dessin dessin : dessinFils) {
-            dessin.affiche();
+        if (!dessinFils.isEmpty()) {
+            for (Dessin dessin : dessinFils) {
+                dessin.affiche();
+            }
         }
         System.out.println("-------------------------------------\n");
     }

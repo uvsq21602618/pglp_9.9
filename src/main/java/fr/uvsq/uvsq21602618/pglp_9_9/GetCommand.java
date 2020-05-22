@@ -38,22 +38,24 @@ public class GetCommand implements Command {
      * dans une base de donnees.
      */
     @Override
-    public void execute() throws IOException, SQLException, ClassNotFoundException {
+    public void execute() throws IOException, SQLException,
+    ClassNotFoundException {
         recuperation();
         if (this.nom == null) {
-            System.out.println("Indiquer le nom du dessin a recuperer!");
+            System.out.println("Indiquer le nom du dessin a recuperer!\n");
         } else {
             if (!this.formes.isEmpty()) {
                 System.out.println("Recuperer le dessin demandé remplacera "
                         + "le dessin actuel! Veuillez le sauvegarder  avec"
-                        + " save(nom de la sauvegarde) puis deleteAll pour "
-                        + " tout supprimer!");
+                        + " save(nom de la sauvegarde) puis deleteAll pour"
+                        + " tout supprimer!\n");
             } else {
                 DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
                         .getComposantDessinDAO();
                 DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
                 DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-                DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
+                DAO<Rectangle> rectangleDAO = new DAOFactory()
+                        .getRectangleDAO();
                 DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
 
                 Object obj = null;
@@ -63,7 +65,7 @@ public class GetCommand implements Command {
                     Forme f = (Forme) obj;
                     formes.add(f);
                 } else {
-                    obj = carreDAO.find(this.nom) ;
+                    obj = carreDAO.find(this.nom);
                     if (obj != null) {
                         Forme f = (Forme) obj;
                         formes.add(f);
@@ -87,14 +89,13 @@ public class GetCommand implements Command {
                         }
                     }
                 }
-                composantDessinDAO.affichageTable();
                 System.out.println("Le dessin: " + this.nom + " a été"
-                        + " récupéré!");
+                        + " récupéré!\n");
             }
-        }     
-    } 
+        }
+    }
     /**
-     * Fonction pour recuperer le nom de la forme ou du dessin a recuper.
+     * Fonction pour recuperer le nom de la forme ou du dessin a recuperer.
      */
     private void recuperation() {
         String str = this.get;
