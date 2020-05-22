@@ -45,11 +45,11 @@ public class PutCommand implements Command {
 
         if (flag == 0) {
             System.out.println("Il semble que le composé : " + compose
-                    + " n'a pas encore été dessiné!");
+                    + " n'a pas encore été dessiné!\n");
         } else if (flag == 1) {
             System.out.println("Le composant indiqué: " + composant
                     + " n'a pas encore"
-                    + " été dessiné!");
+                    + " été dessiné!\n");
         }
     }
     /**
@@ -91,11 +91,11 @@ public class PutCommand implements Command {
                             remove = f2;
                             System.out.println("Le composant " + composant
                                     + " a été ajouté dans le composé "
-                                    + compose + "!");
+                                    + compose + "!\n");
                         } else {
                             System.out.println("Le composé indiqué: " + compose
                                     + " ne peut pas "
-                                    + "contenir de composants!");
+                                    + "contenir de composants!\n");
                         }
                     }
                 }

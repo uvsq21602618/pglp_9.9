@@ -55,7 +55,6 @@ public class DeleteBackUpCommand implements Command {
 
             if (obj != null) {
                 composantDessinDAO.delete((ComposantDessin) obj);
-                composantDessinDAO.affichageTable();
             } else {
                 obj = carreDAO.find(this.nom);
                 if (obj != null) {

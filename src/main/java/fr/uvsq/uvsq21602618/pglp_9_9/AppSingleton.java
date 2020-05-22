@@ -114,25 +114,33 @@ public enum AppSingleton {
         String str5 = "dessin = composantdessin";
         Command com5 = new CreateCommand(str5);
         com5.execute();*/
+        
+        
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                .getComposantDessinDAO();
         LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
 
         String str = "c1 = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f = com.getForme();
         formes.add(f);
+        noms.add(f.getNom());
 
         str = "petitDessin = composantdessin";
         com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f2 = com.getForme();
         formes.add(f2);
+        noms.add(f2.getNom());
 
         str = "t1 = triangle((5, 5), (3, 3), (2,2))";
         com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f3 = com.getForme();
         formes.add(f3);
+        noms.add(f3.getNom());
 
         str = "put(petitDessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
@@ -142,10 +150,21 @@ public enum AppSingleton {
         ShowCommand show = new ShowCommand(str.toLowerCase(), formes);
         show.execute();
         
-        str = "save(dessin)";
-        SaveCommand save = new SaveCommand(str.toLowerCase(), formes);
-        save.execute();
+        str = "update(dessin3)";
+        UpdateCommand update = new UpdateCommand(str.toLowerCase(), formes);
+        update.execute();
+       
+        /*str = "delete()";
+        DeleteCommand delete = new DeleteCommand(str.toLowerCase(), formes
+                , noms);
+        delete.execute();*/
         
+        /*str = "save(dessin)";
+        SaveCommand save = new SaveCommand(str.toLowerCase(), formes);
+        save.execute();*/
+        
+        composantDessinDAO.affichageTable();
+        /*
         str = "get(dessin)";
         GetCommand get = new GetCommand(str.toLowerCase(), formes);
         get.execute();
@@ -153,7 +172,7 @@ public enum AppSingleton {
         str = "deleteBackUp(petitDessin)";
         DeleteBackUpCommand DelBU = new DeleteBackUpCommand(str.toLowerCase()
                 , formes);
-        DelBU.execute();
+        DelBU.execute();*/
        
     } 
     /**
