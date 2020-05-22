@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import org.junit.Test;
 
 /**
- * Classe de tests pour la classe DeleteCommand
+ * Classe de tests pour la classe DeleteCommand.
  * @author Nathalie
  *
  */

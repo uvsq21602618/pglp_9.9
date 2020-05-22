@@ -76,8 +76,13 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                     return com;
                 }
             } else if (ligne.contains("delete")) {
-                com = new DeleteCommand(ligne, this.formes, this.noms);
-                return com;
+                if (ligne.contains("deleteAll")) {
+                    com = new DeleteAllCommand(this.formes, this.noms);
+                    return com;
+                } else {
+                    com = new DeleteCommand(ligne, this.formes, this.noms);
+                    return com;
+                }
             } else if (ligne.contains("put")) {
                 com = new PutCommand(ligne, this.formes);
                 return com;
@@ -101,6 +106,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                 return com;
             } else if (ligne.contains("get")) {
                 com = new GetCommand(ligne, this.formes);
+                return com;
+            } else if (ligne.contains("update")) {
+                com = new UpdateCommand(ligne, this.formes);
                 return com;
             }
         }
