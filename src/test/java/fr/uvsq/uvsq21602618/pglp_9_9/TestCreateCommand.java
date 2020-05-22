@@ -3,7 +3,10 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.SQLException;
+import java.util.LinkedList;
 
 import org.junit.Test;
 /**
@@ -14,11 +17,16 @@ import org.junit.Test;
 public class TestCreateCommand {
     /**
      * Test de la fonction execute dans le cas du carre.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteCarre() {
+    public void testExecuteCarre() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
         Carre c1 = (Carre) f;
@@ -30,11 +38,16 @@ public class TestCreateCommand {
     }
     /**
      * Test de la fonction execute dans le cas du cercle.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteCercle() {
+    public void testExecuteCercle() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "c2 = Cercle((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
         Cercle c2 = (Cercle) f;
@@ -46,11 +59,16 @@ public class TestCreateCommand {
     }
     /**
      * Test de la fonction execute dans le cas du rectangle.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteRectangle() {
+    public void testExecuteRectangle() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "r1 = Rectangle((3, 5), (5, 3))";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
         Rectangle r1 = (Rectangle) f;
@@ -63,11 +81,16 @@ public class TestCreateCommand {
     }
     /**
      * Test de la fonction execute dans le cas du triangle.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteTriangle() {
+    public void testExecuteTriangle() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "t1 = triangle((5, 5), (3, 3), (2,2))";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
         Triangle t1 = (Triangle) f;
@@ -81,11 +104,16 @@ public class TestCreateCommand {
     } 
     /**
      * Test de la fonction execute dans le cas d'un composant du dessin.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteComposantDessin() {
+    public void testExecuteComposantDessin() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "dessin = composantdessin";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
         ComposantDessin dessin = (ComposantDessin) f;
@@ -96,11 +124,16 @@ public class TestCreateCommand {
     }
     /**
      * Test de la détection d'une mauvaise commande avec les mauvais arguments.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testMauvaisArgument() {
+    public void testMauvaisArgument() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "t1 = Cercle((5, 3))";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         
@@ -111,11 +144,16 @@ public class TestCreateCommand {
     /**
      * Test de la détection d'une mauvaise commande contenant l'appel de 
      * plusieurs formes valides.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testMauvaisesFormes() {
+    public void testMauvaisesFormes() throws ClassNotFoundException, IOException, SQLException {
+        LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         String str = "c2 = CarreCercle((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         

@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -18,17 +20,18 @@ import org.junit.Test;
 public class TestDeleteCommand {
     /**
      * Test de la fonction execute quand le nom existe dans la liste.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteNomExiste() {
+    public void testExecuteNomExiste() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute(); 
-        Forme f = com.getForme();
-        formes.add(f);
-        noms.add(f.getNom());
+
         str = "delete(c1)";
         DeleteCommand del = new DeleteCommand(str.toLowerCase(), formes, noms);
         del.execute();
@@ -39,17 +42,17 @@ public class TestDeleteCommand {
     /**
      * Test de la fonction execute quand le nom ne correspond a aucune forme
      * de la liste.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteNomExistePas() {
+    public void testExecuteNomExistePas() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute(); 
-        Forme f = com.getForme();
-        formes.add(f);
-        noms.add(f.getNom());
         str = "delete(c2)";
         
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

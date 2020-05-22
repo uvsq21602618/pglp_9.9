@@ -1,10 +1,23 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  * Classe pour la commande de creation du dessin.
  * @author Nathalie
  *
  */
 public class CreateCommand implements Command {
+    /**
+     * La liste des formes dessinees.
+     */
+    private List<Forme> formes;
+    /**
+     * La liste des noms des formes dessinees.
+     */
+    private List<String> noms;
     /**
      * La forme a dessiner.
      */
@@ -29,14 +42,20 @@ public class CreateCommand implements Command {
      * Constructeur de CreateCommand.
      * @param ligne la commande de l'utilisateur
      */
-    public CreateCommand(final String ligne) {
+    public CreateCommand(final String ligne, final List<Forme> liste,
+            final List<String> listeNoms) {
         this.creation = ligne;
+        this.formes = liste;
+        this.noms = listeNoms;
     }
     /**
      * Execution de la commande de creation.
+     * throws SQLException Exception liee a la base de donnes
+     * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     @Override
-    public void execute() {
+    public void execute() throws ClassNotFoundException, IOException, SQLException {
         try {
             if (this.creation.contains("carre")) {
                 this.forme = createCarre();
@@ -49,6 +68,11 @@ public class CreateCommand implements Command {
             } else {
                 this.forme = createComposantDessin();
             }
+            if (verification(this.forme)) {
+                this.formes.add(this.forme);
+                this.noms.add(this.forme.getNom());
+            }
+
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("La commande de creation est incorrecte!\n");
         } catch (NumberFormatException e) {
@@ -93,6 +117,7 @@ public class CreateCommand implements Command {
         y = y.replaceAll("\\)", "");
         String r = tab2[2].trim();
         r = r.replaceAll("\\)", "");
+
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Cercle c = new Cercle(nom, p, Integer.parseInt(r));
@@ -175,4 +200,51 @@ public class CreateCommand implements Command {
         return this.forme;
     }
 
+    /**
+     * Fonction pour verifier si le nom a deja ete utilise.
+     * @param forme qui va être creee
+     * @return true si le nom est disponible, false sinon
+     * @throws SQLException Exception liee a la base de donnes
+     * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
+     */
+    public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                .getComposantDessinDAO();
+        DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+        DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+        DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
+        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+
+        if(!this.noms.isEmpty()) {
+            for (String s : this.noms) {
+                if (s.equals(forme.getNom())) {
+                    System.out.println("Ce nom a deja ete utilise!");
+                    return false;
+                } else if (composantDessinDAO.find(forme.getNom()) != null) {
+                    System.out.println("Ce nom a deja ete utilise dans la base"
+                            + "de donnees pour un composant du dessin!");
+                    return false;
+                } else if (carreDAO.find(forme.getNom()) != null) {
+                    System.out.println("Ce nom a deja ete utilise dans la base"
+                            + "de donnees pour un carré!");
+                    return false;
+                } else if (cercleDAO.find(forme.getNom()) != null) {
+                    System.out.println("Ce nom a deja ete utilise dans la base"
+                            + "de donnees pour un cercle!");
+                    return false;
+                } else if (rectangleDAO.find(forme.getNom()) != null) {
+                    System.out.println("Ce nom a deja ete utilise dans la base"
+                            + "de donnees pour un rectangle!");
+                    return false;
+                } else if (triangleDAO.find(forme.getNom()) != null) {
+                    System.out.println("Ce nom a deja ete utilise dans la base"
+                            + "de donnees pour un triangle!");
+                    return false;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
 }

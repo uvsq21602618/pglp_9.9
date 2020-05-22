@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -61,8 +62,42 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      */
     public Command nextCommand(final String nom,
             final Command commande) throws ClassNotFoundException, IOException, SQLException {
-        Command com = null;
-
+        Command com = commande;
+        if (nom.equals("create")) {
+            CreateCommand create = (CreateCommand) commande;
+            return create;
+        } else if (nom.equals("deleteall")) {
+            DeleteAllCommand deleteAll = (DeleteAllCommand) commande;
+            return deleteAll;
+        } else if (nom.equals("delete")) {
+            DeleteCommand delete = (DeleteCommand) commande;
+            return delete;
+        } else if (nom.equals("put")) {
+            PutCommand put = (PutCommand) commande;
+            return put;
+        } else if (nom.equals("moveall")) {
+            MoveAllCommand moveAll = (MoveAllCommand) commande;
+            return moveAll;
+        } else if (nom.equals("move")) {
+            MoveCommand move = (MoveCommand) commande;
+            return move;
+        } else if (nom.equals("showall")) {
+            ShowAllCommand showAll = (ShowAllCommand) commande;
+            return showAll;
+        } else if (nom.equals("show")) {
+            ShowCommand show = (ShowCommand) commande;
+            return show;
+        } else if (nom.equals("save")) {
+            SaveCommand save = (SaveCommand) commande;
+            return save;
+        } else if (nom.equals("get")) {
+            GetCommand get = (GetCommand) commande;
+            return get;
+        } else if (nom.equals("update")) {
+            UpdateCommand update = (UpdateCommand) commande;
+            return update;
+        }
+        /*c1 = Cercle((0, 0), 50)
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
             String ligne = scanner.next().toLowerCase();
             if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
@@ -113,50 +148,29 @@ Elle proposera également une méthode permettant d'afficher un dessin.
             }
         }
 
+        scanner.close();*/
         return com;
     }
     /**
-     * Fonction pour verifier si le nom a deja ete utilise.
-     * @param forme qui va être creee
-     * @return true si le nom est disponible, false sinon
-     * @throws SQLException Exception liee a la base de donnes
-     * @throws IOException Exception liee aux entrees/sorties
-     * @throws ClassNotFoundException Exception liee a une classe non trouvee
+     * Methode pour retourner le scanner.
+     * @return le scanner
      */
-    public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
-        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                .getComposantDessinDAO();
-        DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-        DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-        DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
-        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
-
-        for (String s : this.noms) {
-            if (s.equals(forme.getNom())) {
-                System.out.println("Ce nom a deja ete utilise!");
-                return false;
-            } else if (composantDessinDAO.find(forme.getNom()) != null) {
-                System.out.println("Ce nom a deja ete utilise dans la base"
-                        + "de donnees pour un composant du dessin!");
-                return false;
-            } else if (carreDAO.find(forme.getNom()) != null) {
-                System.out.println("Ce nom a deja ete utilise dans la base"
-                        + "de donnees pour un carré!");
-                return false;
-            } else if (cercleDAO.find(forme.getNom()) != null) {
-                System.out.println("Ce nom a deja ete utilise dans la base"
-                        + "de donnees pour un cercle!");
-                return false;
-            } else if (rectangleDAO.find(forme.getNom()) != null) {
-                System.out.println("Ce nom a deja ete utilise dans la base"
-                        + "de donnees pour un rectangle!");
-                return false;
-            } else if (triangleDAO.find(forme.getNom()) != null) {
-                System.out.println("Ce nom a deja ete utilise dans la base"
-                        + "de donnees pour un triangle!");
-                return false;
-            }
-        }
-        return true;
+    public Scanner getScanner() {
+        return this.scanner;
     }
+    /**
+     * Methode pour retourner la liste des formes.
+     * @return la liste de formes
+     */
+    public List<Forme> getFormes(){
+        return this.formes;
+    }
+    /**
+     * Methode pour retourner la liste des noms.
+     * @return la liste de formes
+     */
+    public List<String> getNoms(){
+        return this.noms;
+    }
+    
 }

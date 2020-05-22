@@ -38,7 +38,7 @@ public class MoveAllCommand implements Command {
             recuperation();
             deplace(this.formes);
             if (this.formes.isEmpty()) {
-                System.out.println("Il n'y a rien n'a déplacer!");
+                System.out.println("Il n'y a rien a déplacer!");
             } else {
                 System.out.println("Tout le dessin"
                         + " a ete deplace de (" + this.deplacement.getX()
@@ -53,10 +53,10 @@ public class MoveAllCommand implements Command {
      * @param liste ou se situe le composant a deplacer
      */
     private void deplace(final List<Forme> liste) {
-
         for (Forme f: liste) {
             f.deplace(this.deplacement.getX(),
                     this.deplacement.getY());
+            f.affiche();
         }
     }
     /**

@@ -33,5 +33,6 @@ public class DeleteAllCommand implements Command {
     public void execute() {
         this.formes.clear();
         this.noms.clear();
+        System.out.println("Le dessin en cours a été supprimé!\n");
     }
 }

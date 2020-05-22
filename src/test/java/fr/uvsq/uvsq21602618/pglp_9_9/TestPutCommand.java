@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -19,25 +21,22 @@ public class TestPutCommand {
     /**
      * Test de la fonction execute. On verifie l'ajout d'un compose Forme dans
      * une instance de type ComposantDessin.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f = com.getForme();
-        formes.add(f);
-        noms.add(f.getNom());
 
         str = "dessin = composantdessin";
-        com = new CreateCommand(str.toLowerCase());
+        com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f2 = com.getForme();
-        formes.add(f2);
-        noms.add(f2.getNom());
 
         str = "put(dessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
@@ -52,31 +51,27 @@ public class TestPutCommand {
         
         assertEquals(expected, cd);
         assertTrue(noms.contains("c1"));
-        assertFalse(formes.contains(f));
-
     }
     /**
      * Test de la fonction execute lorsque le compose est une forme et non pas
      * un composantDessin.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteMauvaisCompose() {
+    public void testExecuteMauvaisCompose() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
-        formes.add(f);
-        noms.add(f.getNom());
 
         str = "t1 = triangle((5, 5), (3, 3), (2,2))";
-        com = new CreateCommand(str.toLowerCase());
-        com.execute();
-        Forme f2 = com.getForme();
-        formes.add(f2);
-        noms.add(f2.getNom());
+        com = new CreateCommand(str.toLowerCase(), formes, noms);
+        com.execute(); 
         
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -93,18 +88,19 @@ public class TestPutCommand {
     /**
      * Test de la fonction execute lorsque le compose est une forme et non pas
      * un composantDessin.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteComposantExistePas() {
+    public void testExecuteComposantExistePas() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
 
         String str = "dessin = composantdessin";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f2 = com.getForme();
-        formes.add(f2);
-        noms.add(f2.getNom());
         
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -122,18 +118,19 @@ public class TestPutCommand {
     /**
      * Test de la fonction execute lorsque le compose est une forme et non pas
      * un composantDessin.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteComposeExistePas() {
+    public void testExecuteComposeExistePas() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
 
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         Forme f = com.getForme();
-        formes.add(f);
-        noms.add(f.getNom());
         
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));

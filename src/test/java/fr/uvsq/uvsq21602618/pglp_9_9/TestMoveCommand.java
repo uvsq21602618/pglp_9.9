@@ -3,7 +3,9 @@ package fr.uvsq.uvsq21602618.pglp_9_9;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.junit.Test;
@@ -17,22 +19,22 @@ public class TestMoveCommand {
     /**
      * Test de la fonction execute. On verifie le deplacement du composant
      * indique en argument.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecute() {
+    public void testExecute() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f = com.getForme();
-        formes.add(f);
 
         str = "dessin = composantdessin";
-        com = new CreateCommand(str.toLowerCase());
+        com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f2 = com.getForme();
-        formes.add(f2);
         
         str = "put(dessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
@@ -54,22 +56,22 @@ public class TestMoveCommand {
     /**
      * Test de la fonction execute. On verifie la detection d'un mauvais 
      * argument.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteMauvaisArgument() {
+    public void testExecuteMauvaisArgument() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f = com.getForme();
-        formes.add(f);
 
         str = "dessin = composantdessin";
-        com = new CreateCommand(str.toLowerCase());
+        com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f2 = com.getForme();
-        formes.add(f2);
         
         str = "put(dessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
@@ -88,17 +90,19 @@ public class TestMoveCommand {
     /**
      * Test de la fonction execute. On verifie la detection d'un nom de 
      * composant qui n'existe pas.
+     * @throws SQLException 
+     * @throws IOException 
+     * @throws ClassNotFoundException 
      */
     @Test
-    public void testExecuteNomExistePas() {
+    public void testExecuteNomExistePas() throws ClassNotFoundException, IOException, SQLException {
         LinkedList<Forme> formes = new LinkedList<Forme>();
+        LinkedList<String> noms = new LinkedList<String>();
         
         String str = "c1 = Carre((2, 3), 5)";
-        CreateCommand com = new CreateCommand(str.toLowerCase());
+        CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
-        Forme f = com.getForme();
-        formes.add(f);
-        
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String expected = "Le dessin a deplace n'a pas ete trouve!";
