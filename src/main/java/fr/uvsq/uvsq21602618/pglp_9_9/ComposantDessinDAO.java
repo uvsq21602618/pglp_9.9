@@ -300,6 +300,14 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     public ComposantDessin find(final String nom)
             throws FileNotFoundException, ClassNotFoundException, IOException,
             SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        ResultSet rs = dbmd.getTables(null, null,
+                "composants_dessin".toUpperCase(), null);
+        try (Statement creation = getConnect().createStatement()) {
+            if (!rs.next()) {
+                return null;
+            } 
+        }
         String updateString = "select * from composants_dessin where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {

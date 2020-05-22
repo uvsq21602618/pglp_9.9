@@ -13,6 +13,7 @@ public interface Command {
      * Methode pour executer une commande.
      * @throws SQLException Exception liee a la base de donnees
      * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
-    void execute() throws IOException, SQLException;
+    void execute() throws IOException, SQLException, ClassNotFoundException;
 }

@@ -1,5 +1,7 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -53,9 +55,12 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      * @param nom de la commande
      * @param commande l'instance
      * @return la commande à faire
+     * @throws SQLException Exception liee a la base de donnees
+     * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     public Command nextCommand(final String nom,
-            final Command commande) {
+            final Command commande) throws ClassNotFoundException, IOException, SQLException {
         Command com = null;
 
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
@@ -91,6 +96,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
                 }
                 com = new ShowCommand(ligne, this.formes);
                 return com;
+            } else if (ligne.contains("save")) {
+                com = new SaveCommand(ligne, this.formes);
+                return com;
             }
         }
 
@@ -100,11 +108,41 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      * Fonction pour verifier si le nom a deja ete utilise.
      * @param forme qui va être creee
      * @return true si le nom est disponible, false sinon
+     * @throws SQLException Exception liee a la base de donnes
+     * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
-    public boolean verification(final Forme forme) {
+    public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                .getComposantDessinDAO();
+        DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+        DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+        DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
+        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+
         for (String s : this.noms) {
             if (s.equals(forme.getNom())) {
                 System.out.println("Ce nom a deja ete utilise!");
+                return false;
+            } else if (composantDessinDAO.find(forme.getNom()) != null) {
+                System.out.println("Ce nom a deja ete utilise dans la base"
+                        + "de donnees pour un composant du dessin!");
+                return false;
+            } else if (carreDAO.find(forme.getNom()) != null) {
+                System.out.println("Ce nom a deja ete utilise dans la base"
+                        + "de donnees pour un carré!");
+                return false;
+            } else if (cercleDAO.find(forme.getNom()) != null) {
+                System.out.println("Ce nom a deja ete utilise dans la base"
+                        + "de donnees pour un cercle!");
+                return false;
+            } else if (rectangleDAO.find(forme.getNom()) != null) {
+                System.out.println("Ce nom a deja ete utilise dans la base"
+                        + "de donnees pour un rectangle!");
+                return false;
+            } else if (triangleDAO.find(forme.getNom()) != null) {
+                System.out.println("Ce nom a deja ete utilise dans la base"
+                        + "de donnees pour un triangle!");
                 return false;
             }
         }

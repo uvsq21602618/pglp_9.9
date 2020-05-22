@@ -33,8 +33,14 @@ public class SaveCommand implements Command {
         this.formes = liste;
         this.nom = null;
     }
+    /**
+     * Execution de la commande de sauvegarde dans le base de donnees.
+     * @throws SQLException Exception liee a la base de donnees
+     * @throws IOException Exception liee aux entrees/sorties
+     * @throws ClassNotFoundException Exception liee a une classe non trouvee
+     */
     @Override
-    public void execute() throws IOException, SQLException {
+    public void execute() throws IOException, SQLException, ClassNotFoundException {
         DAO<ComposantDessin> composantDessinDAO = new DAOFactory().getComposantDessinDAO();
         recuperation();
         if (this.nom == null) {
@@ -46,14 +52,20 @@ public class SaveCommand implements Command {
                 Dessin d = (Dessin) f;
                 dessin.ajoute(d);
             }
-            composantDessinDAO.create(dessin);
-            composantDessinDAO.affichageTable();
-            System.out.println("Le dessin en cours a été sauvegardé sous le"
-                    + " nom: " + this.nom + " dans la base de données!");
+            
+            if (composantDessinDAO.find(this.nom) != null) {
+                System.out.println("Le nom: " + this.nom + " est deja utilise "
+                        + "dans la base de donnees!");
+            } else {
+                composantDessinDAO.create(dessin);
+                composantDessinDAO.affichageTable();
+                System.out.println("Le dessin en cours a été sauvegardé sous le"
+                        + " nom: " + this.nom + " dans la base de données!");
+            }
         }
     }
     /**
-     * Fonction pour recuperer le nom de la forme ou du dessin a deplacer.
+     * Fonction pour recuperer le nom de la forme ou du dessin a sauvegarder.
      */
     private void recuperation() {
         String str = this.save;
@@ -62,5 +74,4 @@ public class SaveCommand implements Command {
         
         this.nom = str.trim();
     }
-
 }
