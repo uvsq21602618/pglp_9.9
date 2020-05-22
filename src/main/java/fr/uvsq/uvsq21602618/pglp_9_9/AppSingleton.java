@@ -122,7 +122,7 @@ public enum AppSingleton {
         Forme f = com.getForme();
         formes.add(f);
 
-        str = "dessin = composantdessin";
+        str = "petitDessin = composantdessin";
         com = new CreateCommand(str.toLowerCase());
         com.execute();
         Forme f2 = com.getForme();
@@ -134,29 +134,17 @@ public enum AppSingleton {
         Forme f3 = com.getForme();
         formes.add(f3);
 
-        str = "put(dessin, c1)";
+        str = "put(petitDessin, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
 
-        str = "moveAll(2, 2)";
-        MoveAllCommand moveAll = new MoveAllCommand(str.toLowerCase(), formes);
-        moveAll.execute();
-/*
-        ComposantDessin cd = (ComposantDessin) formes.get(0);
-        Triangle t1 = (Triangle) formes.get(1);        
-        Point p = new Point(4, 5);
-        Carre c1 = new Carre("c1", p, 5);
-        ComposantDessin exp = new ComposantDessin("dessin");
-        exp.ajoute(c1);
-
-        Point p1 = new Point(7, 7);
-        Point p2 = new Point(5, 5);
-        Point p3 = new Point(4, 4);
-        Triangle exp2 = new Triangle("t1", p1, p2, p3);
+        str = "show(petitDessin)";
+        ShowCommand show = new ShowCommand(str.toLowerCase(), formes);
+        show.execute();
         
-        for (Forme f4 : formes ) {
-            f4.affiche();
-        }*/
+        str = "save(dessin)";
+        SaveCommand save = new SaveCommand(str.toLowerCase(), formes);
+        save.execute();
        
     } 
     /**

@@ -131,6 +131,7 @@ public class CarreDAO extends DAO<Carre> {
      * Methode pour afficher le contenu de la table carres.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
+    @Override
     public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {

@@ -41,6 +41,7 @@ public class RectangleDAO extends DAO<Rectangle> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
+    @Override
     public Rectangle create(final Rectangle obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -140,6 +141,7 @@ public class RectangleDAO extends DAO<Rectangle> {
      * Methode pour afficher le contenu de la table rectangles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
+    @Override
     public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {

@@ -37,6 +37,7 @@ public class CercleDAO extends DAO<Cercle> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
+    @Override
     public Cercle create(final Cercle obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -196,6 +197,7 @@ public class CercleDAO extends DAO<Cercle> {
      * Methode pour afficher le contenu de la table cercles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
+    @Override
     public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {

@@ -49,6 +49,7 @@ public class TriangleDAO extends DAO<Triangle> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
+    @Override
     public Triangle create(final Triangle obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
@@ -151,6 +152,7 @@ public class TriangleDAO extends DAO<Triangle> {
      * Methode pour afficher le contenu de la table triangles.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
+    @Override
     public void affichageTable() throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {

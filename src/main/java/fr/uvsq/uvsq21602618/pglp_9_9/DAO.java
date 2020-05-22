@@ -82,4 +82,9 @@ public abstract class DAO<T> {
     public void setConnect(final Connection newCon) {
         this.connect = newCon;
     }
+    /**
+     * Methode pour afficher le contenu d'une table.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    public abstract void affichageTable() throws SQLException;
 }

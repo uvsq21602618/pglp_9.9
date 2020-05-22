@@ -33,7 +33,6 @@ public class PutCommand implements Command {
     public PutCommand(final String ligne, final List<Forme> liste) {
         this.put = ligne;
         this.formes = liste;
-        recuperation(this.compose, this.composant);
     }
     /**
      * Execution de la commande d'ajout d'un composant dans un autre.
@@ -41,6 +40,7 @@ public class PutCommand implements Command {
     @Override
     public void execute() {
         int flag = 0;
+        recuperation(this.compose, this.composant);
         flag = ajouteComposant(this.formes, flag);
 
         if (flag == 0) {
