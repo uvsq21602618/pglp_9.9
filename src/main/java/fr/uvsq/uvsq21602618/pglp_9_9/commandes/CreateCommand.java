@@ -90,8 +90,8 @@ public class CreateCommand implements Command {
                 DAO.disconnect();
                 throw e;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Commande erronée!\n");
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            System.out.println("La commande de creation est incorrecte!\n");
             DAO.disconnect();
         }
         DAO.disconnect();

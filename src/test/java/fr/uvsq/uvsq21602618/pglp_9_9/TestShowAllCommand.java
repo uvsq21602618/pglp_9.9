@@ -31,27 +31,27 @@ public class TestShowAllCommand {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
 
-        String str = "c1 = Carre((2, 3), 5)";
+        String str = "ctest = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "dessin = composantdessin";
+        str = "dessintest = composantdessin";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "t1 = triangle((5, 5), (3, 3), (2,2))";
+        str = "tri = triangle((5, 5), (3, 3), (2,2))";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "put(dessin, c1)";
+        str = "put(dessintest, ctest)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        String expected = "dessin = Composant du dessin";
-        String expected2 = "c1 = Carré((2, 3), 5)";
-        String expected3 = "t1 = Triangle((5, 5), (3, 3), (2, 2))";
+        String expected = "dessintest = Composant du dessin";
+        String expected2 = "ctest = Carré((2, 3), 5)";
+        String expected3 = "tri = Triangle((5, 5), (3, 3), (2, 2))";
 
         str = "showall";
         ShowAllCommand show = new ShowAllCommand(formes);

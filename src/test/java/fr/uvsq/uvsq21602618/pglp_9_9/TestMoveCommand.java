@@ -32,27 +32,27 @@ public class TestMoveCommand {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
-        String str = "c1 = Carre((2, 3), 5)";
+        String str = "ctest = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "dessin = composantdessin";
+        str = "dessintest = composantdessin";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         
-        str = "put(dessin, c1)";
+        str = "put(dessintest, ctest)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
 
-        str = "move(dessin, (2, 2))";
+        str = "move(dessintest, (2, 2))";
         MoveCommand move = new MoveCommand(str.toLowerCase(), formes);
         move.execute();
         
         ComposantDessin cd = (ComposantDessin) formes.get(0);
         
         Point p = new Point(4, 5);
-        Carre c1 = new Carre("c1", p, 5);
-        ComposantDessin exp = new ComposantDessin("dessin");
+        Carre c1 = new Carre("ctest", p, 5);
+        ComposantDessin exp = new ComposantDessin("dessintest");
         exp.ajoute(c1);
         
         assertEquals(exp, cd);
@@ -69,15 +69,15 @@ public class TestMoveCommand {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
-        String str = "c1 = Carre((2, 3), 5)";
+        String str = "ctest = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "dessin = composantdessin";
+        str = "dessintest = composantdessin";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
         
-        str = "put(dessin, c1)";
+        str = "put(dessintest, c1)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
         
@@ -85,7 +85,7 @@ public class TestMoveCommand {
         System.setOut(new PrintStream(outContent));
         String expected = "La commande n'a pas été saisie correctement!";
         
-        str = "move(dessin)";
+        str = "move(dessintest)";
         MoveCommand move = new MoveCommand(str.toLowerCase(), formes);
         move.execute();
         
@@ -103,7 +103,7 @@ public class TestMoveCommand {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
-        String str = "c1 = Carre((2, 3), 5)";
+        String str = "ctest = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 

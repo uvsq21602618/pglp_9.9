@@ -41,7 +41,7 @@ public class TestMoveAllCommand {
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "test = triangle((5, 5), (3, 3), (2,2))";
+        str = "tri = triangle((5, 5), (3, 3), (2,2))";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
@@ -72,7 +72,7 @@ public class TestMoveAllCommand {
         Point p1 = new Point(7, 7);
         Point p2 = new Point(5, 5);
         Point p3 = new Point(4, 4);
-        Triangle exp2 = new Triangle("test", p1, p2, p3);
+        Triangle exp2 = new Triangle("tri", p1, p2, p3);
 
         assertEquals(exp2, t1);
         assertEquals(exp, cd);

@@ -33,27 +33,27 @@ public class TestPutCommand {
         LinkedList<Forme> formes = new LinkedList<Forme>();
         LinkedList<String> noms = new LinkedList<String>();
         
-        String str = "c1 = Carre((2, 3), 5)";
+        String str = "ctest = Carre((2, 3), 5)";
         CreateCommand com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "dessin = composantdessin";
+        str = "dessintest = composantdessin";
         com = new CreateCommand(str.toLowerCase(), formes, noms);
         com.execute();
 
-        str = "put(dessin, c1)";
+        str = "put(dessintest, ctest)";
         PutCommand put = new PutCommand(str.toLowerCase(), formes);
         put.execute();
         Forme test = formes.get(0);
         ComposantDessin cd = (ComposantDessin) test;
         
-        ComposantDessin expected = new ComposantDessin("dessin");
+        ComposantDessin expected = new ComposantDessin("dessintest");
         Point p = new Point(2, 3);
-        Carre c = new Carre("c1", p, 5);
+        Carre c = new Carre("ctest", p, 5);
         expected.ajoute(c);
         
         assertEquals(expected, cd);
-        assertTrue(noms.contains("c1"));
+        assertTrue(noms.contains("ctest"));
     }
     /**
      * Test de la fonction execute lorsque le compose est une forme et non pas

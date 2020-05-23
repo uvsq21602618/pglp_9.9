@@ -160,7 +160,7 @@ public class TestCreateCommand {
         System.setOut(new PrintStream(outContent));
         
         com.execute();
-        String expected = "La commande de creation est incorrecte!!";
+        String expected = "La commande de creation est incorrecte!";
         assertEquals(expected, outContent.toString().trim());
     }
 }
