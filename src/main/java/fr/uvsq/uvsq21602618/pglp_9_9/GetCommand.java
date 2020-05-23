@@ -38,8 +38,7 @@ public class GetCommand implements Command {
      * dans une base de donnees.
      */
     @Override
-    public void execute() throws IOException, SQLException,
-    ClassNotFoundException {
+    public void execute() throws IOException, SQLException, ClassNotFoundException {
         recuperation();
         if (this.nom == null) {
             System.out.println("Indiquer le nom du dessin a recuperer!\n");
@@ -50,47 +49,54 @@ public class GetCommand implements Command {
                         + " save(nom de la sauvegarde) puis deleteAll pour"
                         + " tout supprimer!\n");
             } else {
-                DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                        .getComposantDessinDAO();
-                DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-                DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-                DAO<Rectangle> rectangleDAO = new DAOFactory()
-                        .getRectangleDAO();
-                DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+                DAO.setConnect();
+                try {
+                    DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                            .getComposantDessinDAO();
+                    DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+                    DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+                    DAO<Rectangle> rectangleDAO = new DAOFactory()
+                            .getRectangleDAO();
+                    DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
 
-                Object obj = null;
-                obj = composantDessinDAO.find(this.nom);
+                    Object obj = null;
+                    obj = composantDessinDAO.find(this.nom);
 
-                if (obj != null) {
-                    Forme f = (Forme) obj;
-                    formes.add(f);
-                } else {
-                    obj = carreDAO.find(this.nom);
                     if (obj != null) {
                         Forme f = (Forme) obj;
                         formes.add(f);
                     } else {
-                        obj = cercleDAO.find(this.nom);
+                        obj = carreDAO.find(this.nom);
                         if (obj != null) {
                             Forme f = (Forme) obj;
                             formes.add(f);
                         } else {
-                            obj = rectangleDAO.find(this.nom);
+                            obj = cercleDAO.find(this.nom);
                             if (obj != null) {
                                 Forme f = (Forme) obj;
                                 formes.add(f);
                             } else {
-                                obj = triangleDAO.find(this.nom);
+                                obj = rectangleDAO.find(this.nom);
                                 if (obj != null) {
                                     Forme f = (Forme) obj;
                                     formes.add(f);
+                                } else {
+                                    obj = triangleDAO.find(this.nom);
+                                    if (obj != null) {
+                                        Forme f = (Forme) obj;
+                                        formes.add(f);
+                                    }
                                 }
                             }
                         }
                     }
+                    System.out.println("Le dessin: " + this.nom + " a été"
+                            + " récupéré!\n");
+                } catch (IOException | SQLException | ClassNotFoundException e) {
+                    DAO.disconnect();
+                    throw e;
                 }
-                System.out.println("Le dessin: " + this.nom + " a été"
-                        + " récupéré!\n");
+                DAO.disconnect();
             }
         }
     }

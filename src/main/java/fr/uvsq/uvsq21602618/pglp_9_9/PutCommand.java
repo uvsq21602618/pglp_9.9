@@ -91,7 +91,7 @@ public class PutCommand implements Command {
                                 System.out.println("Le composant " + composant
                                         + " a été ajouté dans le composé "
                                         + compose + "!\n");
-                                return flag;
+                                flag = 3;
                             } else {
                                 System.out.println("Le composé indiqué: " + compose
                                         + " ne peut pas "

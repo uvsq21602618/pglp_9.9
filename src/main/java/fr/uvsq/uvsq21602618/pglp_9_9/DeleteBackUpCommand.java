@@ -42,40 +42,48 @@ public class DeleteBackUpCommand implements Command {
         if (this.nom == null) {
             System.out.println("Indiquer le nom du dessin a supprimer!");
         } else {
-            DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                    .getComposantDessinDAO();
-            DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-            DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-            DAO<Rectangle> rectangleDAO = new DAOFactory()
-                    .getRectangleDAO();
-            DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
-
-            Object obj = null;
-            obj = composantDessinDAO.find(this.nom);
-
-            if (obj != null) {
-                composantDessinDAO.delete((ComposantDessin) obj);
-            } else {
-                obj = carreDAO.find(this.nom);
+            DAO.setConnect();
+            try {
+                DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                        .getComposantDessinDAO();
+                DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+                DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+                DAO<Rectangle> rectangleDAO = new DAOFactory()
+                        .getRectangleDAO();
+                DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+    
+                Object obj = null;
+                obj = composantDessinDAO.find(this.nom);
+    
                 if (obj != null) {
-                    carreDAO.delete((Carre) obj);
+                    System.out.println("coucou!");
+                    composantDessinDAO.delete((ComposantDessin) obj);
                 } else {
-                    obj = cercleDAO.find(this.nom);
+                    obj = carreDAO.find(this.nom);
                     if (obj != null) {
-                        cercleDAO.delete((Cercle) obj);
+                        carreDAO.delete((Carre) obj);
                     } else {
-                        obj = rectangleDAO.find(this.nom);
+                        obj = cercleDAO.find(this.nom);
                         if (obj != null) {
-                            rectangleDAO.delete((Rectangle) obj);
+                            cercleDAO.delete((Cercle) obj);
                         } else {
-                            obj = triangleDAO.find(this.nom);
+                            obj = rectangleDAO.find(this.nom);
                             if (obj != null) {
-                                triangleDAO.delete((Triangle) obj);
+                                rectangleDAO.delete((Rectangle) obj);
+                            } else {
+                                obj = triangleDAO.find(this.nom);
+                                if (obj != null) {
+                                    triangleDAO.delete((Triangle) obj);
+                                }
                             }
                         }
                     }
                 }
+            } catch (IOException | SQLException | ClassNotFoundException e) {
+                DAO.disconnect();
+                throw e;
             }
+            DAO.disconnect();
         }
     }
     /**

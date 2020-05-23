@@ -16,24 +16,11 @@ public abstract class DAO<T> {
      * Chaîne de connexion precisant les informations pour
      * la connexion a la base de données.
      */
-    private static String dbUrl;
+    private static String dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
     /**
      * Permet l'interaction avec le JDBC.
      */
     private static Connection connect;
-    /**
-     * Deja deconnecte ou non.
-     */
-    private static boolean disconnect;
-
-    /**
-     * Constructeur du DAO pour JDBC.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     */
-    public DAO() throws SQLException {
-        dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
-        this.connect = null;
-    }
     /**
      * Méthode de création.
      * @param obj L'objet à créer
@@ -75,17 +62,16 @@ public abstract class DAO<T> {
         return connect;
     }
     /**
-     * Methode pour redefinir connect.
-     * @param newCon a remplacer
+     * Methode pour definir la connexion avec la bdd.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public void setConnect() {
+    public static void setConnect() throws SQLException {
         if(connect == null) {
             try {
-                this.connect = DriverManager.getConnection(dbUrl);
+                connect = DriverManager.getConnection(dbUrl);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            this.disconnect = false;
         }
     }
     /**
@@ -97,11 +83,10 @@ public abstract class DAO<T> {
      * Fonction pour se deconnecter de la base de donnee.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
-    public void disconnect() throws SQLException {
-        if (this.disconnect == false) {
-            this.connect.close();
-            this.connect = null;
-            this.disconnect = true;
+    public static void disconnect() throws SQLException {
+        if (connect != null) {
+            connect.close();
+            connect = null;
         }
     }
 }

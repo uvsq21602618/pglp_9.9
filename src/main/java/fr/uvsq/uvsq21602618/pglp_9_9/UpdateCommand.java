@@ -39,78 +39,82 @@ public class UpdateCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     @Override
-    public void execute() throws IOException, SQLException
-    , ClassNotFoundException {
+    public void execute() throws SQLException, IOException, ClassNotFoundException {
         recuperation();
         boolean flag = false;
         if (this.nom == null) {
             System.out.println("Il faut indiquer un nom pour le dessin que l'on"
                     + " souhaite mettre a jour!");
         } else {
-            DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                    .getComposantDessinDAO();
-            DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-            DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-            DAO<Rectangle> rectangleDAO = new DAOFactory()
-                    .getRectangleDAO();
-            DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+            DAO.setConnect();
+            try {
+                DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                        .getComposantDessinDAO();
+                DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+                DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+                DAO<Rectangle> rectangleDAO = new DAOFactory()
+                        .getRectangleDAO();
+                DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
 
-            Object obj = null;
-            Forme up = null;
-            obj = composantDessinDAO.find(this.nom);
-            for (Forme f : this.formes) {
-                if (f.getNom().equals(this.nom)) {
-                    up = f;
-                }
-            }
-
-            if (obj != null && up == null) {
-                ComposantDessin cd = new ComposantDessin(this.nom);
+                Object obj = null;
+                Forme up = null;
+                obj = composantDessinDAO.find(this.nom);
                 for (Forme f : this.formes) {
-                    cd.ajoute((Dessin) f);
+                    if (f.getNom().equals(this.nom)) {
+                        up = f;
+                    }
                 }
-                composantDessinDAO.update(cd);
-                flag = true;          
-            } else if (obj != null && up instanceof ComposantDessin) {  
-                composantDessinDAO.setConnect();
-                composantDessinDAO.update((ComposantDessin) up);
-                composantDessinDAO.disconnect();
-                flag = true;
-            } else {
-                obj = carreDAO.find(this.nom);
-                if (obj != null && up instanceof Carre) {
-                    carreDAO.update((Carre) up);
+
+                if (obj != null && up == null) {
+                    ComposantDessin cd = new ComposantDessin(this.nom);
+                    for (Forme f : this.formes) {
+                        cd.ajoute((Dessin) f);
+                    }
+                    composantDessinDAO.update(cd);
+                    flag = true;          
+                } else if (obj != null && up instanceof ComposantDessin) {
+                    composantDessinDAO.update((ComposantDessin) up);
                     flag = true;
                 } else {
-                    obj = cercleDAO.find(this.nom);
-                    if (obj != null && up instanceof Cercle) {
-                        cercleDAO.update((Cercle) up);
+                    obj = carreDAO.find(this.nom);
+                    if (obj != null && up instanceof Carre) {
+                        carreDAO.update((Carre) up);
                         flag = true;
                     } else {
-                        obj = rectangleDAO.find(this.nom);
-                        if (obj != null && up instanceof Rectangle) {
-                            rectangleDAO.update((Rectangle) up);
+                        obj = cercleDAO.find(this.nom);
+                        if (obj != null && up instanceof Cercle) {
+                            cercleDAO.update((Cercle) up);
                             flag = true;
                         } else {
-                            obj = triangleDAO.find(this.nom);
-                            if (obj != null && up instanceof Triangle) {
-                                triangleDAO.update((Triangle) up);
+                            obj = rectangleDAO.find(this.nom);
+                            if (obj != null && up instanceof Rectangle) {
+                                rectangleDAO.update((Rectangle) up);
                                 flag = true;
+                            } else {
+                                obj = triangleDAO.find(this.nom);
+                                if (obj != null && up instanceof Triangle) {
+                                    triangleDAO.update((Triangle) up);
+                                    flag = true;
+                                }
                             }
                         }
-                    }
-                    if (flag) {
-                        System.out.println("Le dessin : " + this.nom 
-                                + " a été mis "
-                                + "a jour!\n");
-                    }
-                    else {
-                        System.out.println("Le dessin : " + this.nom 
-                                + " a mettre a jour n'est "
-                                + "pas dans la base de donnée!\n");
+                        if (flag) {
+                            System.out.println("Le dessin : " + this.nom 
+                                    + " a été mis "
+                                    + "a jour!\n");
+                        }
+                        else {
+                            System.out.println("Le dessin : " + this.nom 
+                                    + " a mettre a jour n'est "
+                                    + "pas dans la base de donnée!\n");
+                        }
                     }
                 }
+            } catch (IOException | SQLException  | ClassNotFoundException e) {
+                DAO.disconnect();
+                throw e;
             }
+            DAO.disconnect();
         }
     }
     /**

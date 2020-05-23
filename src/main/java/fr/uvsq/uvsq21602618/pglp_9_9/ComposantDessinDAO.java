@@ -190,7 +190,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public void affichageTable() throws SQLException {
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -220,7 +220,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         + " dans la base de données!\n");
             }
         }
-        this.disconnect();
+        //this.disconnect();
     }
     /**
      * Méthode pour effacer.
@@ -229,7 +229,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      */
     @Override
     public void delete(final ComposantDessin obj) throws SQLException {
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -269,7 +269,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        this.disconnect();
+        //this.disconnect();
     }
 
     /**

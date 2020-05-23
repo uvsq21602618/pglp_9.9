@@ -47,25 +47,31 @@ public class SaveCommand implements Command {
             System.out.println("Il faut indiquer un nom pour le dessin que l'on"
                     + " souhaite sauvegarder!");
         } else {
-            DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                    .getComposantDessinDAO();
-            ComposantDessin dessin = new ComposantDessin(this.nom);
-            for (Forme f : formes) {
-                Dessin d = (Dessin) f;
-                dessin.ajoute(d);
+            DAO.setConnect();
+            try {
+                DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                        .getComposantDessinDAO();
+                ComposantDessin dessin = new ComposantDessin(this.nom);
+                for (Forme f : formes) {
+                    Dessin d = (Dessin) f;
+                    dessin.ajoute(d);
+                }
+                if (composantDessinDAO.find(this.nom) != null) {
+                    System.out.println("Le nom: " + this.nom
+                            + " est deja utilise "
+                            + "dans la base de donnees!");
+                } else {
+                    composantDessinDAO.create(dessin);
+                    System.out.println("Le dessin en cours a été"
+                            + " sauvegardé sous le"
+                            + " nom: " + this.nom
+                            + " dans la base de données!");
+                }
+            } catch (IOException | SQLException | ClassNotFoundException e) {
+                DAO.disconnect();
+                throw e;
             }
-            composantDessinDAO.setConnect();
-            if (composantDessinDAO.find(this.nom) != null) {
-                System.out.println("Le nom: " + this.nom + " est deja utilise "
-                        + "dans la base de donnees!");
-            } else {
-                composantDessinDAO.create(dessin);
-                System.out.println("Le dessin en cours a été sauvegardé sous le"
-                        + " nom: " + this.nom + " dans la base de données!");
-            }
-            composantDessinDAO.disconnect();
-
-            
+            DAO.disconnect();
         }
     }
     /**

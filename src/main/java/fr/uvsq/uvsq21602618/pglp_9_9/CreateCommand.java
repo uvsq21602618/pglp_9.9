@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Classe pour la commande de creation du dessin.
  * @author Nathalie
- *
  */
 public class CreateCommand implements Command {
     /**
@@ -56,30 +55,28 @@ public class CreateCommand implements Command {
      */
     @Override
     public void execute() throws ClassNotFoundException, IOException, SQLException {
+        if (this.creation.contains("carre")) {
+            this.forme = createCarre();
+        } else if (this.creation.contains("cercle")) {
+            this.forme = createCercle();
+        } else if (this.creation.contains("rectangle")) {
+            this.forme = createRectangle();
+        } else if (this.creation.contains("triangle")) {
+            this.forme = createTriangle();
+        } else {
+            this.forme = createComposantDessin();
+        }
+        DAO.setConnect();
         try {
-            if (this.creation.contains("carre")) {
-                this.forme = createCarre();
-            } else if (this.creation.contains("cercle")) {
-                this.forme = createCercle();
-            } else if (this.creation.contains("rectangle")) {
-                this.forme = createRectangle();
-            } else if (this.creation.contains("triangle")) {
-                this.forme = createTriangle();
-            } else {
-                this.forme = createComposantDessin();
-            }
             if (verification(this.forme)) {
                 this.formes.add(this.forme);
                 this.noms.add(this.forme.getNom());
             }
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-            System.out.println("La commande de creation est incorrecte!\n");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            System.out.println("La commande de creation est incorrecte!!\n");
+        } catch (IOException | SQLException  | ClassNotFoundException e) {
+            DAO.disconnect();
+            throw e;
         }
+        DAO.disconnect();
     }
     /**
      * Methode pour creer une instance de Carre a partir d'une ligne
@@ -100,7 +97,6 @@ public class CreateCommand implements Command {
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Carre c = new Carre(nom, p, Integer.parseInt(l));
-        //c.affiche();
         return c;
     }
     /**
@@ -123,7 +119,6 @@ public class CreateCommand implements Command {
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Cercle c = new Cercle(nom, p, Integer.parseInt(r));
-        //c.affiche();
         return c;
     }
     /**
@@ -148,7 +143,6 @@ public class CreateCommand implements Command {
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Point p2 = new Point(Integer.parseInt(x2), Integer.parseInt(y2));
         Rectangle r = new Rectangle(nom, p, p2);
-        //r.affiche();
         return r;
     }
     /**
@@ -178,7 +172,6 @@ public class CreateCommand implements Command {
         Point p2 = new Point(Integer.parseInt(x2), Integer.parseInt(y2));
         Point p3 = new Point(Integer.parseInt(x3), Integer.parseInt(y3));
         Triangle t = new Triangle(nom, p, p2, p3);
-        //t.affiche();
         return t;
     }
     /**
@@ -219,44 +212,34 @@ public class CreateCommand implements Command {
                 } else {
                     DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
                             .getComposantDessinDAO();
-                    composantDessinDAO.setConnect();
                     if (composantDessinDAO.find(forme.getNom()) != null) {
                         System.out.println("Ce nom a deja ete utilise dans la base"
                                 + "de donnees pour un composant du dessin!");
-                        composantDessinDAO.disconnect();
                         return false;
                     } else {
                         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-                        carreDAO.setConnect();
                         if (carreDAO.find(forme.getNom()) != null) {
                             System.out.println("Ce nom a deja ete utilise dans la base"
                                     + "de donnees pour un carré!");
-                            carreDAO.disconnect();
                             return false;
                         } else {
                             DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-                            cercleDAO.setConnect();
                             if (cercleDAO.find(forme.getNom()) != null) {
                                 System.out.println("Ce nom a deja ete utilise dans la base"
                                         + "de donnees pour un cercle!");
-                                cercleDAO.disconnect();
                                 return false;
                             } else {
                                 DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
-                                rectangleDAO.setConnect();
                                 if (rectangleDAO.find(forme.getNom()) != null) {
                                     System.out.println("Ce nom a deja ete utilise dans la base"
                                             + "de donnees pour un rectangle!");
-                                    rectangleDAO.disconnect();
                                     return false;
                                 } else {
                                     DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
-                                    triangleDAO.setConnect();
                                     if (triangleDAO.find(forme.getNom()) != null) {
 
                                         System.out.println("Ce nom a deja ete utilise dans la base"
                                                 + "de donnees pour un triangle!");
-                                        triangleDAO.disconnect();
                                         return false;
                                     }
                                 }

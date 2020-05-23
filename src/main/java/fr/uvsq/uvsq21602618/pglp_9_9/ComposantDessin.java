@@ -168,11 +168,9 @@ public class ComposantDessin extends Forme implements Dessin {
      * @return flag
      */
     public boolean deplaceFils(final String nom, final int valx, final int valy) {
-        Dessin move = null;
         boolean flag = false;
         for (Dessin d : this.dessinFils) {
             if((((Forme)d).getNom()).equals(nom)) {
-                move = d;
                 flag = true;
             } else {
                 if (d instanceof ComposantDessin) {
