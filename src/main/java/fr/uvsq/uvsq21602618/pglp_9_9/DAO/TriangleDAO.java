@@ -1,4 +1,4 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.DAO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import fr.uvsq.uvsq21602618.pglp_9_9.Point;
+import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
+
 /**
- * Classe pour le DAO de cercle.
+ * Classe du DAO de triangle.
  * @author Nathalie
  *
  */
-public class CercleDAO extends DAO<Cercle> {
+public class TriangleDAO extends DAO<Triangle> {
     /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
@@ -23,11 +26,23 @@ public class CercleDAO extends DAO<Cercle> {
      */
     static final int QUATRE = 4;
     /**
-     * Constructeur de CercleDAO.
+     * initialisation de la constante 5 pour eviter le "magic number".
+     */
+    static final int CINQ = 5;
+    /**
+     * initialisation de la constante 6 pour eviter le "magic number".
+     */
+    static final int SIX = 6;
+    /**
+     * initialisation de la constante 7 pour eviter le "magic number".
+     */
+    static final int SEPT = 7;
+    /**
+     * Constructeur de TriangleDAO.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
-    public CercleDAO() throws SQLException, IOException {
+    public TriangleDAO() throws SQLException, IOException {
         super();
     }
     /**
@@ -38,7 +53,7 @@ public class CercleDAO extends DAO<Cercle> {
      * @throws IOException Exceptions liees aux entrees/sorties
      */
     @Override
-    public Cercle create(final Cercle obj)
+    public Triangle create(final Triangle obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
@@ -74,68 +89,111 @@ public class CercleDAO extends DAO<Cercle> {
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 System.out.println("Ce nom a deja été utilisé dans formes!\n");
-                creation.close();
                 rs.close();
+                creation.close();
             }
             rs = dbmd.getTables(null, null,
-                    "cercles".toUpperCase(), null);
+                    "triangles".toUpperCase(), null);
 
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
-                    creation2.executeUpdate("Create table cercles"
+                    creation2.executeUpdate("Create table triangles"
                             + " (nom varchar(30) primary key,"
-                            + " centre_x int not null,"
-                            + " centre_y int not null, rayon int not null, "
-                            + "foreign key (nom) references formes(nom))");
+                            + " p1_x int not null,"
+                            + " p1_y int not null, p2_x int not null,"
+                            + " p2_y int not null,"
+                            + " p3_x int not null, p3_y int not null, "
+                            + " foreign key (nom) references formes(nom))");
                 }
                 try {
-                    String updateString = ("insert into cercles values ("
-                            + "?, ?, ?, ? )");
+                    String updateString = ("insert into triangles values ("
+                            + "?, ?, ?, ?, ?, ?, ? )");
                     PreparedStatement update =
                             getConnect().prepareStatement(updateString);
                     update.setString(1, obj.getNom().toLowerCase());
-                    update.setInt(2, obj.getCentre().getX());
-                    update.setInt(TROIS, obj.getCentre().getY());
-                    update.setInt(QUATRE, obj.getRayon());
+                    update.setInt(2, obj.getPoint1().getX());
+                    update.setInt(TROIS, obj.getPoint1().getY());
+                    update.setInt(QUATRE, obj.getPoint2().getX());
+                    update.setInt(CINQ, obj.getPoint2().getY());
+                    update.setInt(SIX, obj.getPoint3().getX());
+                    update.setInt(SEPT, obj.getPoint3().getY());
                     update.executeUpdate();
                     update.close();
-                    rs = creation2.executeQuery("SELECT * FROM cercles");
+                    rs = creation2.executeQuery("SELECT * FROM triangles");
 
-                    System.out.println("---Table cercles:---\n");
-                    System.out.println("nom\t centre_x\t centre_y\t rayon");
+                    System.out.println("---Table triangles:---\n");
+                    System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
+                            + " p3_x\t p3_y");
                     while (rs.next()) {
-                        System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
+                        System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n",
                                 rs.getString("nom"),
-                                rs.getInt("centre_x"), rs.getInt("centre_y"),
-                                rs.getInt("rayon"));
+                                rs.getInt("p1_x"), rs.getInt("p1_y"),
+                                rs.getInt("p2_x"), rs.getInt("p2_y"),
+                                rs.getInt("p3_x"), rs.getInt("p3_y"));
                     }
-                    System.out.println("----------------------------------\n");
+                    System.out.println("---------------------------------------"
+                            + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n");
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé"
-                            + " dans cercles!\n");
-                    creation.close();
+                    System.out.println("Ce nom a deja été utilisé dans"
+                            + " triangles!\n");
+                    rs.close();
+                    creation2.close();
                 }
             }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
+        } catch (org.apache.derby.shared.common.error
+                .DerbySQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
         }
         return obj;
     }
-
+    /**
+     * Methode pour afficher le contenu de la table triangles.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    @Override
+    public void affichageTable() throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (Statement exist = getConnect().createStatement()) {
+            ResultSet rsEx = dbmd.getTables(null, null,
+                    "triangles".toUpperCase(),
+                    null);
+            if (rsEx.next()) {
+                try (Statement stmt = getConnect().createStatement()) {
+                    try (ResultSet rs = stmt.executeQuery("SELECT *"
+                            + " FROM triangles")) {
+                        System.out.println("---Table triangles:---\n");
+                        System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
+                                + " p3_x\t p3_y");
+                        while (rs.next()) {
+                            System.out.printf("%s\t%d\t%d\t%d\t%d\t%d\t%d%n",
+                                    rs.getString("nom"),
+                                    rs.getInt("p1_x"), rs.getInt("p1_y"),
+                                    rs.getInt("p2_x"), rs.getInt("p2_y"),
+                                    rs.getInt("p3_x"), rs.getInt("p3_y"));
+                        }
+                        System.out.println("-----------------------------------"
+                                + "------------------------\n");
+                        rs.close();
+                    }
+                }
+            } else {
+                System.out.println("Il n'y a pas encore de triangles"
+                        + " dans la base de données!\n");
+            }
+        }
+    }
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     @Override
-    public void delete(final Cercle obj) throws SQLException {
+    public void delete(final Triangle obj) throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -146,17 +204,19 @@ public class CercleDAO extends DAO<Cercle> {
                         getConnect().prepareStatement(updateString)) {
                     update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-
         try (ResultSet rs = dbmd.getTables(null, null,
-                "cercles".toUpperCase(), null)) {
+                "triangles".toUpperCase(), null)) {
             if (rs.next()) {
-                String updateString = "delete from cercles"
+                String updateString = "delete from triangles"
                         + " where nom= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
@@ -169,12 +229,13 @@ public class CercleDAO extends DAO<Cercle> {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                 getConnect().prepareStatement(updateString)) {
-                                update2.setString(1, obj.getNom()
-                                        .toLowerCase());
+                                    getConnect()
+                                    .prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom(
+                                        ).toLowerCase());
                                 update2.executeUpdate();
 
-                                System.out.printf("Le cercle avec le nom "
+                                System.out.printf("Le triangle avec le nom "
                                         + obj.getNom()
                                         + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
@@ -186,6 +247,9 @@ public class CercleDAO extends DAO<Cercle> {
                             .DerbySQLIntegrityConstraintViolationException e) {
                         e.printStackTrace();
                     }
+                } catch (org.apache.derby.shared.common.error
+                        .DerbySQLIntegrityConstraintViolationException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (org.apache.derby.shared.common.error
@@ -193,42 +257,6 @@ public class CercleDAO extends DAO<Cercle> {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Methode pour afficher le contenu de la table cercles.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     */
-    @Override
-    public void affichageTable() throws SQLException {
-        DatabaseMetaData dbmd = getConnect().getMetaData();
-        try (Statement exist = getConnect().createStatement()) {
-            ResultSet rsEx = dbmd.getTables(null, null,
-                    "cercles".toUpperCase(),
-                    null);
-            if (rsEx.next()) {
-                try (Statement stmt = getConnect().createStatement()) {
-                    try (ResultSet rs = stmt.executeQuery("SELECT *"
-                            + " FROM cercles")) {
-                        System.out.println("---Table cercles:---\n");
-                        System.out.println("nom\t centre_x\t centre_y\t rayon");
-                        while (rs.next()) {
-                            System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
-                                    rs.getString("nom"),
-                                    rs.getInt("centre_x"),
-                                    rs.getInt("centre_y"),
-                                    rs.getInt("rayon"));
-                        }
-                        System.out.println("-------------------------------\n");
-                        rs.close();
-                    }
-                }
-            } else {
-                System.out.println("Il n'y a pas encore de cercles"
-                        + " dans la base de données!\n");
-            }
-        }
-    }
-
     /**
      * Méthode de mise à jour.
      * @param obj L'objet à mettre à jour
@@ -237,7 +265,7 @@ public class CercleDAO extends DAO<Cercle> {
      * @return obj L'objet à mettre à jour
      */
     @Override
-    public Cercle update(final Cercle obj)
+    public Triangle update(final Triangle obj)
             throws SQLException, IOException {
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
@@ -247,13 +275,13 @@ public class CercleDAO extends DAO<Cercle> {
             ResultSet res = update.getResultSet();
             if (!res.next()) {
                 System.out.println("Ce nom n'a pas"
-                        + " encore été utilisé pour un cercle,"
+                        + " encore été utilisé pour un triangle,"
                         + "il n'y a donc pas de mise a jour possible.\n");
                 this.create(obj);
             } else {
                 this.delete(obj);
                 this.create(obj);
-                System.out.println("La mise à jour du cercle "
+                System.out.println("La mise à jour du triangle "
                         + obj.getNom()
                         + " a été effectué!\n");
             }
@@ -265,7 +293,6 @@ public class CercleDAO extends DAO<Cercle> {
         }
         return obj;
     }
-
     /**
      * Méthode de recherche des informations.
      * @param nom2 de l'information
@@ -276,18 +303,18 @@ public class CercleDAO extends DAO<Cercle> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public Cercle find(final String nom2) throws SQLException,
+    public Triangle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "cercles".toUpperCase(), null);
+                "triangles".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
             }
         }
         String nom = nom2.toLowerCase();
-        String updateString = "select * from cercles where nom = ?";
+        String updateString = "select * from triangles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
             update.setString(1, nom);
@@ -295,17 +322,17 @@ public class CercleDAO extends DAO<Cercle> {
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de cercle de nom "
+                System.out.println("Il n'y a pas de triangle de nom "
                         + nom + " dans la base de données!\n");
                 return null;
             } else {
-                Point p = new Point(res.getInt("centre_x"),
-                        res.getInt("centre_y"));
-                int r = res.getInt("rayon");
-                Cercle c = new Cercle(nom, p, r);
-                System.out.println("Un cercle de nom "
+                Point p = new Point(res.getInt("p1_x"), res.getInt("p1_y"));
+                Point p2 = new Point(res.getInt("p2_x"), res.getInt("p2_y"));
+                Point p3 = new Point(res.getInt("p3_x"), res.getInt("p3_y"));
+                Triangle t = new Triangle(nom, p, p2, p3);
+                System.out.println("Un triangle de nom "
                         + nom + " a été trouvé dans la base de données!\n");
-                return c;
+                return t;
             }
 
         } catch (org.apache.derby.shared.common.error

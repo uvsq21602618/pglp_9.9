@@ -8,6 +8,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.Command;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.CreateCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteBackUpCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.GetCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.MoveAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.MoveCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.PutCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.SaveCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.ShowAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.ShowCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.UpdateCommand;
+
 /**
  * Classe qui se charge des interactions avec l'utilisateur.
  * @author Nathalie
@@ -56,12 +70,11 @@ Elle proposera également une méthode permettant d'afficher un dessin.
      * @param nom de la commande
      * @param commande l'instance
      * @return la commande à faire
-     * @throws SQLException Exception liee a la base de donnees
      * @throws IOException Exception liee aux entrees/sorties
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     public Command nextCommand(final String nom,
-            final Command commande) throws ClassNotFoundException, IOException, SQLException {
+            final Command commande) throws ClassNotFoundException, IOException {
         Command com = commande;
         if (nom.equals("create")) {
             CreateCommand create = (CreateCommand) commande;
@@ -96,6 +109,9 @@ Elle proposera également une méthode permettant d'afficher un dessin.
         } else if (nom.equals("update")) {
             UpdateCommand update = (UpdateCommand) commande;
             return update;
+        } else if (nom.equals("deletebackup")) {
+            DeleteBackUpCommand delBackUp = (DeleteBackUpCommand) commande;
+            return delBackUp;
         }
         return com;
     }

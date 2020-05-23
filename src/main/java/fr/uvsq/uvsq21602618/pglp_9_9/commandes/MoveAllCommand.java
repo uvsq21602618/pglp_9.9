@@ -1,6 +1,9 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.util.List;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
+import fr.uvsq.uvsq21602618.pglp_9_9.Point;
 
 /**
  * Classe pour la commande le deplacement de tout le dessin en cours.

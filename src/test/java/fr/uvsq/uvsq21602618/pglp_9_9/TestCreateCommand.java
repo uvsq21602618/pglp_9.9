@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.junit.Test;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.CreateCommand;
 /**
  * Classe de tests pour la classe CreateCommand
  * @author Nathalie

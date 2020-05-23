@@ -1,6 +1,10 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.util.List;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Dessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
 
 /**
  * Classe pour la commande d'ajout d'une forme dans un dessin ou un

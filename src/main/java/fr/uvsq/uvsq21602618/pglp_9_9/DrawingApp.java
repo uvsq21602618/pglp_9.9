@@ -4,6 +4,21 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAO;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.Command;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.CreateCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteBackUpCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.DeleteCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.GetCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.MoveAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.MoveCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.PutCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.SaveCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.ShowAllCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.ShowCommand;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.UpdateCommand;
+
 /**
  * Singleton contenant le main.
  * @author Nathalie
@@ -32,6 +47,8 @@ public enum DrawingApp {
                     || (ligne.contains("carre")) || (ligne.contains("triangle"))
                     || (ligne.contains("composant du dessin"))) {
                 System.out.println(ligne);
+                DAO.disconnect();
+
                 commande = moteur.nextCommand("create"
                         , new CreateCommand(ligne, moteur.getFormes()
                                 , moteur.getNoms()));
@@ -43,7 +60,13 @@ public enum DrawingApp {
                             , new DeleteAllCommand(moteur.getFormes()
                                     , moteur.getNoms()));
                     commande.execute();
-                } else {
+                } else if(ligne.contains("deletebackup")) {
+                    commande = moteur.nextCommand("deletebackup"
+                            , new DeleteBackUpCommand(ligne
+                                    , moteur.getFormes()));
+                    commande.execute();
+                } 
+                else {
                     commande = moteur.nextCommand("delete"
                             , new DeleteCommand(ligne, moteur.getFormes()
                                     , moteur.getNoms()));
@@ -97,6 +120,7 @@ public enum DrawingApp {
         }
         System.out.println("Fin de la saisie!");
         scanner.close();
+        DAO.disconnect();
 
         /*
          * Gerer le deplacement de figures utilisant les memes points.

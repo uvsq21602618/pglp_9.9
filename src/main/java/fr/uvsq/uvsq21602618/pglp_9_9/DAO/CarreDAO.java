@@ -1,4 +1,4 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.DAO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
+import fr.uvsq.uvsq21602618.pglp_9_9.Point;
 /**
  * Classe Pour le DAO de Carre.
  * @author Nathalie
@@ -39,7 +42,7 @@ public class CarreDAO extends DAO<Carre> {
     @Override
     public Carre create(final Carre obj)
             throws SQLException, IOException {
-        System.out.println("carre" + obj.nom);
+        System.out.println("carre" + obj.getNom());
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);

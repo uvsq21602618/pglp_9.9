@@ -1,4 +1,4 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.DAO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
+import fr.uvsq.uvsq21602618.pglp_9_9.Point;
+
 /**
- * Classe pour le DAO de rectangle.
+ * Classe pour le DAO de cercle.
  * @author Nathalie
  *
  */
-public class RectangleDAO extends DAO<Rectangle> {
+public class CercleDAO extends DAO<Cercle> {
     /**
      * initialisation de la constante 3 pour eviter le "magic number".
      */
@@ -23,15 +26,11 @@ public class RectangleDAO extends DAO<Rectangle> {
      */
     static final int QUATRE = 4;
     /**
-     * initialisation de la constante 5 pour eviter le "magic number".
-     */
-    static final int CINQ = 5;
-    /**
-     * Constructeur de RectangleDAO.
+     * Constructeur de CercleDAO.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      * @throws IOException Exceptions liees aux entrees/sorties
      */
-    public RectangleDAO() throws SQLException, IOException {
+    public CercleDAO() throws SQLException, IOException {
         super();
     }
     /**
@@ -42,7 +41,7 @@ public class RectangleDAO extends DAO<Rectangle> {
      * @throws IOException Exceptions liees aux entrees/sorties
      */
     @Override
-    public Rectangle create(final Rectangle obj)
+    public Cercle create(final Cercle obj)
             throws SQLException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
@@ -81,103 +80,65 @@ public class RectangleDAO extends DAO<Rectangle> {
                 creation.close();
                 rs.close();
             }
-
             rs = dbmd.getTables(null, null,
-                    "rectangles".toUpperCase(), null);
+                    "cercles".toUpperCase(), null);
 
             try (Statement creation2 = getConnect().createStatement()) {
                 if (!rs.next()) {
-                    creation2.executeUpdate("Create table rectangles"
+                    creation2.executeUpdate("Create table cercles"
                             + " (nom varchar(30) primary key,"
-                            + " hg_x int not null,"
-                            + " hg_y int not null, bd_x int not null,"
-                            + " bd_y int not null,"
-                            + " foreign key (nom) references formes(nom))");
+                            + " centre_x int not null,"
+                            + " centre_y int not null, rayon int not null, "
+                            + "foreign key (nom) references formes(nom))");
                 }
                 try {
-                    String updateString = ("insert into rectangles values ("
-                            + "?, ?, ?, ?, ? )");
+                    String updateString = ("insert into cercles values ("
+                            + "?, ?, ?, ? )");
                     PreparedStatement update =
                             getConnect().prepareStatement(updateString);
                     update.setString(1, obj.getNom().toLowerCase());
-                    update.setInt(2, obj.getPointHG().getX());
-                    update.setInt(TROIS, obj.getPointHG().getY());
-                    update.setInt(QUATRE, obj.getPointBD().getX());
-                    update.setInt(CINQ, obj.getPointBD().getY());
+                    update.setInt(2, obj.getCentre().getX());
+                    update.setInt(TROIS, obj.getCentre().getY());
+                    update.setInt(QUATRE, obj.getRayon());
                     update.executeUpdate();
                     update.close();
-                    rs = creation2.executeQuery("SELECT * FROM rectangles");
+                    rs = creation2.executeQuery("SELECT * FROM cercles");
 
-                    System.out.println("---Table rectangles:---\n");
-                    System.out.println("nom\t hg_x\t hg_y\t bd_x\t bd_y");
+                    System.out.println("---Table cercles:---\n");
+                    System.out.println("nom\t centre_x\t centre_y\t rayon");
                     while (rs.next()) {
-                        System.out.printf("%s\t%d\t%d\t%d\t%d%n",
+                        System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
                                 rs.getString("nom"),
-                                rs.getInt("hg_x"), rs.getInt("hg_y"),
-                                rs.getInt("bd_x"), rs.getInt("bd_y"));
+                                rs.getInt("centre_x"), rs.getInt("centre_y"),
+                                rs.getInt("rayon"));
                     }
-                    System.out.println("-----------------------------------\n");
+                    System.out.println("----------------------------------\n");
                     System.out.println("L'objet " + obj.getNom()
                     + " a bien été enregistré!\n");
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja était utilisé dans"
-                            + " rectangles!\n");
+                    System.out.println("Ce nom a deja été utilisé"
+                            + " dans cercles!\n");
                     creation.close();
-                    creation2.close();
-                    rs.close();
                 }
             }
-        }  catch (org.apache.derby.shared.common.error
-                .DerbySQLIntegrityConstraintViolationException e) {
-            e.printStackTrace();
-            rs.close();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
         }
         return obj;
     }
-    /**
-     * Methode pour afficher le contenu de la table rectangles.
-     * @throws SQLException Exception liee a l'acces a la base de donnees
-     */
-    @Override
-    public void affichageTable() throws SQLException {
-        DatabaseMetaData dbmd = getConnect().getMetaData();
-        try (Statement exist = getConnect().createStatement()) {
-            ResultSet rsEx = dbmd.getTables(null, null,
-                    "rectangles".toUpperCase(),
-                    null);
-            if (rsEx.next()) {
-                try (Statement stmt = getConnect().createStatement()) {
-                    try (ResultSet rs = stmt.executeQuery("SELECT *"
-                            + " FROM rectangles")) {
-                        System.out.println("---Table rectangles:---\n");
-                        System.out.println("nom\t hg_x\t hg_y\t bd_x\t bd_y");
-                        while (rs.next()) {
-                            System.out.printf("%s\t%d\t%d\t%d\t%d%n",
-                                    rs.getString("nom"),
-                                    rs.getInt("hg_x"), rs.getInt("hg_y"),
-                                    rs.getInt("bd_x"), rs.getInt("bd_y"));
-                        }
-                        System.out.println("----------------------------"
-                                + "-------------------\n");
-                        rs.close();
-                    }
-                }
-            } else {
-                System.out.println("Il n'y a pas encore de rectangles"
-                        + " dans la base de données!\n");
-            }
-        }
-    }
+
     /**
      * Méthode pour effacer.
      * @param obj L'objet à effacer
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     @Override
-    public void delete(final Rectangle obj) throws SQLException {
+    public void delete(final Cercle obj) throws SQLException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -188,24 +149,21 @@ public class RectangleDAO extends DAO<Rectangle> {
                         getConnect().prepareStatement(updateString)) {
                     update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
-                } catch (org.apache.derby.shared.common.error
-                        .DerbySQLIntegrityConstraintViolationException e) {
-                    e.printStackTrace();
                 }
             }
         } catch (org.apache.derby.shared.common.error
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+
         try (ResultSet rs = dbmd.getTables(null, null,
-                "rectangles".toUpperCase(), null)) {
+                "cercles".toUpperCase(), null)) {
             if (rs.next()) {
-                String updateString = "delete from rectangles"
+                String updateString = "delete from cercles"
                         + " where nom= ?";
                 try (PreparedStatement update =
                         getConnect().prepareStatement(updateString)) {
-                    update.setString(1, obj.getNom().toLowerCase()
-                            .toLowerCase());
+                    update.setString(1, obj.getNom().toLowerCase());
                     update.executeUpdate();
 
                     try (ResultSet rs2 = dbmd.getTables(null, null,
@@ -214,16 +172,16 @@ public class RectangleDAO extends DAO<Rectangle> {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                    getConnect()
-                                    .prepareStatement(updateString)) {
-                                update2.setString(1, obj.getNom());
+                                 getConnect().prepareStatement(updateString)) {
+                                update2.setString(1, obj.getNom()
+                                        .toLowerCase());
                                 update2.executeUpdate();
 
-                                System.out.printf("Le rectangle avec le nom "
-                                + obj.getNom()
-                                + " a bien été supprimé!\n");
+                                System.out.printf("Le cercle avec le nom "
+                                        + obj.getNom()
+                                        + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
-                            .DerbySQLIntegrityConstraintViolationException e) {
+                             .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -231,9 +189,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                             .DerbySQLIntegrityConstraintViolationException e) {
                         e.printStackTrace();
                     }
-                } catch (org.apache.derby.shared.common.error
-                        .DerbySQLIntegrityConstraintViolationException e) {
-                    e.printStackTrace();
                 }
             }
         } catch (org.apache.derby.shared.common.error
@@ -241,6 +196,42 @@ public class RectangleDAO extends DAO<Rectangle> {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Methode pour afficher le contenu de la table cercles.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    @Override
+    public void affichageTable() throws SQLException {
+        DatabaseMetaData dbmd = getConnect().getMetaData();
+        try (Statement exist = getConnect().createStatement()) {
+            ResultSet rsEx = dbmd.getTables(null, null,
+                    "cercles".toUpperCase(),
+                    null);
+            if (rsEx.next()) {
+                try (Statement stmt = getConnect().createStatement()) {
+                    try (ResultSet rs = stmt.executeQuery("SELECT *"
+                            + " FROM cercles")) {
+                        System.out.println("---Table cercles:---\n");
+                        System.out.println("nom\t centre_x\t centre_y\t rayon");
+                        while (rs.next()) {
+                            System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
+                                    rs.getString("nom"),
+                                    rs.getInt("centre_x"),
+                                    rs.getInt("centre_y"),
+                                    rs.getInt("rayon"));
+                        }
+                        System.out.println("-------------------------------\n");
+                        rs.close();
+                    }
+                }
+            } else {
+                System.out.println("Il n'y a pas encore de cercles"
+                        + " dans la base de données!\n");
+            }
+        }
+    }
+
     /**
      * Méthode de mise à jour.
      * @param obj L'objet à mettre à jour
@@ -249,7 +240,7 @@ public class RectangleDAO extends DAO<Rectangle> {
      * @return obj L'objet à mettre à jour
      */
     @Override
-    public Rectangle update(final Rectangle obj)
+    public Cercle update(final Cercle obj)
             throws SQLException, IOException {
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
@@ -259,13 +250,13 @@ public class RectangleDAO extends DAO<Rectangle> {
             ResultSet res = update.getResultSet();
             if (!res.next()) {
                 System.out.println("Ce nom n'a pas"
-                        + " encore été utilisé pour un rectangle,"
+                        + " encore été utilisé pour un cercle,"
                         + "il n'y a donc pas de mise a jour possible.\n");
                 this.create(obj);
             } else {
                 this.delete(obj);
                 this.create(obj);
-                System.out.println("La mise à jour du rectangle "
+                System.out.println("La mise à jour du cercle "
                         + obj.getNom()
                         + " a été effectué!\n");
             }
@@ -288,18 +279,18 @@ public class RectangleDAO extends DAO<Rectangle> {
      * @throws ClassNotFoundException Exception lié à une classe inexistante
      */
     @Override
-    public Rectangle find(final String nom2) throws SQLException,
+    public Cercle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
-                "rectangles".toUpperCase(), null);
+                "cercles".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
             }
         }
         String nom = nom2.toLowerCase();
-        String updateString = "select * from rectangles where nom = ?";
+        String updateString = "select * from cercles where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
             update.setString(1, nom);
@@ -307,16 +298,17 @@ public class RectangleDAO extends DAO<Rectangle> {
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de rectangle de nom "
+                System.out.println("Il n'y a pas de cercle de nom "
                         + nom + " dans la base de données!\n");
                 return null;
             } else {
-                Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));
-                Point p2 = new Point(res.getInt("bd_x"), res.getInt("bd_y"));
-                Rectangle r = new Rectangle(nom, p, p2);
-                System.out.println("Un rectangle de nom "
+                Point p = new Point(res.getInt("centre_x"),
+                        res.getInt("centre_y"));
+                int r = res.getInt("rayon");
+                Cercle c = new Cercle(nom, p, r);
+                System.out.println("Un cercle de nom "
                         + nom + " a été trouvé dans la base de données!\n");
-                return r;
+                return c;
             }
 
         } catch (org.apache.derby.shared.common.error

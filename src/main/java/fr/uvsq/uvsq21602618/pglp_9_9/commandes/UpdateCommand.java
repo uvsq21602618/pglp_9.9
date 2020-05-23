@@ -1,8 +1,18 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
+import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Dessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
+import fr.uvsq.uvsq21602618.pglp_9_9.Rectangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAO;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAOFactory;
 
 /**
  * Classe pour la commande de mise à jour d'un dessin dans la base de donnees.

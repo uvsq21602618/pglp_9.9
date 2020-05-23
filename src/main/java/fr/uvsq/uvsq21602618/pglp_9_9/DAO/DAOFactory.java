@@ -1,7 +1,13 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.DAO;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
+import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Rectangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
 
 /**
  * La fabrique de DAO pour JDBC.

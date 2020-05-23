@@ -1,8 +1,18 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
+import fr.uvsq.uvsq21602618.pglp_9_9.Point;
+import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
+import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Rectangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAO;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAOFactory;
 
 /**
  * Classe pour la commande de creation du dessin.
@@ -55,26 +65,31 @@ public class CreateCommand implements Command {
      */
     @Override
     public void execute() throws ClassNotFoundException, IOException, SQLException {
-        if (this.creation.contains("carre")) {
-            this.forme = createCarre();
-        } else if (this.creation.contains("cercle")) {
-            this.forme = createCercle();
-        } else if (this.creation.contains("rectangle")) {
-            this.forme = createRectangle();
-        } else if (this.creation.contains("triangle")) {
-            this.forme = createTriangle();
-        } else {
-            this.forme = createComposantDessin();
-        }
-        DAO.setConnect();
         try {
-            if (verification(this.forme)) {
-                this.formes.add(this.forme);
-                this.noms.add(this.forme.getNom());
+            if (this.creation.contains("carre")) {
+                this.forme = createCarre();
+            } else if (this.creation.contains("cercle")) {
+                this.forme = createCercle();
+            } else if (this.creation.contains("rectangle")) {
+                this.forme = createRectangle();
+            } else if (this.creation.contains("triangle")) {
+                this.forme = createTriangle();
+            } else {
+                this.forme = createComposantDessin();
             }
-        } catch (IOException | SQLException  | ClassNotFoundException e) {
+            DAO.setConnect();
+            try {
+                if (verification(this.forme)) {
+                    this.formes.add(this.forme);
+                    this.noms.add(this.forme.getNom());
+                }
+            } catch (IOException | SQLException  | ClassNotFoundException e) {
+                DAO.disconnect();
+                throw e;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Commande erronée!\n");
             DAO.disconnect();
-            throw e;
         }
         DAO.disconnect();
     }

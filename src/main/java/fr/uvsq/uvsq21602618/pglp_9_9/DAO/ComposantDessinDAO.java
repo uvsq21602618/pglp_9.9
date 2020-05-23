@@ -1,4 +1,4 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.DAO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
+import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Dessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
+import fr.uvsq.uvsq21602618.pglp_9_9.Rectangle;
+import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
 
 /**
  * Classe du DAO de ComposantDessin.

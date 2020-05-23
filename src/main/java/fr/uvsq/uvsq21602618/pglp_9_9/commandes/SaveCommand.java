@@ -1,8 +1,14 @@
-package fr.uvsq.uvsq21602618.pglp_9_9;
+package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Dessin;
+import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAO;
+import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAOFactory;
 
 /**
  * Classe pour la commande de sauvegarde dans la base de donnee du dessin en
