@@ -40,7 +40,7 @@ public class CarreDAO extends DAO<Carre> {
     public Carre create(final Carre obj)
             throws SQLException, IOException {
         System.out.println("carre" + obj.nom);
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -127,7 +127,7 @@ public class CarreDAO extends DAO<Carre> {
                 rs.close();
             }
         }
-        this.disconnect();
+        //this.disconnect();
         return obj;
     }
     /**

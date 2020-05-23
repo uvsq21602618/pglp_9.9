@@ -44,7 +44,7 @@ public class RectangleDAO extends DAO<Rectangle> {
     @Override
     public Rectangle create(final Rectangle obj)
             throws SQLException, IOException {
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -136,7 +136,7 @@ public class RectangleDAO extends DAO<Rectangle> {
             e.printStackTrace();
             rs.close();
         }
-        this.disconnect();
+        //this.disconnect();
         return obj;
     }
     /**

@@ -56,7 +56,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     public ComposantDessin create(final ComposantDessin obj)
             throws SQLException, IOException {
         try {
-            this.setConnect();
+            //this.setConnect();
             DatabaseMetaData dbmd = getConnect().getMetaData();
             ResultSet rs = dbmd.getTables(null, null,
                     "formes".toUpperCase(), null);
@@ -75,7 +75,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     update.executeUpdate();
                     update.close();
                     rs = creation.executeQuery("SELECT * FROM formes");
-    
+
                     System.out.println("---Table formes:---\n");
                     System.out.println("nom\t type");
                     while (rs.next()) {
@@ -94,10 +94,10 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     rs.close();
                     creation.close();
                 }
-    
+
                 rs = dbmd.getTables(null, null,
                         "composants_dessin".toUpperCase(), null);
-    
+
                 try (Statement creation2 = getConnect().createStatement()) {
                     if (!rs.next()) {
                         creation2.executeUpdate("Create table composants_dessin"
@@ -116,12 +116,17 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         Forme f;
                         ComposantDessin cd;
                         for (Dessin dessin : obj.getDessinFils()) {
-                            update = getConnect().prepareStatement(updateString);
+                            update = getConnect()
+                                    .prepareStatement(updateString);
                             update.setString(1, obj.getNom().toLowerCase());
                             f = (Forme) dessin;
                             update.setString(2, f.getNomForme().toLowerCase());
                             update.setString(TROIS, f.getNom().toLowerCase());
-    
+                            update.executeUpdate();
+                            update.close();
+                        }
+
+                        for (Dessin dessin : obj.getDessinFils()) {
                             if (dessin instanceof Carre) {
                                 Carre c = (Carre) dessin;
                                 carreDAO.create(c);
@@ -138,12 +143,10 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                                 cd = (ComposantDessin) dessin;
                                 this.create(cd);
                             }
-                            update.executeUpdate();
-                            update.close();
                         }
                         rs = creation2.executeQuery("SELECT * FROM"
                                 + " composants_dessin");
-    
+
                         System.out.println("-------Table"
                                 + " composants_dessin:--------\n");
                         System.out.println("nom\t\t type_composant\t\t"
@@ -157,7 +160,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         System.out.println("----------------------------"
                                 + "-----------------\n");
                         rs.close();
-    
+
                         System.out.println("L'objet " + obj.getNom()
                         + " a bien été enregistré!\n\n");
                     }  catch (org.apache.derby.shared.common.error
@@ -169,7 +172,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     }
                     this.affichageTable();
                     creation2.close();
-    
+
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
                     e.printStackTrace();
@@ -179,9 +182,9 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            this.disconnect();
+            //this.disconnect();
         }
-        this.disconnect();
+        //this.disconnect();
         return obj;
     }
     /**
@@ -381,7 +384,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     this.disconnect();
                     return cd;
                 }
-    
+
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 e.printStackTrace();

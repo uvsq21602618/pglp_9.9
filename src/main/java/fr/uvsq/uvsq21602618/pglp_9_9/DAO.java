@@ -81,7 +81,6 @@ public abstract class DAO<T> {
      */
     public void setConnect() {
         if(connect == null) {
-            System.out.println("setConnect\n");
             try {
                 this.connect = DriverManager.getConnection(dbUrl);
             } catch (SQLException e) {

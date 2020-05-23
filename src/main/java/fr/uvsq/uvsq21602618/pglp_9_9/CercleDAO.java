@@ -40,7 +40,7 @@ public class CercleDAO extends DAO<Cercle> {
     @Override
     public Cercle create(final Cercle obj)
             throws SQLException, IOException {
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -127,7 +127,7 @@ public class CercleDAO extends DAO<Cercle> {
                 rs.close();
             }
         }
-        this.disconnect();
+        //this.disconnect();
         return obj;
     }
 

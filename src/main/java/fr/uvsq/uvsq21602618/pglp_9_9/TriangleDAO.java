@@ -52,7 +52,7 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle create(final Triangle obj)
             throws SQLException, IOException {
-        this.setConnect();
+        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -147,6 +147,7 @@ public class TriangleDAO extends DAO<Triangle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        //this.disconnect();
         return obj;
     }
     /**
