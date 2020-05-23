@@ -33,7 +33,6 @@ public abstract class DAO<T> {
     public DAO() throws SQLException {
         dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
         this.connect = null;
-        this.disconnect = false;
     }
     /**
      * Méthode de création.

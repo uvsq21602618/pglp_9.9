@@ -72,7 +72,9 @@ public class UpdateCommand implements Command {
                 composantDessinDAO.update(cd);
                 flag = true;          
             } else if (obj != null && up instanceof ComposantDessin) {  
+                composantDessinDAO.setConnect();
                 composantDessinDAO.update((ComposantDessin) up);
+                composantDessinDAO.disconnect();
                 flag = true;
             } else {
                 obj = carreDAO.find(this.nom);

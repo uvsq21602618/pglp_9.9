@@ -1,12 +1,7 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -88,12 +83,12 @@ public enum DrawingApp {
 
             } else if (ligne.contains("get")) {
                 commande = moteur.nextCommand("get"
-                        , new SaveCommand(ligne, moteur.getFormes()));
+                        , new GetCommand(ligne, moteur.getFormes()));
                 commande.execute();
 
             } else if (ligne.contains("update")) {
                 commande = moteur.nextCommand("update"
-                        , new SaveCommand(ligne, moteur.getFormes()));
+                        , new UpdateCommand(ligne, moteur.getFormes()));
                 commande.execute();
             } else {
                 System.out.println("La commande tapée n'est pas connue,"

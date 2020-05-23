@@ -68,16 +68,16 @@ public class CreateCommand implements Command {
             } else {
                 this.forme = createComposantDessin();
             }
-            /*if (verification(this.forme)) {*/
+            if (verification(this.forme)) {
                 this.formes.add(this.forme);
                 this.noms.add(this.forme.getNom());
-            //}
+            }
 
         } catch (ArrayIndexOutOfBoundsException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("La commande de creation est incorrecte!\n");
         } catch (NumberFormatException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("La commande de creation est incorrecte!!\n");
         }
     }
@@ -211,75 +211,61 @@ public class CreateCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
-        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                .getComposantDessinDAO();
-        DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
-        DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
-        DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
-        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
-
         if(!this.noms.isEmpty()) {
             for (String s : this.noms) {
                 if (s.equals(forme.getNom())) {
                     System.out.println("Ce nom a deja ete utilise!");
-                    composantDessinDAO.disconnect();
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
                     return false;
-                } else if (composantDessinDAO.find(forme.getNom()) != null) {
-                    System.out.println("Ce nom a deja ete utilise dans la base"
-                            + "de donnees pour un composant du dessin!");
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
-                    return false;
-                } else if (carreDAO.find(forme.getNom()) != null) {
-                    System.out.println("Ce nom a deja ete utilise dans la base"
-                            + "de donnees pour un carré!");
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
-                    return false;
-                } else if (cercleDAO.find(forme.getNom()) != null) {
-                    System.out.println("Ce nom a deja ete utilise dans la base"
-                            + "de donnees pour un cercle!");
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
-                    return false;
-                } else if (rectangleDAO.find(forme.getNom()) != null) {
-                    System.out.println("Ce nom a deja ete utilise dans la base"
-                            + "de donnees pour un rectangle!");
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
-                    return false;
-                } else if (triangleDAO.find(forme.getNom()) != null) {
-                    System.out.println("Ce nom a deja ete utilise dans la base"
-                            + "de donnees pour un triangle!");
-                    carreDAO.disconnect();
-                    cercleDAO.disconnect();
-                    rectangleDAO.disconnect();
-                    triangleDAO.disconnect();
-                    return false;
+                } else {
+                    DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                            .getComposantDessinDAO();
+                    composantDessinDAO.setConnect();
+                    if (composantDessinDAO.find(forme.getNom()) != null) {
+                        System.out.println("Ce nom a deja ete utilise dans la base"
+                                + "de donnees pour un composant du dessin!");
+                        composantDessinDAO.disconnect();
+                        return false;
+                    } else {
+                        DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
+                        carreDAO.setConnect();
+                        if (carreDAO.find(forme.getNom()) != null) {
+                            System.out.println("Ce nom a deja ete utilise dans la base"
+                                    + "de donnees pour un carré!");
+                            carreDAO.disconnect();
+                            return false;
+                        } else {
+                            DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
+                            cercleDAO.setConnect();
+                            if (cercleDAO.find(forme.getNom()) != null) {
+                                System.out.println("Ce nom a deja ete utilise dans la base"
+                                        + "de donnees pour un cercle!");
+                                cercleDAO.disconnect();
+                                return false;
+                            } else {
+                                DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
+                                rectangleDAO.setConnect();
+                                if (rectangleDAO.find(forme.getNom()) != null) {
+                                    System.out.println("Ce nom a deja ete utilise dans la base"
+                                            + "de donnees pour un rectangle!");
+                                    rectangleDAO.disconnect();
+                                    return false;
+                                } else {
+                                    DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+                                    triangleDAO.setConnect();
+                                    if (triangleDAO.find(forme.getNom()) != null) {
+
+                                        System.out.println("Ce nom a deja ete utilise dans la base"
+                                                + "de donnees pour un triangle!");
+                                        triangleDAO.disconnect();
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-            carreDAO.disconnect();
-            cercleDAO.disconnect();
-            rectangleDAO.disconnect();
-            triangleDAO.disconnect();
-            return true;
         }
-        carreDAO.disconnect();
-        cercleDAO.disconnect();
-        rectangleDAO.disconnect();
-        triangleDAO.disconnect();
         return true;
     }
 }

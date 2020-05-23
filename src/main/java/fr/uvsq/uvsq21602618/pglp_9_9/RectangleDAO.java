@@ -44,7 +44,6 @@ public class RectangleDAO extends DAO<Rectangle> {
     @Override
     public Rectangle create(final Rectangle obj)
             throws SQLException, IOException {
-        //this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -136,7 +135,6 @@ public class RectangleDAO extends DAO<Rectangle> {
             e.printStackTrace();
             rs.close();
         }
-        //this.disconnect();
         return obj;
     }
     /**
@@ -145,7 +143,6 @@ public class RectangleDAO extends DAO<Rectangle> {
      */
     @Override
     public void affichageTable() throws SQLException {
-        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -173,7 +170,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                         + " dans la base de données!\n");
             }
         }
-        this.disconnect();
     }
     /**
      * Méthode pour effacer.
@@ -182,7 +178,6 @@ public class RectangleDAO extends DAO<Rectangle> {
      */
     @Override
     public void delete(final Rectangle obj) throws SQLException {
-        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -245,7 +240,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        this.disconnect();
     }
     /**
      * Méthode de mise à jour.
@@ -257,7 +251,6 @@ public class RectangleDAO extends DAO<Rectangle> {
     @Override
     public Rectangle update(final Rectangle obj)
             throws SQLException, IOException {
-        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -282,7 +275,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        this.disconnect();
         return obj;
     }
 
@@ -298,13 +290,11 @@ public class RectangleDAO extends DAO<Rectangle> {
     @Override
     public Rectangle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
-        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "rectangles".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
-                this.disconnect();
                 return null;
             }
         }
@@ -319,7 +309,6 @@ public class RectangleDAO extends DAO<Rectangle> {
             if (!res.next()) {
                 System.out.println("Il n'y a pas de rectangle de nom "
                         + nom + " dans la base de données!\n");
-                this.disconnect();
                 return null;
             } else {
                 Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));
@@ -327,7 +316,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                 Rectangle r = new Rectangle(nom, p, p2);
                 System.out.println("Un rectangle de nom "
                         + nom + " a été trouvé dans la base de données!\n");
-                this.disconnect();
                 return r;
             }
 
@@ -335,7 +323,6 @@ public class RectangleDAO extends DAO<Rectangle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        this.disconnect();
         return null;
     }
 }

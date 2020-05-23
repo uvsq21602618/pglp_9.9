@@ -56,7 +56,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     public ComposantDessin create(final ComposantDessin obj)
             throws SQLException, IOException {
         try {
-            //this.setConnect();
             DatabaseMetaData dbmd = getConnect().getMetaData();
             ResultSet rs = dbmd.getTables(null, null,
                     "formes".toUpperCase(), null);
@@ -115,16 +114,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         PreparedStatement update;
                         Forme f;
                         ComposantDessin cd;
-                        for (Dessin dessin : obj.getDessinFils()) {
-                            update = getConnect()
-                                    .prepareStatement(updateString);
-                            update.setString(1, obj.getNom().toLowerCase());
-                            f = (Forme) dessin;
-                            update.setString(2, f.getNomForme().toLowerCase());
-                            update.setString(TROIS, f.getNom().toLowerCase());
-                            update.executeUpdate();
-                            update.close();
-                        }
 
                         for (Dessin dessin : obj.getDessinFils()) {
                             if (dessin instanceof Carre) {
@@ -144,6 +133,17 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                                 this.create(cd);
                             }
                         }
+                        for (Dessin dessin : obj.getDessinFils()) {
+                            update = getConnect()
+                                    .prepareStatement(updateString);
+                            update.setString(1, obj.getNom().toLowerCase());
+                            f = (Forme) dessin;
+                            update.setString(2, f.getNomForme().toLowerCase());
+                            update.setString(TROIS, f.getNom().toLowerCase());
+                            update.executeUpdate();
+                            update.close();
+                        }
+
                         rs = creation2.executeQuery("SELECT * FROM"
                                 + " composants_dessin");
 
@@ -182,9 +182,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            //this.disconnect();
         }
-        //this.disconnect();
         return obj;
     }
     /**
@@ -284,7 +282,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     @Override
     public ComposantDessin update(final ComposantDessin obj)
             throws IOException, SQLException {
-        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -309,7 +306,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
-        this.disconnect();
         return obj;
     }
 
@@ -326,14 +322,12 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     public ComposantDessin find(final String nom2)
             throws FileNotFoundException, ClassNotFoundException, IOException,
             SQLException {
-        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null);
         try {
             try (Statement creation = getConnect().createStatement()) {
                 if (!rs.next()) {
-                    this.disconnect();
                     return null;
                 }
             }
@@ -348,7 +342,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 if (!flag) {
                     System.out.println("Il n'y a pas de dessin de nom "
                             + nom + " dans la base de données!\n");
-                    this.disconnect();
                     return null;
                 } else {
                     ComposantDessin cd = new ComposantDessin(nom);
@@ -381,7 +374,6 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     }
                     System.out.println("Un dessin de nom "
                             + nom + " a été trouvé dans la base de données!\n");
-                    this.disconnect();
                     return cd;
                 }
 
@@ -391,9 +383,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             } 
         } catch (Exception e) {
             e.printStackTrace();
-            this.disconnect();
         }
-        this.disconnect();
         return null;
     }
 }

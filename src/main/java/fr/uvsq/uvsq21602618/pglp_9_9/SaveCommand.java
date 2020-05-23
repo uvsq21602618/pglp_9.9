@@ -42,28 +42,30 @@ public class SaveCommand implements Command {
     @Override
     public void execute() throws IOException, SQLException,
     ClassNotFoundException {
-        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
-                .getComposantDessinDAO();
         recuperation();
         if (this.nom == null) {
             System.out.println("Il faut indiquer un nom pour le dessin que l'on"
                     + " souhaite sauvegarder!");
         } else {
+            DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+                    .getComposantDessinDAO();
             ComposantDessin dessin = new ComposantDessin(this.nom);
             for (Forme f : formes) {
                 Dessin d = (Dessin) f;
                 dessin.ajoute(d);
             }
-            /*if (composantDessinDAO.find(this.nom) != null) {
+            composantDessinDAO.setConnect();
+            if (composantDessinDAO.find(this.nom) != null) {
                 System.out.println("Le nom: " + this.nom + " est deja utilise "
                         + "dans la base de donnees!");
-            } else {*/
-                composantDessinDAO.setConnect();
+            } else {
                 composantDessinDAO.create(dessin);
                 System.out.println("Le dessin en cours a été sauvegardé sous le"
                         + " nom: " + this.nom + " dans la base de données!");
-                composantDessinDAO.disconnect();
-            //}
+            }
+            composantDessinDAO.disconnect();
+
+            
         }
     }
     /**
