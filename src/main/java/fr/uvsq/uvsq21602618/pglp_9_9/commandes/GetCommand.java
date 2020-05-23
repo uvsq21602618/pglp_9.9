@@ -47,7 +47,8 @@ public class GetCommand implements Command {
      * dans une base de donnees.
      */
     @Override
-    public void execute() throws IOException, SQLException, ClassNotFoundException {
+    public void execute() throws IOException, SQLException,
+    ClassNotFoundException {
         recuperation();
         if (this.nom == null) {
             System.out.println("Indiquer le nom du dessin a recuperer!\n");
@@ -66,7 +67,8 @@ public class GetCommand implements Command {
                     DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
                     DAO<Rectangle> rectangleDAO = new DAOFactory()
                             .getRectangleDAO();
-                    DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+                    DAO<Triangle> triangleDAO = new DAOFactory()
+                            .getTriangleDAO();
 
                     Object obj = null;
                     obj = composantDessinDAO.find(this.nom);
@@ -101,7 +103,8 @@ public class GetCommand implements Command {
                     }
                     System.out.println("Le dessin: " + this.nom + " a été"
                             + " récupéré!\n");
-                } catch (IOException | SQLException | ClassNotFoundException e) {
+                } catch (IOException | SQLException
+                        | ClassNotFoundException e) {
                     DAO.disconnect();
                     throw e;
                 }

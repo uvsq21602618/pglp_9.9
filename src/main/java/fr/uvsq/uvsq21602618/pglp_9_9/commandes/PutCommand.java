@@ -30,6 +30,10 @@ public class PutCommand implements Command {
      */
     private String composant;
     /**
+     * Valeur de 3 pour eviter l'erreur du magicNumber.
+     */
+    static final int TROIS = 3;
+    /**
      * Le constructeur de la commande PutCommand.
      * @param ligne de commande
      * @param liste des formes dessinees
@@ -95,9 +99,10 @@ public class PutCommand implements Command {
                                 System.out.println("Le composant " + composant
                                         + " a été ajouté dans le composé "
                                         + compose + "!\n");
-                                flag = 3;
+                                flag = TROIS;
                             } else {
-                                System.out.println("Le composé indiqué: " + compose
+                                System.out.println("Le composé indiqué: "
+                                        + compose
                                         + " ne peut pas "
                                         + "contenir de composants!\n");
                             }
@@ -107,7 +112,8 @@ public class PutCommand implements Command {
                     System.out.println("Le composé indiqué: " + compose
                             + " ne peut pas "
                             + "contenir de composants!\n");
-                    return flag = 2;
+                    flag = 2;
+                    return flag;
                 }
             } else {
                 if (f instanceof ComposantDessin) {

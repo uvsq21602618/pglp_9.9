@@ -9,11 +9,25 @@ public abstract class Forme {
     /**
      * Le nom de la forme dessinée.
      */
-    protected String nom;
+    private String nom;
+    /**
+     * Definit le nom de la forme.
+     * @param nom2 de la forme
+     */
+    public void setNom(final String nom2) {
+        this.nom = nom2;
+    }
+    /**
+     * Definit la forme.
+     * @param nomForme2 la forme
+     */
+    public void setNomForme(final String nomForme2) {
+        this.nomForme = nomForme2;
+    }
     /**
      * La forme dessinée.
      */
-    protected String nomForme;
+    private String nomForme;
     /**
      * Méthode pour deplacer une forme.
      * @param valx valeur a ajoute a x
@@ -24,12 +38,16 @@ public abstract class Forme {
      * Methode pour recuperer le nom de la forme.
      * @return le nom
      */
-    public abstract String getNomForme();
+    public String getNomForme() {
+        return this.nomForme;
+    }
     /**
      * Methode pour recuperer le nom.
      * @return le nom de la forme
      */
-    public abstract String getNom();
+    public String getNom() {
+        return this.nom;
+    }
     /**
      * Methode pour afficher les informations d'une forme.
      */

@@ -49,7 +49,8 @@ public class UpdateCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     @Override
-    public void execute() throws SQLException, IOException, ClassNotFoundException {
+    public void execute() throws SQLException, IOException,
+    ClassNotFoundException {
         recuperation();
         boolean flag = false;
         if (this.nom == null) {
@@ -81,7 +82,7 @@ public class UpdateCommand implements Command {
                         cd.ajoute((Dessin) f);
                     }
                     composantDessinDAO.update(cd);
-                    flag = true;          
+                    flag = true;
                 } else if (obj != null && up instanceof ComposantDessin) {
                     composantDessinDAO.update((ComposantDessin) up);
                     flag = true;
@@ -109,12 +110,11 @@ public class UpdateCommand implements Command {
                             }
                         }
                         if (flag) {
-                            System.out.println("Le dessin : " + this.nom 
+                            System.out.println("Le dessin : " + this.nom
                                     + " a été mis "
                                     + "a jour!\n");
-                        }
-                        else {
-                            System.out.println("Le dessin : " + this.nom 
+                        } else {
+                            System.out.println("Le dessin : " + this.nom
                                     + " a mettre a jour n'est "
                                     + "pas dans la base de donnée!\n");
                         }

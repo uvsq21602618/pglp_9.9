@@ -46,7 +46,8 @@ public class DeleteBackUpCommand implements Command {
      *  donnee.
      */
     @Override
-    public void execute() throws IOException, SQLException, ClassNotFoundException {
+    public void execute() throws IOException, SQLException,
+    ClassNotFoundException {
         recuperation();
         if (this.nom == null) {
             System.out.println("Indiquer le nom du dessin a supprimer!");
@@ -60,7 +61,7 @@ public class DeleteBackUpCommand implements Command {
                 DAO<Rectangle> rectangleDAO = new DAOFactory()
                         .getRectangleDAO();
                 DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
-    
+
                 Object obj = null;
                 obj = composantDessinDAO.find(this.nom);
                 if (obj != null) {

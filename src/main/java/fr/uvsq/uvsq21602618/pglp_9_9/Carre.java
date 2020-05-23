@@ -21,8 +21,8 @@ public class Carre extends Forme implements Dessin {
      * @param l longueur du carre
      */
     public Carre(final String nom2, final Point p, final int l) {
-            this.nom = nom2;
-            this.nomForme = "Carré";
+            this.setNom(nom2);
+            this.setNomForme("Carré");
             this.hg = p;
             this.longueur = l;
     }
@@ -50,25 +50,11 @@ public class Carre extends Forme implements Dessin {
         return longueur;
     }
     /**
-     * Methode pour retourner le nom du carre.
-     */
-    @Override
-    public String getNom() {
-        return this.nom;
-    }
-    /**
-     * Methode pour retourner le nom de la forme.
-     */
-    @Override
-    public String getNomForme() {
-        return this.nomForme;
-    }
-    /**
      * Affiche les informations du carre.
      */
     @Override
     public void affiche() {
-        String s = this.nom + " = " + this.nomForme
+        String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
                 + "), " + this.longueur + ")\n";
         System.out.println(s);

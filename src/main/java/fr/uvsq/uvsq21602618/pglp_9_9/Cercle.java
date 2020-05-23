@@ -20,8 +20,8 @@ public class Cercle extends Forme implements Dessin {
      * @param ray le rayon du cercle
      */
     public Cercle(final String nom2, final Point p, final int ray) {
-        this.nom = nom2;
-        this.nomForme = "Cercle";
+        this.setNom(nom2);
+        this.setNomForme("Cercle");
         this.centre = p;
         this.rayon = ray;
     }
@@ -73,22 +73,6 @@ public class Cercle extends Forme implements Dessin {
         this.centre.deplace(valx, valy);
     }
     /**
-     * Retourne le nom de la forme.
-     * @return le nom de la forme.
-     */
-    @Override
-    public String getNomForme() {
-        return this.nomForme;
-    }
-    /**
-     * Retourne le nom du cercle.
-     * @return nom
-     */
-    @Override
-    public String getNom() {
-        return this.nom;
-    }
-    /**
      * Retourne les coordonées du centre du cercle.
      * @return centre
      */
@@ -107,7 +91,7 @@ public class Cercle extends Forme implements Dessin {
      */
     @Override
     public void affiche() {
-        String s = this.nom + " = " + this.nomForme
+        String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.centre.getX() + ", " + this.centre.getY()
                 + "), " + this.rayon + ")\n";
         System.out.println(s);

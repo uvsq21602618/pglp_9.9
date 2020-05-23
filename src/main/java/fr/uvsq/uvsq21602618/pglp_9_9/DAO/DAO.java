@@ -16,7 +16,8 @@ public abstract class DAO<T> {
      * Chaîne de connexion precisant les informations pour
      * la connexion a la base de données.
      */
-    private static String dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
+    private static String dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB"
+            + ";create=true";
     /**
      * Permet l'interaction avec le JDBC.
      */
@@ -66,7 +67,7 @@ public abstract class DAO<T> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public static void setConnect() throws SQLException {
-        if(connect == null) {
+        if (connect == null) {
             try {
                 connect = DriverManager.getConnection(dbUrl);
             } catch (SQLException e) {

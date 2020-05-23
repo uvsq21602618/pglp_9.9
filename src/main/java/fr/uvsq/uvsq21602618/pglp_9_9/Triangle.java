@@ -26,8 +26,8 @@ public class Triangle extends Forme implements Dessin {
      */
     public Triangle(final String nom2, final Point point1,
             final Point point2, final Point point3) {
-        this.nom = nom2;
-        this.nomForme = "Triangle";
+        this.setNom(nom2);
+        this.setNomForme("Triangle");
         this.p1 = point1;
         this.p2 = point2;
         this.p3 = point3;
@@ -42,22 +42,6 @@ public class Triangle extends Forme implements Dessin {
         this.p1.deplace(valx, valy);
         this.p2.deplace(valx, valy);
         this.p3.deplace(valx, valy);
-    }
-    /**
-     * Methode qui retourne le nom du triangle.
-     * @return le nom
-     */
-    @Override
-    public String getNom() {
-        return this.nom;
-    }
-    /**
-     * Methode qui retourne le nom de la forme.
-     * @return le nom de la forme
-     */
-    @Override
-    public String getNomForme() {
-        return this.nomForme;
     }
     /**
      * Retourne le premier point du triangle.
@@ -85,7 +69,7 @@ public class Triangle extends Forme implements Dessin {
      */
     @Override
     public void affiche() {
-        String s = this.nom + " = " + this.nomForme
+        String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.p1.getX() + ", " + this.p1.getY()
                 + "), (" + this.p2.getX() + ", " + this.p2.getY()
                 + "), (" + this.p3.getX() + ", " + this.p3.getY()

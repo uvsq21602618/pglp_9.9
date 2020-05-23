@@ -52,7 +52,8 @@ public class ShowCommand implements Command {
     }
     /**
      * Methode pour montrer les informations d'une forme.
-     * @return 
+     * @return flag
+     * @param liste de formes
      */
     private boolean montrer(final List<Forme> liste) {
         boolean flag = false;
@@ -62,7 +63,7 @@ public class ShowCommand implements Command {
                 return true;
                 } else {
                 if (f instanceof ComposantDessin) {
-                    flag = ((ComposantDessin)f).afficheFils(nom);
+                    flag = ((ComposantDessin) f).afficheFils(nom);
                 }
             }
         }

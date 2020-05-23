@@ -20,8 +20,8 @@ public class Rectangle extends Forme implements Dessin {
      * @param p2 le point en bas a droite
      */
     public Rectangle(final String nom2, final Point p1, final Point p2) {
-        this.nom = nom2;
-        this.nomForme = "Rectangle";
+        this.setNom(nom2);
+        this.setNomForme("Rectangle");
         this.hg = p1;
         this.bd = p2;
     }
@@ -78,20 +78,6 @@ public class Rectangle extends Forme implements Dessin {
         this.bd.deplace(valx, valy);
     }
     /**
-     * Methode pour recuperer le nom du rectangle.
-     * @return le nom
-     */
-    public String getNom() {
-        return this.nom;
-    }
-    /**
-     * Methode pour recuperer le nom de la forme.
-     * @return le nom de la forme
-     */
-    public String getNomForme() {
-        return this.nomForme;
-    }
-    /**
      * Methode pour recupere le point en haut a gauche du rectangle.
      * @return hg
      */
@@ -110,7 +96,7 @@ public class Rectangle extends Forme implements Dessin {
      */
     @Override
     public void affiche() {
-        String s = this.nom + " = " + this.nomForme
+        String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
                 + "), (" + this.bd.getX() + ", " + this.bd.getY()
                 + "))\n";

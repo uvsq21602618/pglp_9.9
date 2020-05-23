@@ -207,16 +207,17 @@ public class CarreDAO extends DAO<Carre> {
                             updateString = "delete from formes"
                                     + " where nom= ?";
                             try (PreparedStatement update2 =
-                                getConnect().prepareStatement(updateString)) {
+                                    getConnect()
+                                    .prepareStatement(updateString)) {
                                 update2.setString(1, obj.getNom()
                                         .toLowerCase());
                                 update2.executeUpdate();
 
                                 System.out.printf("Le carre avec le nom "
-                                + obj.getNom()
-                                + " a bien été supprimé!\n");
+                                        + obj.getNom()
+                                        + " a bien été supprimé!\n");
                             } catch (org.apache.derby.shared.common.error
-                           .DerbySQLIntegrityConstraintViolationException e) {
+                            .DerbySQLIntegrityConstraintViolationException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -289,7 +290,7 @@ public class CarreDAO extends DAO<Carre> {
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
                 return null;
-            } 
+            }
         }
         String nom = nom2.toLowerCase();
         String updateString = "select * from carres where nom = ?";

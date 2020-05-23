@@ -60,7 +60,6 @@ public class MoveCommand implements Command {
     /**
      * Methode pour deplacer une forme dans une liste donnee.
      * @param liste ou se situe le composant a deplacer
-     * @param flag vaut vrai si un composant correspond, false sinon
      * @return flag
      */
     private boolean deplace(final List<Forme> liste) {
@@ -72,8 +71,8 @@ public class MoveCommand implements Command {
                         this.deplacement.getY());
             } else {
                 if (f instanceof ComposantDessin) {
-                    flag = ((ComposantDessin) f).deplaceFils(nom
-                            , deplacement.getX(), deplacement.getY());
+                    flag = ((ComposantDessin) f).deplaceFils(nom,
+                            deplacement.getX(), deplacement.getY());
                 }
             }
         }

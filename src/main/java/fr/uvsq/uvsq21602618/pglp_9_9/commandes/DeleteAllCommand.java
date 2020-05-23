@@ -21,10 +21,10 @@ public class DeleteAllCommand implements Command {
     /**
      * Le constructeur de la commande DeleteAllCommand.
      * @param liste des formes dessinees
-     * @param liste des noms des formes dessinees
+     * @param listeNoms des noms des formes dessinees
      */
-    public DeleteAllCommand(final List<Forme> liste
-            , final List<String> listeNoms) {
+    public DeleteAllCommand(final List<Forme> liste,
+            final List<String> listeNoms) {
         this.formes = liste;
         this.noms = listeNoms;
     }

@@ -56,14 +56,18 @@ public class DeleteCommand implements Command {
             this.noms.remove(nom);
         }
     }
-
+    /**
+     * Methode pour effacer un element d'une liste donnee.
+     * @param liste de formes
+     * @return flag true si une forme a ete supprime, false sinon
+     */
     public boolean suppression(final List<Forme> liste) {
         boolean flag = false;
         Forme remove = null;
         ComposantDessin cd = null;
         for (Forme f: liste) {
             if (f.getNom().trim().equals(nom)) {
-                remove = f; 
+                remove = f;
                 flag = true;
             } else {
                 if (f instanceof ComposantDessin) {
@@ -72,10 +76,10 @@ public class DeleteCommand implements Command {
                 }
             }
         }
-        if(remove != null) {
+        if (remove != null) {
             liste.remove(remove);
         }
-        if(cd != null) {
+        if (cd != null) {
             cd.deleteFils(nom);
         }
         return flag;

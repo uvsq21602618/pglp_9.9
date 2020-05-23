@@ -70,7 +70,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             try (Statement creation = getConnect().createStatement()) {
                 if (!rs.next()) {
                     creation.executeUpdate("Create table formes"
-                            + " (nom varchar(30) primary key, type varchar(30))");
+                            + " (nom varchar(30) primary key"
+                            + ", type varchar(30))");
                 }
                 try {
                     String updateString = ("insert into formes values ("
@@ -97,7 +98,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     creation.close();
                 } catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
-                    System.out.println("Ce nom a deja été utilisé dans formes!\n");
+                    System.out.println("Ce nom a deja été"
+                            + " utilisé dans formes!\n");
                     rs.close();
                     creation.close();
                 }
@@ -108,7 +110,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 try (Statement creation2 = getConnect().createStatement()) {
                     if (!rs.next()) {
                         creation2.executeUpdate("Create table composants_dessin"
-                                + "(nom varchar(30), type_composant varchar(30),"
+                                + "(nom varchar(30),type_composant varchar(30),"
                                 + " nom_composant varchar(30),"
                                 + "primary key (nom, nom_composant), "
                                 + "foreign key (nom) references formes(nom),"
@@ -340,7 +342,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 }
             }
             String nom = nom2.toLowerCase();
-            String updateString = "select * from composants_dessin where nom = ?";
+            String updateString = "select * from composants_dessin"
+                    + " where nom = ?";
             try (PreparedStatement update =
                     getConnect().prepareStatement(updateString)) {
                 update.setString(1, nom);
@@ -388,7 +391,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
                 e.printStackTrace();
-            } 
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
