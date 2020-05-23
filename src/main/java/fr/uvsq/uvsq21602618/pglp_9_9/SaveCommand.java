@@ -62,6 +62,7 @@ public class SaveCommand implements Command {
                 composantDessinDAO.create(dessin);
                 System.out.println("Le dessin en cours a été sauvegardé sous le"
                         + " nom: " + this.nom + " dans la base de données!");
+                composantDessinDAO.disconnect();
             //}
         }
     }

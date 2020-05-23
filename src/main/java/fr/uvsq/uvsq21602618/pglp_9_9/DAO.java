@@ -16,11 +16,15 @@ public abstract class DAO<T> {
      * Chaîne de connexion precisant les informations pour
      * la connexion a la base de données.
      */
-    private String dbUrl;
+    private static String dbUrl;
     /**
      * Permet l'interaction avec le JDBC.
      */
-    private Connection connect;
+    private static Connection connect;
+    /**
+     * Deja deconnecte ou non.
+     */
+    private static boolean disconnect;
 
     /**
      * Constructeur du DAO pour JDBC.
@@ -29,6 +33,7 @@ public abstract class DAO<T> {
     public DAO() throws SQLException {
         dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
         this.connect = null;
+        this.disconnect = false;
     }
     /**
      * Méthode de création.
@@ -82,6 +87,7 @@ public abstract class DAO<T> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            this.disconnect = false;
         }
     }
     /**
@@ -94,7 +100,10 @@ public abstract class DAO<T> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public void disconnect() throws SQLException {
-        this.connect.close();
-        this.connect = null;
+        if (this.disconnect == false) {
+            this.connect.close();
+            this.connect = null;
+            this.disconnect = true;
+        }
     }
 }
