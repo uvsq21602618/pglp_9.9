@@ -100,6 +100,7 @@ public enum DrawingApp {
                         + " veuillez réessayer!\n");
             }
         }
+        System.out.println("Fin de la saisie!");
         scanner.close();
 
         /*

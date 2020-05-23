@@ -55,14 +55,14 @@ public class SaveCommand implements Command {
                 dessin.ajoute(d);
             }
 
-            if (composantDessinDAO.find(this.nom) != null) {
+            /*if (composantDessinDAO.find(this.nom) != null) {
                 System.out.println("Le nom: " + this.nom + " est deja utilise "
                         + "dans la base de donnees!");
-            } else {
+            } else {*/
                 composantDessinDAO.create(dessin);
                 System.out.println("Le dessin en cours a été sauvegardé sous le"
                         + " nom: " + this.nom + " dans la base de données!");
-            }
+            //}
         }
     }
     /**

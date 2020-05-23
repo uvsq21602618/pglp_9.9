@@ -52,6 +52,7 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle create(final Triangle obj)
             throws SQLException, IOException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -154,6 +155,7 @@ public class TriangleDAO extends DAO<Triangle> {
      */
     @Override
     public void affichageTable() throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -191,6 +193,7 @@ public class TriangleDAO extends DAO<Triangle> {
      */
     @Override
     public void delete(final Triangle obj) throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -264,7 +267,7 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle update(final Triangle obj)
             throws SQLException, IOException {
-
+        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -289,6 +292,7 @@ public class TriangleDAO extends DAO<Triangle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return obj;
     }
     /**
@@ -303,6 +307,7 @@ public class TriangleDAO extends DAO<Triangle> {
     @Override
     public Triangle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "triangles".toUpperCase(), null);

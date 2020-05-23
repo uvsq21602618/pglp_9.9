@@ -55,6 +55,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      */
     public ComposantDessin create(final ComposantDessin obj)
             throws SQLException, IOException {
+        System.out.println("composant" + obj.nom);
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -175,7 +177,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 rs.close();
             }
         }
-
+        this.disconnect();
         return obj;
     }
     /**
@@ -183,6 +185,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public void affichageTable() throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -212,6 +215,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         + " dans la base de données!\n");
             }
         }
+        this.disconnect();
     }
     /**
      * Méthode pour effacer.
@@ -220,6 +224,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
      */
     @Override
     public void delete(final ComposantDessin obj) throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -259,6 +264,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
     }
 
     /**
@@ -271,7 +277,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     @Override
     public ComposantDessin update(final ComposantDessin obj)
             throws IOException, SQLException {
-
+        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -296,6 +302,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return obj;
     }
 
@@ -312,11 +319,13 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
     public ComposantDessin find(final String nom2)
             throws FileNotFoundException, ClassNotFoundException, IOException,
             SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
+                this.disconnect();
                 return null;
             }
         }
@@ -331,6 +340,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
             if (!flag) {
                 System.out.println("Il n'y a pas de dessin de nom "
                         + nom + " dans la base de données!\n");
+                this.disconnect();
                 return null;
             } else {
                 ComposantDessin cd = new ComposantDessin(nom);
@@ -363,6 +373,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 }
                 System.out.println("Un dessin de nom "
                         + nom + " a été trouvé dans la base de données!\n");
+                this.disconnect();
                 return cd;
             }
 
@@ -370,6 +381,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return null;
     }
 }

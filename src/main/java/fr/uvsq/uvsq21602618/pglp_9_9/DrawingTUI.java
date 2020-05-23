@@ -97,58 +97,6 @@ Elle proposera également une méthode permettant d'afficher un dessin.
             UpdateCommand update = (UpdateCommand) commande;
             return update;
         }
-        /*c1 = Cercle((0, 0), 50)
-        while (!scanner.hasNext("quit") && scanner.hasNext()) {
-            String ligne = scanner.next().toLowerCase();
-            if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
-                    || (ligne.contains("carre")) || (ligne.contains("triangle"))
-                    || (ligne.contains("dessin"))) {
-                com = new CreateCommand(ligne);
-                CreateCommand create = (CreateCommand) com;
-                if (verification(create.getForme())) {
-                    this.formes.add(create.getForme());
-                    this.noms.add(create.getForme().getNom());
-                    return com;
-                }
-            } else if (ligne.contains("delete")) {
-                if (ligne.contains("deleteAll")) {
-                    com = new DeleteAllCommand(this.formes, this.noms);
-                    return com;
-                } else {
-                    com = new DeleteCommand(ligne, this.formes, this.noms);
-                    return com;
-                }
-            } else if (ligne.contains("put")) {
-                com = new PutCommand(ligne, this.formes);
-                return com;
-            } else if (ligne.contains("move")) {
-                if (ligne.contains("moveall")) {
-                    com = new MoveCommand(ligne, this.formes);
-                    return com;
-                } else {
-                    com = new MoveAllCommand(ligne, this.formes);
-                    return com;
-                }
-            } else if (ligne.contains("show")) {
-                if (ligne.contains("showall")) {
-                    com = new ShowAllCommand(this.formes);
-                    return com;
-                }
-                com = new ShowCommand(ligne, this.formes);
-                return com;
-            } else if (ligne.contains("save")) {
-                com = new SaveCommand(ligne, this.formes);
-                return com;
-            } else if (ligne.contains("get")) {
-                com = new GetCommand(ligne, this.formes);
-                return com;
-            } else if (ligne.contains("update")) {
-                com = new UpdateCommand(ligne, this.formes);
-                return com;
-            }
-        }
-
-        scanner.close();*/
         return com;
     }
     /**

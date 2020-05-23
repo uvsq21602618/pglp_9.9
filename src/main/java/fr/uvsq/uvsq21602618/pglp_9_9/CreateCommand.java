@@ -211,19 +211,19 @@ public class CreateCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
-        /*DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
                 .getComposantDessinDAO();
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
         DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
-        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();*/
+        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
 
         if(!this.noms.isEmpty()) {
             for (String s : this.noms) {
                 if (s.equals(forme.getNom())) {
                     System.out.println("Ce nom a deja ete utilise!");
                     return false;
-                }/* else if (composantDessinDAO.find(forme.getNom()) != null) {
+                } else if (composantDessinDAO.find(forme.getNom()) != null) {
                     System.out.println("Ce nom a deja ete utilise dans la base"
                             + "de donnees pour un composant du dessin!");
                     return false;
@@ -243,7 +243,7 @@ public class CreateCommand implements Command {
                     System.out.println("Ce nom a deja ete utilise dans la base"
                             + "de donnees pour un triangle!");
                     return false;
-                }*/
+                }
             }
             return true;
         }

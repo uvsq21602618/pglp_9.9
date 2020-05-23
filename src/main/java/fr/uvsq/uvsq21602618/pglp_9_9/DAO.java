@@ -28,12 +28,7 @@ public abstract class DAO<T> {
      */
     public DAO() throws SQLException {
         dbUrl = "jdbc:derby:donneesPourDB\\jdbcDB;create=true";
-
-        try {
-            setConnect(DriverManager.getConnection(dbUrl));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.connect = null;
     }
     /**
      * Méthode de création.
@@ -79,12 +74,27 @@ public abstract class DAO<T> {
      * Methode pour redefinir connect.
      * @param newCon a remplacer
      */
-    public void setConnect(final Connection newCon) {
-        this.connect = newCon;
+    public void setConnect() {
+        if(connect == null) {
+            System.out.println("setConnect\n");
+            try {
+                this.connect = DriverManager.getConnection(dbUrl);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
     /**
      * Methode pour afficher le contenu d'une table.
      * @throws SQLException Exception liee a l'acces a la base de donnees
      */
     public abstract void affichageTable() throws SQLException;
+    /**
+     * Fonction pour se deconnecter de la base de donnee.
+     * @throws SQLException Exception liee a l'acces a la base de donnees
+     */
+    public void disconnect() throws SQLException {
+        this.connect.close();
+        this.connect = null;
+    }
 }

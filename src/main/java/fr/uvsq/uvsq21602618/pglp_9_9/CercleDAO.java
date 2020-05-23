@@ -40,6 +40,7 @@ public class CercleDAO extends DAO<Cercle> {
     @Override
     public Cercle create(final Cercle obj)
             throws SQLException, IOException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -126,6 +127,7 @@ public class CercleDAO extends DAO<Cercle> {
                 rs.close();
             }
         }
+        this.disconnect();
         return obj;
     }
 
@@ -136,6 +138,7 @@ public class CercleDAO extends DAO<Cercle> {
      */
     @Override
     public void delete(final Cercle obj) throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -192,6 +195,7 @@ public class CercleDAO extends DAO<Cercle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
     }
 
     /**
@@ -200,6 +204,7 @@ public class CercleDAO extends DAO<Cercle> {
      */
     @Override
     public void affichageTable() throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -227,6 +232,7 @@ public class CercleDAO extends DAO<Cercle> {
                         + " dans la base de données!\n");
             }
         }
+        this.disconnect();
     }
 
     /**
@@ -239,7 +245,7 @@ public class CercleDAO extends DAO<Cercle> {
     @Override
     public Cercle update(final Cercle obj)
             throws SQLException, IOException {
-
+        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -264,6 +270,7 @@ public class CercleDAO extends DAO<Cercle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return obj;
     }
 
@@ -279,11 +286,13 @@ public class CercleDAO extends DAO<Cercle> {
     @Override
     public Cercle find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "cercles".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
+                this.disconnect();
                 return null;
             }
         }
@@ -298,6 +307,7 @@ public class CercleDAO extends DAO<Cercle> {
             if (!res.next()) {
                 System.out.println("Il n'y a pas de cercle de nom "
                         + nom + " dans la base de données!\n");
+                this.disconnect();
                 return null;
             } else {
                 Point p = new Point(res.getInt("centre_x"),
@@ -306,6 +316,7 @@ public class CercleDAO extends DAO<Cercle> {
                 Cercle c = new Cercle(nom, p, r);
                 System.out.println("Un cercle de nom "
                         + nom + " a été trouvé dans la base de données!\n");
+                this.disconnect();
                 return c;
             }
 
@@ -313,6 +324,7 @@ public class CercleDAO extends DAO<Cercle> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return null;
     }
 }

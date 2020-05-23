@@ -39,6 +39,8 @@ public class CarreDAO extends DAO<Carre> {
     @Override
     public Carre create(final Carre obj)
             throws SQLException, IOException {
+        System.out.println("carre" + obj.nom);
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "formes".toUpperCase(), null);
@@ -125,6 +127,7 @@ public class CarreDAO extends DAO<Carre> {
                 rs.close();
             }
         }
+        this.disconnect();
         return obj;
     }
     /**
@@ -133,6 +136,7 @@ public class CarreDAO extends DAO<Carre> {
      */
     @Override
     public void affichageTable() throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (Statement exist = getConnect().createStatement()) {
             ResultSet rsEx = dbmd.getTables(null, null,
@@ -160,6 +164,7 @@ public class CarreDAO extends DAO<Carre> {
                         + " dans la base de données!\n");
             }
         }
+        this.disconnect();
     }
     /**
      * Méthode pour effacer.
@@ -168,6 +173,7 @@ public class CarreDAO extends DAO<Carre> {
      */
     @Override
     public void delete(final Carre obj) throws SQLException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         try (ResultSet rs = dbmd.getTables(null, null,
                 "composants_dessin".toUpperCase(), null)) {
@@ -229,6 +235,7 @@ public class CarreDAO extends DAO<Carre> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
     }
 
     /**
@@ -241,6 +248,7 @@ public class CarreDAO extends DAO<Carre> {
     @Override
     public Carre update(final Carre obj)
             throws SQLException, IOException {
+        this.setConnect();
         String updateString = "select * from formes where nom= ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
@@ -265,6 +273,7 @@ public class CarreDAO extends DAO<Carre> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return obj;
     }
     /**
@@ -279,11 +288,13 @@ public class CarreDAO extends DAO<Carre> {
     @Override
     public Carre find(final String nom2) throws SQLException,
     FileNotFoundException, ClassNotFoundException, IOException {
+        this.setConnect();
         DatabaseMetaData dbmd = getConnect().getMetaData();
         ResultSet rs = dbmd.getTables(null, null,
                 "carres".toUpperCase(), null);
         try (Statement creation = getConnect().createStatement()) {
             if (!rs.next()) {
+                this.disconnect();
                 return null;
             } 
         }
@@ -299,6 +310,7 @@ public class CarreDAO extends DAO<Carre> {
             if (!res.next()) {
                 System.out.println("Il n'y a pas de carré de nom "
                         + nom + " dans la base de données!\n");
+                this.disconnect();
                 return null;
             } else {
                 Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));
@@ -306,6 +318,7 @@ public class CarreDAO extends DAO<Carre> {
                 Carre c = new Carre(nom, p, l);
                 System.out.println("Un carré de nom "
                         + nom + " a été trouvé dans la base de données!\n");
+                this.disconnect();
                 return c;
             }
 
@@ -313,6 +326,7 @@ public class CarreDAO extends DAO<Carre> {
                 .DerbySQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
         }
+        this.disconnect();
         return null;
     }
 }
