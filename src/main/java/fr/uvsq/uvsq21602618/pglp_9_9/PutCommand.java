@@ -78,26 +78,38 @@ public class PutCommand implements Command {
         Forme remove = null;
         for (Forme f: liste) {
             if (f.getNom().trim().equals(compose)) {
-                flag = 1;
-                for (Forme f2: liste) {
-                    if (f2.getNom().trim().equals(composant)) {
-                        flag = 2;
-                        if (f instanceof ComposantDessin) {
-                            ComposantDessin cd = (ComposantDessin) f;
-                            Dessin d = (Dessin) f2;
-                            cd.ajoute(d);
-                            ajouteComposant(cd.getDessinFilsFormes(),
-                                    flag);
-                            remove = f2;
-                            System.out.println("Le composant " + composant
-                                    + " a été ajouté dans le composé "
-                                    + compose + "!\n");
-                        } else {
-                            System.out.println("Le composé indiqué: " + compose
-                                    + " ne peut pas "
-                                    + "contenir de composants!\n");
+                if (f instanceof ComposantDessin) {
+                    flag = 1;
+                    for (Forme f2: liste) {
+                        if (f2.getNom().trim().equals(composant)) {
+                            flag = 2;
+                            if (f instanceof ComposantDessin) {
+                                ComposantDessin cd = (ComposantDessin) f;
+                                Dessin d = (Dessin) f2;
+                                cd.ajoute(d);
+                                remove = f2;
+                                System.out.println("Le composant " + composant
+                                        + " a été ajouté dans le composé "
+                                        + compose + "!\n");
+                                return flag;
+                            } else {
+                                System.out.println("Le composé indiqué: " + compose
+                                        + " ne peut pas "
+                                        + "contenir de composants!\n");
+                            }
                         }
                     }
+                } else {
+                    System.out.println("Le composé indiqué: " + compose
+                            + " ne peut pas "
+                            + "contenir de composants!\n");
+                    return flag = 2;
+                }
+            } else {
+                if (f instanceof ComposantDessin) {
+                    ComposantDessin cd = (ComposantDessin) f;
+                    flag = ajouteComposant(cd.getDessinFilsFormes(),
+                            flag);
                 }
             }
         }

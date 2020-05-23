@@ -44,18 +44,38 @@ public class DeleteCommand implements Command {
     @Override
     public void execute() {
         boolean flag = false;
-        for (Forme f: this.formes) {
-            if (f.getNom().trim().equals(nom)) {
-                System.out.println("Suppression du " + f.getNomForme()
-                + " " + f.getNom() + "!");
-                this.formes.remove(f);
-                this.noms.remove(f.getNom());
-                flag = true;
-            }
-        }
+        flag = suppression(this.formes);
         if (!flag) {
             System.out.println("Le nom de cette forme n'existe pas!");
+        } else {
+            System.out.println("Suppression de"
+                    + " " + nom + "!");
+            this.noms.remove(nom);
         }
+    }
+
+    public boolean suppression(final List<Forme> liste) {
+        boolean flag = false;
+        Forme remove = null;
+        ComposantDessin cd = null;
+        for (Forme f: liste) {
+            if (f.getNom().trim().equals(nom)) {
+                remove = f; 
+                flag = true;
+            } else {
+                if (f instanceof ComposantDessin) {
+                    cd = (ComposantDessin) f;
+                    flag = suppression(cd.getDessinFilsFormes());
+                }
+            }
+        }
+        if(remove != null) {
+            liste.remove(remove);
+        }
+        if(cd != null) {
+            cd.deleteFils(nom);
+        }
+        return flag;
     }
     /**
      * Fonction pour recuperer le nom de la forme a supprimer.

@@ -32,17 +32,18 @@ public enum DrawingApp {
         Command commande;
 
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
-            String ligne = scanner.next().toLowerCase();
+            String ligne = scanner.nextLine().toLowerCase();
             if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
                     || (ligne.contains("carre")) || (ligne.contains("triangle"))
-                    || (ligne.contains("dessin"))) {
+                    || (ligne.contains("composant du dessin"))) {
+                System.out.println(ligne);
                 commande = moteur.nextCommand("create"
                         , new CreateCommand(ligne, moteur.getFormes()
                                 , moteur.getNoms()));
                 commande.execute();
 
             } else if (ligne.contains("delete")) {
-                if (ligne.contains("deleteAll")) {
+                if (ligne.contains("deleteall")) {
                     commande = moteur.nextCommand("deleteall"
                             , new DeleteAllCommand(moteur.getFormes()
                                     , moteur.getNoms()));
@@ -74,10 +75,11 @@ public enum DrawingApp {
                     commande = moteur.nextCommand("showall"
                             , new ShowAllCommand(moteur.getFormes()));
                     commande.execute();
+                } else {
+                    commande = moteur.nextCommand("show"
+                            , new ShowCommand(ligne, moteur.getFormes()));
+                    commande.execute();
                 }
-                commande = moteur.nextCommand("show"
-                        , new ShowCommand(ligne, moteur.getFormes()));
-                commande.execute();
 
             } else if (ligne.contains("save")) {
                 commande = moteur.nextCommand("save"
@@ -93,6 +95,9 @@ public enum DrawingApp {
                 commande = moteur.nextCommand("update"
                         , new SaveCommand(ligne, moteur.getFormes()));
                 commande.execute();
+            } else {
+                System.out.println("La commande tapée n'est pas connue,"
+                        + " veuillez réessayer!\n");
             }
         }
         scanner.close();

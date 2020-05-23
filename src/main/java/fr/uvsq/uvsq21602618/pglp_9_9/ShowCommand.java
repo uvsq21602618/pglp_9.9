@@ -41,26 +41,39 @@ public class ShowCommand implements Command {
             System.out.println("Il n'y a rien a afficher!");
             flag = true;
         } else {
-            for (Forme f : formes) {
-                if (f.getNom().equals(nom)) {
-                    f.affiche();
-                    flag = true;
-                }
-            }
+            flag = montrer(this.formes);
         }
         if (!flag) {
             System.out.println("Le nom indiqué ne correspond a aucun dessin!");
         }
     }
     /**
-     * Fonction pour recuperer le nom de la forme ou du dessin dont on veut
-     * afficher les informations.
+     * Methode pour montrer les informations d'une forme.
+     * @return 
      */
-    private void recuperation() {
-        String str = this.show;
-        str = str.replaceAll("show\\(", "");
-        str = str.replaceAll("\\)", "");
-
-        this.nom = str.trim();
+    private boolean montrer(final List<Forme> liste) {
+        boolean flag = false;
+        for (Forme f : liste) {
+            if (f.getNom().equals(nom)) {
+                f.affiche();
+                return true;
+                } else {
+                if (f instanceof ComposantDessin) {
+                    flag = ((ComposantDessin)f).afficheFils(nom);
+                }
+            }
+        }
+        return flag;
     }
-}
+        /**
+         * Fonction pour recuperer le nom de la forme ou du dessin dont on veut
+         * afficher les informations.
+         */
+        private void recuperation() {
+            String str = this.show;
+            str = str.replaceAll("show\\(", "");
+            str = str.replaceAll("\\)", "");
+
+            this.nom = str.trim();
+        }
+    }

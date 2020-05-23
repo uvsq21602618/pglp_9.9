@@ -145,4 +145,62 @@ public class ComposantDessin extends Forme implements Dessin {
         }
         return formes;
     }
+    /**
+     * Methode pour supprimer un fils base sur son nom.
+     * @param nom du dessinFils a supprimer
+     */
+    public void deleteFils(final String nom) {
+        Dessin remove = null;
+        for (Dessin d : this.dessinFils) {
+            if((((Forme)d).getNom()).equals(nom)) {
+                remove = d;
+            }
+        }
+        if(remove != null) {
+            this.dessinFils.remove(remove);
+        }
+    }
+    /**
+     * Methode pour deplacer un fils base sur son nom.
+     * @param nom du dessinFils a deplacer
+     * @param valx valeur du deplacement
+     * @param valy valeur du deplacement
+     * @return flag
+     */
+    public boolean deplaceFils(final String nom, final int valx, final int valy) {
+        Dessin move = null;
+        boolean flag = false;
+        for (Dessin d : this.dessinFils) {
+            if((((Forme)d).getNom()).equals(nom)) {
+                move = d;
+                flag = true;
+            } else {
+                if (d instanceof ComposantDessin) {
+                    ((ComposantDessin)d).deplace(valx, valy);
+                }
+            }
+        }
+        return flag;
+    }
+    /**
+     * Methode pour afficher un fils en fonction de son nom.
+     * @param nom du fils a afficher
+     * @return
+     */
+    public boolean afficheFils(final String nom) {
+        Dessin show = null;
+        boolean flag = false;
+        for (Dessin d : this.dessinFils) {
+            if((((Forme)d).getNom()).equals(nom)) {
+                show = d;
+                show.affiche();
+                flag = true;
+            } else {
+                if (d instanceof ComposantDessin) {
+                    flag = ((ComposantDessin)d).afficheFils(nom);
+                }
+            }
+        }
+        return flag;
+    }
 }

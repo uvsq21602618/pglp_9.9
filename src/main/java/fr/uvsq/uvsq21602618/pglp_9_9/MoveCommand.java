@@ -41,7 +41,7 @@ public class MoveCommand implements Command {
         boolean flag = false;
         try {
             recuperation();
-            flag = deplace(this.formes, flag);
+            flag = deplace(this.formes);
             if (!flag) {
                 System.out.println("Le dessin a deplace n'a pas ete trouve!");
             } else {
@@ -59,12 +59,18 @@ public class MoveCommand implements Command {
      * @param flag vaut vrai si un composant correspond, false sinon
      * @return flag
      */
-    private boolean deplace(final List<Forme> liste, boolean flag) {
+    private boolean deplace(final List<Forme> liste) {
+        boolean flag = false;
         for (Forme f: liste) {
             if (f.getNom().equals(this.nom)) {
                 flag = true;
                 f.deplace(this.deplacement.getX(),
                         this.deplacement.getY());
+            } else {
+                if (f instanceof ComposantDessin) {
+                    flag = ((ComposantDessin) f).deplaceFils(nom
+                            , deplacement.getX(), deplacement.getY());
+                }
             }
         }
         return flag;

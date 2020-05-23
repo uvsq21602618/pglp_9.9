@@ -74,8 +74,10 @@ public class CreateCommand implements Command {
             }
 
         } catch (ArrayIndexOutOfBoundsException e) {
+            //e.printStackTrace();
             System.out.println("La commande de creation est incorrecte!\n");
         } catch (NumberFormatException e) {
+            //e.printStackTrace();
             System.out.println("La commande de creation est incorrecte!!\n");
         }
     }
@@ -85,7 +87,7 @@ public class CreateCommand implements Command {
      * @return un carre
      */
     private Carre createCarre() {
-        String[] tab = this.creation.split(" = ");
+        String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
 
@@ -98,7 +100,7 @@ public class CreateCommand implements Command {
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Carre c = new Carre(nom, p, Integer.parseInt(l));
-        c.affiche();
+        //c.affiche();
         return c;
     }
     /**
@@ -107,7 +109,7 @@ public class CreateCommand implements Command {
      * @return un cercle
      */
     private Cercle createCercle() {
-        String[] tab = this.creation.split(" = ");
+        String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
 
@@ -121,7 +123,7 @@ public class CreateCommand implements Command {
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Cercle c = new Cercle(nom, p, Integer.parseInt(r));
-        c.affiche();
+        //c.affiche();
         return c;
     }
     /**
@@ -130,7 +132,7 @@ public class CreateCommand implements Command {
      * @return un rectangle
      */
     private Rectangle createRectangle() {
-        String[] tab = this.creation.split(" = ");
+        String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
 
@@ -146,7 +148,7 @@ public class CreateCommand implements Command {
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         Point p2 = new Point(Integer.parseInt(x2), Integer.parseInt(y2));
         Rectangle r = new Rectangle(nom, p, p2);
-        r.affiche();
+        //r.affiche();
         return r;
     }
     /**
@@ -155,7 +157,7 @@ public class CreateCommand implements Command {
      * @return un triangle
      */
     private Triangle createTriangle() {
-        String[] tab = this.creation.split(" = ");
+        String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
 
@@ -176,7 +178,7 @@ public class CreateCommand implements Command {
         Point p2 = new Point(Integer.parseInt(x2), Integer.parseInt(y2));
         Point p3 = new Point(Integer.parseInt(x3), Integer.parseInt(y3));
         Triangle t = new Triangle(nom, p, p2, p3);
-        t.affiche();
+        //t.affiche();
         return t;
     }
     /**
@@ -185,11 +187,11 @@ public class CreateCommand implements Command {
      * @return un composant du dessin
      */
     private ComposantDessin createComposantDessin() {
-        String[] tab = this.creation.split(" = ");
+        String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
 
         ComposantDessin cd = new ComposantDessin(nom);
-        cd.affiche();
+        //cd.affiche();
         return cd;
     }
     /**
@@ -209,19 +211,19 @@ public class CreateCommand implements Command {
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
     public boolean verification(final Forme forme) throws IOException, SQLException, ClassNotFoundException {
-        DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
+        /*DAO<ComposantDessin> composantDessinDAO = new DAOFactory()
                 .getComposantDessinDAO();
         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
         DAO<Cercle> cercleDAO = new DAOFactory().getCercleDAO();
         DAO<Rectangle> rectangleDAO = new DAOFactory().getRectangleDAO();
-        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();
+        DAO<Triangle> triangleDAO = new DAOFactory().getTriangleDAO();*/
 
         if(!this.noms.isEmpty()) {
             for (String s : this.noms) {
                 if (s.equals(forme.getNom())) {
                     System.out.println("Ce nom a deja ete utilise!");
                     return false;
-                } else if (composantDessinDAO.find(forme.getNom()) != null) {
+                }/* else if (composantDessinDAO.find(forme.getNom()) != null) {
                     System.out.println("Ce nom a deja ete utilise dans la base"
                             + "de donnees pour un composant du dessin!");
                     return false;
@@ -241,7 +243,7 @@ public class CreateCommand implements Command {
                     System.out.println("Ce nom a deja ete utilise dans la base"
                             + "de donnees pour un triangle!");
                     return false;
-                }
+                }*/
             }
             return true;
         }

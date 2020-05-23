@@ -88,10 +88,11 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 creation.close();
             } catch (org.apache.derby.shared.common.error
                     .DerbySQLIntegrityConstraintViolationException e) {
-                System.out.println("Ce nom a deja été utilisé dans formes!");
+                System.out.println("Ce nom a deja été utilisé dans formes!\n");
                 rs.close();
                 creation.close();
             }
+
             rs = dbmd.getTables(null, null,
                     "composants_dessin".toUpperCase(), null);
 
@@ -160,7 +161,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 }  catch (org.apache.derby.shared.common.error
                         .DerbySQLIntegrityConstraintViolationException e) {
                     System.out.println("Ce nom a deja été utilisé"
-                            + " dans composants_dessin!");
+                            + " dans composants_dessin!\n");
                     creation.close();
                     rs.close();
                 }
@@ -174,6 +175,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 rs.close();
             }
         }
+
         return obj;
     }
     /**
