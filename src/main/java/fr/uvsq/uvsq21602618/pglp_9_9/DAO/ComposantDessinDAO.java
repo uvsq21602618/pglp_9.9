@@ -84,7 +84,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     update.close();
                     rs = creation.executeQuery("SELECT * FROM formes");
 
-                    System.out.println("---Table formes:---\n");
+                    /*System.out.println("---Table formes:---\n");
                     System.out.println("nom\t type");
                     while (rs.next()) {
                         System.out.printf("%s\t%s%n", rs.getString("nom"),
@@ -93,7 +93,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     System.out.println("-----------------------"
                             + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
-                    + " a bien été enregistré dans formes!\n");
+                    + " a bien été enregistré dans formes!\n");*/
                     rs.close();
                     creation.close();
                 } catch (org.apache.derby.shared.common.error
@@ -157,7 +157,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         rs = creation2.executeQuery("SELECT * FROM"
                                 + " composants_dessin");
 
-                        System.out.println("-------Table"
+                        /*System.out.println("-------Table"
                                 + " composants_dessin:--------\n");
                         System.out.println("nom\t\t type_composant\t\t"
                                 + " nom_composant");
@@ -168,7 +168,7 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                                     rs.getString("nom_composant"));
                         }
                         System.out.println("----------------------------"
-                                + "-----------------\n");
+                                + "-----------------\n");*/
                         rs.close();
 
                         System.out.println("L'objet " + obj.getNom()
@@ -359,7 +359,9 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 } else {
                     ComposantDessin cd = new ComposantDessin(nom);
                     while (flag) {
-                        String type = res.getString("nom_composant");
+                        String type = res.getString("type_composant");
+                        System.out.println(type);
+
                         if (type.equals("carré")) {
                             Carre c = carreDAO.
                                     find(res.getString("nom_composant"));
@@ -385,8 +387,8 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                         }
                         flag = res.next();
                     }
-                    System.out.println("Un dessin de nom "
-                            + nom + " a été trouvé dans la base de données!\n");
+                    /*System.out.println("Un dessin de nom "
+                            + nom + " a été trouvé dans la base de données!\n");*/
                     return cd;
                 }
 

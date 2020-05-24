@@ -93,7 +93,7 @@ public class Cercle extends Forme implements Dessin {
     public void affiche() {
         String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.centre.getX() + ", " + this.centre.getY()
-                + "), " + this.rayon + ")\n";
+                + "), " + this.rayon + ")";
         System.out.println(s);
     }
 }

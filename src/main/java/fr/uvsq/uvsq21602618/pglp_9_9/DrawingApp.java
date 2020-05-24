@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import fr.uvsq.uvsq21602618.pglp_9_9.commandes.Command;
+import fr.uvsq.uvsq21602618.pglp_9_9.commandes.ShowAllCommand;
 
 /**
  * Singleton contenant le main.
@@ -35,6 +36,9 @@ public enum DrawingApp {
                         + " veuillez réessayer!\n");
             } else {
                commande.execute();
+               if(!(commande instanceof ShowAllCommand)) {
+                   moteur.nextCommand("showall").execute();
+               }
             }
             ligne = scanner.nextLine().toLowerCase();
         }

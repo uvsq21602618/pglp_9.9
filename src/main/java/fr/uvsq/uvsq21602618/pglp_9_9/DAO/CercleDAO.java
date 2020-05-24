@@ -62,7 +62,7 @@ public class CercleDAO extends DAO<Cercle> {
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table formes:---\n");
+                /*System.out.println("---Table formes:---\n");
                 System.out.println("nom\t type");
                 while (rs.next()) {
                     System.out.printf("%s\t%s%n", rs.getString("nom"),
@@ -71,7 +71,7 @@ public class CercleDAO extends DAO<Cercle> {
                 System.out.println("-----------------------"
                         + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré dans formes!\n");
+                + " a bien été enregistré dans formes!\n");*/
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
@@ -104,7 +104,7 @@ public class CercleDAO extends DAO<Cercle> {
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM cercles");
 
-                    System.out.println("---Table cercles:---\n");
+                    /*System.out.println("---Table cercles:---\n");
                     System.out.println("nom\t centre_x\t centre_y\t rayon");
                     while (rs.next()) {
                         System.out.printf("%s\t\t%d\t\t%d\t\t%d%n",
@@ -114,7 +114,7 @@ public class CercleDAO extends DAO<Cercle> {
                     }
                     System.out.println("----------------------------------\n");
                     System.out.println("L'objet " + obj.getNom()
-                    + " a bien été enregistré!\n");
+                    + " a bien été enregistré!\n");*/
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
@@ -306,8 +306,8 @@ public class CercleDAO extends DAO<Cercle> {
                         res.getInt("centre_y"));
                 int r = res.getInt("rayon");
                 Cercle c = new Cercle(nom, p, r);
-                System.out.println("Un cercle de nom "
-                        + nom + " a été trouvé dans la base de données!\n");
+                /*System.out.println("Un cercle de nom "
+                        + nom + " a été trouvé dans la base de données!\n");*/
                 return c;
             }
 

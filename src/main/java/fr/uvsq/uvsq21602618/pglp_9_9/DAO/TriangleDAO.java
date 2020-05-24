@@ -74,7 +74,7 @@ public class TriangleDAO extends DAO<Triangle> {
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table formes:---\n");
+                /*System.out.println("---Table formes:---\n");
                 System.out.println("nom\t type");
                 while (rs.next()) {
                     System.out.printf("%s\t%s%n", rs.getString("nom"),
@@ -83,7 +83,7 @@ public class TriangleDAO extends DAO<Triangle> {
                 System.out.println("-----------------------"
                         + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré dans formes!\n");
+                + " a bien été enregistré dans formes!\n");*/
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
@@ -121,7 +121,7 @@ public class TriangleDAO extends DAO<Triangle> {
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM triangles");
 
-                    System.out.println("---Table triangles:---\n");
+                    /*System.out.println("---Table triangles:---\n");
                     System.out.println("nom\t p1_x\t p1_y\t p2_x\t p2_y\t"
                             + " p3_x\t p3_y");
                     while (rs.next()) {
@@ -134,7 +134,7 @@ public class TriangleDAO extends DAO<Triangle> {
                     System.out.println("---------------------------------------"
                             + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
-                    + " a bien été enregistré!\n");
+                    + " a bien été enregistré!\n");*/
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
@@ -330,8 +330,8 @@ public class TriangleDAO extends DAO<Triangle> {
                 Point p2 = new Point(res.getInt("p2_x"), res.getInt("p2_y"));
                 Point p3 = new Point(res.getInt("p3_x"), res.getInt("p3_y"));
                 Triangle t = new Triangle(nom, p, p2, p3);
-                System.out.println("Un triangle de nom "
-                        + nom + " a été trouvé dans la base de données!\n");
+                /*System.out.println("Un triangle de nom "
+                        + nom + " a été trouvé dans la base de données!\n");*/
                 return t;
             }
 

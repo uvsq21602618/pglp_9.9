@@ -32,8 +32,10 @@ public class ComposantDessin extends Forme implements Dessin {
             for (Dessin dessin : dessinFils) {
                 dessin.affiche();
             }
+            System.out.println("-------------------------------------\n");
+        } else {
+            System.out.println(this.getNom());
         }
-        System.out.println("-------------------------------------\n");
     }
     /**
      * Ajouter un dessin a la liste.

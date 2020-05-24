@@ -73,7 +73,7 @@ public class Triangle extends Forme implements Dessin {
                 + "((" + this.p1.getX() + ", " + this.p1.getY()
                 + "), (" + this.p2.getX() + ", " + this.p2.getY()
                 + "), (" + this.p3.getX() + ", " + this.p3.getY()
-                + "))\n";
+                + "))";
         System.out.println(s);
     }
     /**

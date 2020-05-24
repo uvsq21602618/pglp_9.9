@@ -62,7 +62,7 @@ public class CarreDAO extends DAO<Carre> {
                 update.close();
                 rs = creation.executeQuery("SELECT * FROM formes");
 
-                System.out.println("---Table formes:---\n");
+                /*System.out.println("---Table formes:---\n");
                 System.out.println("nom\t type");
                 while (rs.next()) {
                     System.out.printf("%s\t%s%n", rs.getString("nom"),
@@ -71,7 +71,7 @@ public class CarreDAO extends DAO<Carre> {
                 System.out.println("-----------------------"
                         + "-----------------------\n");
                 System.out.println("L'objet " + obj.getNom()
-                + " a bien été enregistré dans formes!\n");
+                + " a bien été enregistré dans formes!\n");*/
                 rs.close();
                 creation.close();
             } catch (org.apache.derby.shared.common.error
@@ -102,7 +102,7 @@ public class CarreDAO extends DAO<Carre> {
                     update.close();
                     rs = creation2.executeQuery("SELECT * FROM carres");
 
-                    System.out.println("---Table carres:---\n");
+                    /*System.out.println("---Table carres:---\n");
                     System.out.println("nom\t hg_x\t hg_y\t longueur");
                     while (rs.next()) {
                         System.out.printf("%s\t%d\t%d\t%d%n",
@@ -113,7 +113,7 @@ public class CarreDAO extends DAO<Carre> {
                     System.out.println("-----------------------"
                             + "-----------------------\n");
                     System.out.println("L'objet " + obj.getNom()
-                    + " a bien été enregistré dans carres!\n");
+                    + " a bien été enregistré dans carres!\n");*/
                     rs.close();
                     creation2.close();
                 } catch (org.apache.derby.shared.common.error
@@ -309,8 +309,8 @@ public class CarreDAO extends DAO<Carre> {
                 Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));
                 int l = res.getInt("longueur");
                 Carre c = new Carre(nom, p, l);
-                System.out.println("Un carré de nom "
-                        + nom + " a été trouvé dans la base de données!\n");
+                /*System.out.println("Un carré de nom "
+                        + nom + " a été trouvé dans la base de données!\n");*/
                 return c;
             }
 

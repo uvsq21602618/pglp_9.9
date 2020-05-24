@@ -243,14 +243,14 @@ public class CreateCommand implements Command {
                             .getComposantDessinDAO();
                     if (composantDessinDAO.find(forme2.getNom()) != null) {
                         System.out.println("Ce nom a deja ete"
-                                + " utilise dans la base"
+                                + " utilise dans la base "
                                 + "de donnees pour un composant du dessin!");
                         return false;
                     } else {
                         DAO<Carre> carreDAO = new DAOFactory().getCarreDAO();
                         if (carreDAO.find(forme2.getNom()) != null) {
                             System.out.println("Ce nom a deja ete"
-                                    + " utilise dans la base"
+                                    + " utilise dans la base "
                                     + "de donnees pour un carré!");
                             return false;
                         } else {
@@ -258,7 +258,7 @@ public class CreateCommand implements Command {
                                     .getCercleDAO();
                             if (cercleDAO.find(forme2.getNom()) != null) {
                                 System.out.println("Ce nom a deja ete"
-                                        + " utilise dans la base"
+                                        + " utilise dans la base "
                                         + "de donnees pour un cercle!");
                                 return false;
                             } else {
@@ -267,7 +267,7 @@ public class CreateCommand implements Command {
                                 if (rectangleDAO
                                         .find(forme2.getNom()) != null) {
                                     System.out.println("Ce nom a deja"
-                                            + " ete utilise dans la base"
+                                            + " ete utilise dans la base "
                                             + "de donnees pour un rectangle!");
                                     return false;
                                 } else {
@@ -277,7 +277,7 @@ public class CreateCommand implements Command {
                                             .find(forme2.getNom()) != null) {
 
                                         System.out.println("Ce nom a deja"
-                                                + " ete utilise dans la base"
+                                                + " ete utilise dans la base "
                                                 + "de donnees pour un"
                                                 + " triangle!");
                                         return false;

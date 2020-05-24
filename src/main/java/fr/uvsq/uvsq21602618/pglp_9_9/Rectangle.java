@@ -99,7 +99,7 @@ public class Rectangle extends Forme implements Dessin {
         String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
                 + "), (" + this.bd.getX() + ", " + this.bd.getY()
-                + "))\n";
+                + "))";
         System.out.println(s);
     }
 }

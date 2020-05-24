@@ -56,7 +56,7 @@ public class Carre extends Forme implements Dessin {
     public void affiche() {
         String s = this.getNom() + " = " + this.getNomForme()
                 + "((" + this.hg.getX() + ", " + this.hg.getY()
-                + "), " + this.longueur + ")\n";
+                + "), " + this.longueur + ")";
         System.out.println(s);
     }
     /**
