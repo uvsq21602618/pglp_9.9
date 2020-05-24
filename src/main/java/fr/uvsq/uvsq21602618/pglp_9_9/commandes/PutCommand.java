@@ -91,21 +91,14 @@ public class PutCommand implements Command {
                     for (Forme f2: liste) {
                         if (f2.getNom().trim().equals(composant)) {
                             flag = 2;
-                            if (f instanceof ComposantDessin) {
-                                ComposantDessin cd = (ComposantDessin) f;
-                                Dessin d = (Dessin) f2;
-                                cd.ajoute(d);
-                                remove = f2;
-                                System.out.println("Le composant " + composant
-                                        + " a été ajouté dans le composé "
-                                        + compose + "!\n");
-                                flag = TROIS;
-                            } else {
-                                System.out.println("Le composé indiqué: "
-                                        + compose
-                                        + " ne peut pas "
-                                        + "contenir de composants!\n");
-                            }
+                            ComposantDessin cd = (ComposantDessin) f;
+                            Dessin d = (Dessin) f2;
+                            cd.ajoute(d);
+                            remove = f2;
+                            System.out.println("Le composant " + composant
+                                    + " a été ajouté dans le composé "
+                                    + compose + "!\n");
+                            flag = TROIS;
                         }
                     }
                 } else {

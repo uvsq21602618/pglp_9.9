@@ -190,7 +190,9 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     rs.close();
                 }
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
+            throw e;
+        }  catch (Exception e) {
             e.printStackTrace();
         }
         return obj;

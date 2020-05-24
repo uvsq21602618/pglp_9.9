@@ -2,12 +2,9 @@ package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-
 import fr.uvsq.uvsq21602618.pglp_9_9.Carre;
 import fr.uvsq.uvsq21602618.pglp_9_9.Cercle;
 import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
-import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
 import fr.uvsq.uvsq21602618.pglp_9_9.Rectangle;
 import fr.uvsq.uvsq21602618.pglp_9_9.Triangle;
 import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAO;
@@ -20,10 +17,6 @@ import fr.uvsq.uvsq21602618.pglp_9_9.DAO.DAOFactory;
  */
 public class DeleteBackUpCommand implements Command {
     /**
-     * La liste des formes dessinees.
-     */
-    private List<Forme> formes;
-    /**
      * La ligne de commande.
      */
     private String delBackUp;
@@ -34,11 +27,9 @@ public class DeleteBackUpCommand implements Command {
     /**
      * Le constructeur de la commande DeleteBackUpCommand.
      * @param ligne de commande
-     * @param liste des formes dessinees
      */
-    public DeleteBackUpCommand(final String ligne, final List<Forme> liste) {
+    public DeleteBackUpCommand(final String ligne) {
         this.delBackUp = ligne;
-        this.formes = liste;
         this.nom = null;
     }
     /**

@@ -62,7 +62,7 @@ public enum DrawingApp {
                     commande.execute();
                 } else if (ligne.contains("deletebackup")) {
                     commande = moteur.nextCommand("deletebackup",
-                            new DeleteBackUpCommand(ligne, moteur.getFormes()));
+                            new DeleteBackUpCommand(ligne));
                     commande.execute();
                 } else {
                     commande = moteur.nextCommand("delete",
