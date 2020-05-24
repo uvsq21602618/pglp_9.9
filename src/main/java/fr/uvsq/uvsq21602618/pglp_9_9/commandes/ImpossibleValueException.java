@@ -4,7 +4,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
  * @author Nathalie
  *
  */
-public class ImpossibleValueException extends Exception{
+public class ImpossibleValueException extends Exception {
     /**
      * serialVersionUID.
      */
@@ -12,10 +12,8 @@ public class ImpossibleValueException extends Exception{
 
     /**
      * Message de l'exception.
-     * @param message a afficher.
      */
-    public ImpossibleValueException()
-    {
+    public ImpossibleValueException() {
         System.out.println("La valeur entree pour le rayon ou la longueur"
                 + " doivent être positive!");
     }

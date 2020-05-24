@@ -70,7 +70,7 @@ public class MoveCommand implements Command {
                 f.deplace(this.deplacement.getX(),
                         this.deplacement.getY());
             } else {
-                if (f instanceof ComposantDessin) {
+                if (f instanceof ComposantDessin && !flag) {
                     flag = ((ComposantDessin) f).deplaceFils(nom,
                             deplacement.getX(), deplacement.getY());
                 }

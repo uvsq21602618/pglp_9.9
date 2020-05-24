@@ -353,13 +353,13 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                 ResultSet res = update.getResultSet();
                 boolean flag = res.next();
                 if (!flag) {
-                    System.out.println("Il n'y a pas de dessin de nom "
-                            + nom + " dans la base de données!\n");
+                    /*System.out.println("Il n'y a pas de dessin de nom "
+                            + nom + " dans la base de données!\n");*/
                     return null;
                 } else {
                     ComposantDessin cd = new ComposantDessin(nom);
                     while (flag) {
-                        String type = res.getString("type_composant");
+                        String type = res.getString("nom_composant");
                         if (type.equals("carré")) {
                             Carre c = carreDAO.
                                     find(res.getString("nom_composant"));

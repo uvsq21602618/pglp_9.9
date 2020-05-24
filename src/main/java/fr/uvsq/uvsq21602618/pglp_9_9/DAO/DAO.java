@@ -87,6 +87,12 @@ public abstract class DAO<T> {
     public static void disconnect() throws SQLException {
         if (connect != null) {
             connect.close();
+            try {
+                DriverManager.getConnection("jdbc:derby:donnees"
+                        + "PourDB\\jdbcDB;shutdown=true").close();
+            } catch (SQLException e) {
+                System.out.print("");
+            }
             connect = null;
         }
     }

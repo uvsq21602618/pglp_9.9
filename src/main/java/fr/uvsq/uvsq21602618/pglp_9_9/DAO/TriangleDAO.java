@@ -322,8 +322,8 @@ public class TriangleDAO extends DAO<Triangle> {
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de triangle de nom "
-                        + nom + " dans la base de données!\n");
+                /*System.out.println("Il n'y a pas de triangle de nom "
+                        + nom + " dans la base de données!\n");*/
                 return null;
             } else {
                 Point p = new Point(res.getInt("p1_x"), res.getInt("p1_y"));

@@ -142,7 +142,6 @@ public class CreateCommand implements Command {
         String r = tab2[2].trim();
         r = r.replaceAll("\\)", "");
 
-
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
         if (Integer.parseInt(r) < 1) {
             throw new ImpossibleValueException();

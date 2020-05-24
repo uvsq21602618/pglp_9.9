@@ -48,10 +48,10 @@ public class TestComposantDessin {
     public void testAffichage() {
         Point p1 = new Point(15, 20);
         Point p2 = new Point(25, 10);
-        Rectangle r = new Rectangle("r1", p1, p2);
-        Cercle c = new Cercle("c1", p1, 5);
+        Rectangle r = new Rectangle("rtest", p1, p2);
+        Cercle c = new Cercle("ctest", p1, 5);
         
-        ComposantDessin cd = new ComposantDessin("cd1");
+        ComposantDessin cd = new ComposantDessin("cdtest");
         cd.ajoute(r);
         cd.ajoute(c);
         cd.affiche();
@@ -60,12 +60,12 @@ public class TestComposantDessin {
         System.setOut(new PrintStream(outContent));
         cd.affiche();
 
-        String expected = "cd1 = Composant du dessin:";
+        String expected = "----cdtest = Composant du dessin-----:";
         String[] actual = outContent.toString().split("\n");
         assertEquals(expected, actual[0].trim());
-        expected = "r1 = Rectangle((15, 20), (25, 10))";
+        expected = "rtest = Rectangle((15, 20), (25, 10))";
         assertEquals(expected, actual[1].trim());
-        expected = "c1 = Cercle((15, 20), 5)";
+        expected = "ctest = Cercle((15, 20), 5)";
         assertEquals(expected, actual[3].trim());
     } 
     

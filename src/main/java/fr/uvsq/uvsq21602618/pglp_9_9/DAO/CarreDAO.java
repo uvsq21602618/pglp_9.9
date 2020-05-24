@@ -296,14 +296,14 @@ public class CarreDAO extends DAO<Carre> {
         String updateString = "select * from carres where nom = ?";
         try (PreparedStatement update =
                 getConnect().prepareStatement(updateString)) {
-            nom = nom.toLowerCase();
+            nom = nom2.toLowerCase();
             update.setString(1, nom);
             update.execute();
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de carré de nom "
-                        + nom + " dans la base de données!\n");
+                /*System.out.println("Il n'y a pas de carré de nom "
+                        + nom + " dans la base de données!\n");*/
                 return null;
             } else {
                 Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));

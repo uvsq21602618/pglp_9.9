@@ -70,7 +70,7 @@ public class DeleteCommand implements Command {
                 remove = f;
                 flag = true;
             } else {
-                if (f instanceof ComposantDessin) {
+                if (f instanceof ComposantDessin && !flag) {
                     cd = (ComposantDessin) f;
                     flag = suppression(cd.getDessinFilsFormes());
                 }

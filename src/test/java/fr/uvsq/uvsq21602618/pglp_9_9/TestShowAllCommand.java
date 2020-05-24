@@ -49,7 +49,7 @@ public class TestShowAllCommand {
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        String expected = "dessintest = Composant du dessin";
+        String expected = "----dessintest = Composant du dessin-----";
         String expected2 = "ctest = Carré((2, 3), 5)";
         String expected3 = "tri = Triangle((5, 5), (3, 3), (2, 2))";
 

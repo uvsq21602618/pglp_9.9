@@ -310,8 +310,8 @@ public class RectangleDAO extends DAO<Rectangle> {
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de rectangle de nom "
-                        + nom + " dans la base de données!\n");
+                /*System.out.println("Il n'y a pas de rectangle de nom "
+                        + nom + " dans la base de données!\n");*/
                 return null;
             } else {
                 Point p = new Point(res.getInt("hg_x"), res.getInt("hg_y"));

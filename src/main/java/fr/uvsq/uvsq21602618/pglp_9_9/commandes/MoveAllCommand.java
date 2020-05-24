@@ -2,6 +2,7 @@ package fr.uvsq.uvsq21602618.pglp_9_9.commandes;
 
 import java.util.List;
 
+import fr.uvsq.uvsq21602618.pglp_9_9.ComposantDessin;
 import fr.uvsq.uvsq21602618.pglp_9_9.Forme;
 import fr.uvsq.uvsq21602618.pglp_9_9.Point;
 
@@ -57,9 +58,13 @@ public class MoveAllCommand implements Command {
      */
     private void deplace(final List<Forme> liste) {
         for (Forme f: liste) {
-            f.deplace(this.deplacement.getX(),
-                    this.deplacement.getY());
-            f.affiche();
+            if (f instanceof ComposantDessin) {
+                ((ComposantDessin) f).deplace(deplacement.getX(),
+                        deplacement.getY());
+            } else {
+                f.deplace(this.deplacement.getX(),
+                        this.deplacement.getY());
+            }
         }
     }
     /**

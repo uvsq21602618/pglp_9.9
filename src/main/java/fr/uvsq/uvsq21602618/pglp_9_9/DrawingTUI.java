@@ -1,7 +1,6 @@
 package fr.uvsq.uvsq21602618.pglp_9_9;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,11 +26,6 @@ import fr.uvsq.uvsq21602618.pglp_9_9.commandes.UpdateCommand;
  */
 public class DrawingTUI {
     /**
-     * La table de hachage qui associe une chaine
-     * de caractere a une commande.
-     */
-    private final HashMap<String, Command> commandes;
-    /**
      * Le scanner pour la console.
      */
     private Scanner scanner;
@@ -47,7 +41,6 @@ public class DrawingTUI {
      * Le constructeur de la classe.
      */
     public DrawingTUI() {
-        this.commandes = new HashMap<String, Command>();
         this.scanner = new Scanner(System.in, "UTF-8");
         this.formes = new LinkedList<Forme>();
         this.noms = new LinkedList<String>();
@@ -56,53 +49,66 @@ public class DrawingTUI {
      * Méthode qui analysera le texte saisi
      * par l’utilisateur et retournera un objet implémentant l’interface
      *  Commande.
-     * @param nom de la commande
-     * @param commande l'instance
+     * @param ligne de la commande
      * @return la commande à faire
      * @throws IOException Exception liee aux entrees/sorties
      * @throws ClassNotFoundException Exception liee a une classe non trouvee
      */
-    public Command nextCommand(final String nom,
-            final Command commande) throws ClassNotFoundException, IOException {
-        Command com = commande;
-        if (nom.equals("create")) {
-            CreateCommand create = (CreateCommand) commande;
-            return create;
-        } else if (nom.equals("deleteall")) {
-            DeleteAllCommand deleteAll = (DeleteAllCommand) commande;
-            return deleteAll;
-        } else if (nom.equals("delete")) {
-            DeleteCommand delete = (DeleteCommand) commande;
-            return delete;
-        } else if (nom.equals("put")) {
-            PutCommand put = (PutCommand) commande;
+    public Command nextCommand(final String ligne) throws
+    ClassNotFoundException, IOException {
+        Command commande = null;
+        if (ligne.contains("delete")) {
+            if (ligne.contains("deleteall")) {
+                DeleteAllCommand deleteAll = new DeleteAllCommand(formes, noms);
+                return deleteAll;
+            } else if (ligne.contains("deletebackup")) {
+                DeleteBackUpCommand delBackUp = new DeleteBackUpCommand(ligne);
+                return delBackUp;
+            } else {
+                DeleteCommand delete = new DeleteCommand(ligne, formes, noms);
+                return delete;
+            }
+        } else if (ligne.contains("put")) {
+            PutCommand put = new PutCommand(ligne, formes);
             return put;
-        } else if (nom.equals("moveall")) {
-            MoveAllCommand moveAll = (MoveAllCommand) commande;
-            return moveAll;
-        } else if (nom.equals("move")) {
-            MoveCommand move = (MoveCommand) commande;
-            return move;
-        } else if (nom.equals("showall")) {
-            ShowAllCommand showAll = (ShowAllCommand) commande;
-            return showAll;
-        } else if (nom.equals("show")) {
-            ShowCommand show = (ShowCommand) commande;
-            return show;
-        } else if (nom.equals("save")) {
-            SaveCommand save = (SaveCommand) commande;
+
+        } else if (ligne.contains("move")) {
+            if (ligne.contains("moveall")) {
+                MoveAllCommand moveAll = new MoveAllCommand(ligne, formes);
+                return moveAll;
+            } else {
+                MoveCommand move = new MoveCommand(ligne, formes);
+                return move;
+            }
+
+        } else if (ligne.contains("show")) {
+            if (ligne.contains("showall")) {
+                ShowAllCommand showAll = new ShowAllCommand(formes);
+                return showAll;
+            } else {
+                ShowCommand show = new ShowCommand(ligne, formes);
+                return show;
+            }
+
+        } else if (ligne.contains("save")) {
+            SaveCommand save = new SaveCommand(ligne, formes);
             return save;
-        } else if (nom.equals("get")) {
-            GetCommand get = (GetCommand) commande;
+
+        } else if (ligne.contains("get")) {
+            GetCommand get = new GetCommand(ligne, formes);
             return get;
-        } else if (nom.equals("update")) {
-            UpdateCommand update = (UpdateCommand) commande;
+
+        } else if (ligne.contains("update")) {
+            UpdateCommand update = new UpdateCommand(ligne, formes);
             return update;
-        } else if (nom.equals("deletebackup")) {
-            DeleteBackUpCommand delBackUp = (DeleteBackUpCommand) commande;
-            return delBackUp;
+        } else if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
+                || (ligne.contains("carre")) || (ligne.contains("triangle"))
+                || (ligne.contains("composant du dessin"))) {
+            CreateCommand create = new CreateCommand(ligne, formes, noms);
+            return create;
+        } else {
+            return commande;
         }
-        return com;
     }
     /**
      * Methode pour retourner le scanner.

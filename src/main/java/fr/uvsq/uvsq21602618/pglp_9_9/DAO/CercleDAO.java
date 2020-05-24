@@ -298,8 +298,8 @@ public class CercleDAO extends DAO<Cercle> {
             ResultSet res = update.getResultSet();
 
             if (!res.next()) {
-                System.out.println("Il n'y a pas de cercle de nom "
-                        + nom + " dans la base de données!\n");
+                /*System.out.println("Il n'y a pas de cercle de nom "
+                        + nom + " dans la base de données!\n");*/
                 return null;
             } else {
                 Point p = new Point(res.getInt("centre_x"),

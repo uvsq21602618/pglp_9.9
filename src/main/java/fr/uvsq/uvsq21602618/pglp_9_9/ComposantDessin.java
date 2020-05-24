@@ -26,8 +26,9 @@ public class ComposantDessin extends Forme implements Dessin {
      */
     @Override
     public void affiche() {
-        System.out.println(this.getNom() + " = " + this.getNomForme() + ":");
         if (!dessinFils.isEmpty()) {
+            System.out.println("----" + this.getNom() + " = "
+        + this.getNomForme() + "-----:");
             for (Dessin dessin : dessinFils) {
                 dessin.affiche();
             }
@@ -156,6 +157,7 @@ public class ComposantDessin extends Forme implements Dessin {
         boolean flag = false;
         for (Dessin d : this.dessinFils) {
             if ((((Forme) d).getNom()).equals(nom)) {
+                ((Forme) d).deplace(valx, valy);
                 flag = true;
             } else {
                 if (d instanceof ComposantDessin) {
