@@ -16,9 +16,12 @@ Il faut saisir par exemple pour:
 	`nomComposant = composant du dessin`
 	
 2. l'ajout d'une forme dans un autre composant du dessin, par exemple on peut ajouter le carre c1 dans le dessin1:
-	```c1 = carre((1,2),1)
+
+	```
+	c1 = carre((1,2),1)
 	dessin1 = composant du dessin
-	put(dessin1, carre)```
+	put(dessin1, carre)
+	```
 
 On ne peut pas ajouter de formes dans un carré, rectangle, triangle ou cercle.
 
