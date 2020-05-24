@@ -4,15 +4,15 @@ Une fois le programme executé, l'utilisateur peut accéder à plusieurs fonctio
 
 1. la creation d'une forme(carre, cercle, rectangle, triangle ou composant du dessin) qui peut contenir plusieurs formes geometriques ou composants.
 Il faut saisir par exemple pour:
-	-un carré:
+	* un carré: 
 	nomCarre = carre((1,2),3)
-	-un cercle:
+	* un cercle:
 	nomCercle = cercle((1,2),3)
-	-un rectangle:
+	* un rectangle:
 	nomRectangle = rectangle((3,2),(4,1))
-	-un triangle:
+	* un triangle:
 	nomTriangle = triangle((1,2),(5,2),(2,3))
-	-un composant du dessin:
+	* un composant du dessin:
 	nomComposant = composant du dessin
 	
 2. l'ajout d'une forme dans un autre composant du dessin, par exemple on peut ajouter le carre c1 dans le dessin1:
