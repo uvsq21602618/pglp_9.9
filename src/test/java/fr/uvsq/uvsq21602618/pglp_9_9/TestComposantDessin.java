@@ -66,7 +66,7 @@ public class TestComposantDessin {
         expected = "rtest = Rectangle((15, 20), (25, 10))";
         assertEquals(expected, actual[1].trim());
         expected = "ctest = Cercle((15, 20), 5)";
-        assertEquals(expected, actual[3].trim());
+        assertEquals(expected, actual[2].trim());
     } 
     
 }
