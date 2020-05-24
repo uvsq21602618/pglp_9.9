@@ -43,18 +43,7 @@ public enum DrawingApp {
 
         while (!scanner.hasNext("quit") && scanner.hasNext()) {
             String ligne = scanner.nextLine().toLowerCase();
-            if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
-                    || (ligne.contains("carre")) || (ligne.contains("triangle"))
-                    || (ligne.contains("composant du dessin"))) {
-                System.out.println(ligne);
-                DAO.disconnect();
-
-                commande = moteur.nextCommand("create",
-                        new CreateCommand(ligne, moteur.getFormes(),
-                                moteur.getNoms()));
-                commande.execute();
-
-            } else if (ligne.contains("delete")) {
+            if (ligne.contains("delete")) {
                 if (ligne.contains("deleteall")) {
                     commande = moteur.nextCommand("deleteall",
                             new DeleteAllCommand(moteur.getFormes(),
@@ -111,6 +100,16 @@ public enum DrawingApp {
                 commande = moteur.nextCommand("update",
                         new UpdateCommand(ligne, moteur.getFormes()));
                 commande.execute();
+            } else if (ligne.contains(("rectangle")) || (ligne.contains("cercle"))
+                    || (ligne.contains("carre")) || (ligne.contains("triangle"))
+                    || (ligne.contains("composant du dessin"))) {
+                System.out.println(ligne);
+                DAO.disconnect();
+
+                commande = moteur.nextCommand("create",
+                        new CreateCommand(ligne, moteur.getFormes(),
+                                moteur.getNoms()));
+                commande.execute();
             } else {
                 System.out.println("La commande tapée n'est pas connue,"
                         + " veuillez réessayer!\n");
@@ -129,6 +128,7 @@ public enum DrawingApp {
      */
     public static void main(final String[] args) throws SQLException,
     ClassNotFoundException, IOException {
+        DAO.disconnect();
         ENVIRONNEMENT.run();
     }
 }

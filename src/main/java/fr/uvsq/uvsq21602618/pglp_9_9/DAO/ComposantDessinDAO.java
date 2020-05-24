@@ -360,25 +360,25 @@ public class ComposantDessinDAO extends DAO<ComposantDessin> {
                     ComposantDessin cd = new ComposantDessin(nom);
                     while (flag) {
                         String type = res.getString("type_composant");
-                        if (type.equals("Carré")) {
+                        if (type.equals("carré")) {
                             Carre c = carreDAO.
                                     find(res.getString("nom_composant"));
                             cd.ajoute(c);
-                        } else if (type.equals("Cercle")) {
+                        } else if (type.equals("cercle")) {
                             Cercle c = cercleDAO.
                                     find(res.getString("nom_composant"));
                             cd.ajoute(c);
-                        } else if (type.contentEquals("Rectangle")) {
+                        } else if (type.contentEquals("rectangle")) {
                             Rectangle r =
                                     rectangleDAO.
                                     find(res.getString("nom_composant"));
                             cd.ajoute(r);
-                        } else if (type.equals("Triangle")) {
+                        } else if (type.equals("triangle")) {
                             Triangle c =
                                     triangleDAO.
                                     find(res.getString("nom_composant"));
                             cd.ajoute(c);
-                        } else if (type.equals("Composant du dessin")) {
+                        } else if (type.equals("composant du dessin")) {
                             ComposantDessin cd2 =
                                     this.find(res.getString("nom_composant"));
                             cd.ajoute(cd2);

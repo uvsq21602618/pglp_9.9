@@ -2,7 +2,7 @@
 
 Une fois le programme executé, l'utilisateur peut accéder à plusieurs fonctionnalités:
 
-1. la creation d'une forme ou d'un composant du dessin qui peut contenir plusieurs formes ou composants.
+1. la creation d'une forme(carre, cercle, rectangle, triangle ou composant du dessin) qui peut contenir plusieurs formes geometriques ou composants.
 Il faut saisir par exemple pour:
 	-un carré:
 	nomCarre = carre((1,2),3)
@@ -15,12 +15,12 @@ Il faut saisir par exemple pour:
 	-un composant du dessin:
 	nomComposant = composant du dessin
 	
-2. l'ajout d'une forme ou d'un composant dans un autre composant du dessin, par exemple on peut ajouter le carre c1 dans le dessin1:
+2. l'ajout d'une forme dans un autre composant du dessin, par exemple on peut ajouter le carre c1 dans le dessin1:
 	c1 = carre((1,2),1)
 	dessin1 = composant du dessin
 	put(dessin1, carre)
 
-On ne peut pas ajouter un composant ou une forme dans une forme.
+On ne peut pas ajouter de formes dans un carré, rectangle, triangle ou cercle.
 
 3. Supprimer une forme ou un composant du dessin en cours. Par exemple si on supprime le carre c1:
 	delete(c1)
@@ -28,16 +28,16 @@ On ne peut pas ajouter un composant ou une forme dans une forme.
 4. Supprimer tout le dessin :
 	deleteall
 	
-5. Deplacer une forme ou un composant en particulier avec move(nom,(x,y)). Par exemple on veut deplacer le carre c1 de 5 vers la droite et de 2 vers le bas:
+5. Deplacer une forme géométrique ou un composant en particulier avec move(nom,(x,y)). Par exemple on veut deplacer le carre c1 de 5 vers la droite et de 2 vers le bas:
 	move(c1,(5, -2))
 
 6. Deplacer tout le dessin avec moveall(x,y). Par exemple on veut déplacer toutes les formes du dessin en cours de 5 vers la droite et de 2 vers le bas:
 	moveall(5, -2)
 	
-7. Afficher les informations d'une forme ou d'un composant sur le dessin en cours avec show(nom). Par exemple les informations du carré c1:
+7. Afficher les informations d'une forme géométrique ou d'un composant sur le dessin en cours avec show(nom). Par exemple les informations du carré c1:
 	show(c1)
 	
-8. Afficher les informations de toutes les formes et composants du dessin en cours avec showall:
+8. Afficher les informations de toutes les formes géométriques et composants du dessin en cours avec showall:
 	showall
 	
 9. Sauvegarder le dessin en cours dans la base de données avec save(nomSauvegarde). Tout le contenu du dessin sera ajouter dans un nouvel élément
@@ -55,7 +55,7 @@ d'un composant appelé "dessin".
 la base de données:
 	update(dessin)
 	
-12. Effacer une forme ou un composant dans la base de données. Par exemple on veut effacer c1:
+12. Effacer une forme géométrique ou un composant dans la base de données. Par exemple on veut effacer c1:
 	deletebackup(c1)
 	
 13. Pour terminer la saisie il suffit de taper:

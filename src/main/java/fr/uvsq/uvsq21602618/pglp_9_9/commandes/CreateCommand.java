@@ -90,7 +90,8 @@ public class CreateCommand implements Command {
                 DAO.disconnect();
                 throw e;
             }
-        } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+        } catch (ImpossibleValueException | ArrayIndexOutOfBoundsException
+                | NumberFormatException e) {
             System.out.println("La commande de creation est incorrecte!\n");
             DAO.disconnect();
         }
@@ -100,8 +101,10 @@ public class CreateCommand implements Command {
      * Methode pour creer une instance de Carre a partir d'une ligne
      * de l'utilisateur.
      * @return un carre
+     * @throws ImpossibleValueException Exception si la longueur ou le rayon est
+     *  negatif
      */
-    private Carre createCarre() {
+    private Carre createCarre() throws ImpossibleValueException {
         String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
@@ -114,6 +117,9 @@ public class CreateCommand implements Command {
         l = l.replaceAll("\\)", "");
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
+        if (Integer.parseInt(l) < 1) {
+            throw new ImpossibleValueException();
+        }
         Carre c = new Carre(nom, p, Integer.parseInt(l));
         return c;
     }
@@ -121,8 +127,10 @@ public class CreateCommand implements Command {
      * Methode pour creer une instance de Cercle a partir d'une ligne
      * de l'utilisateur.
      * @return un cercle
+     * @throws ImpossibleValueException Exception si la longueur ou le rayon est
+     *  negatif
      */
-    private Cercle createCercle() {
+    private Cercle createCercle() throws ImpossibleValueException {
         String[] tab = this.creation.split("=");
         String nom = tab[0].trim();
         String[] tab2 = tab[1].split(",");
@@ -136,6 +144,9 @@ public class CreateCommand implements Command {
 
 
         Point p = new Point(Integer.parseInt(x), Integer.parseInt(y));
+        if (Integer.parseInt(r) < 1) {
+            throw new ImpossibleValueException();
+        }
         Cercle c = new Cercle(nom, p, Integer.parseInt(r));
         return c;
     }
